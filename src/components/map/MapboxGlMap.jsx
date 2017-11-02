@@ -106,11 +106,13 @@ export default class MapboxGlMap extends React.Component {
     const map = new MapboxGl.Map({
       container: this.container,
       style: this.props.mapStyle,
-      hash: true,
+      // hash: true,
     })
 
-    const nav = new MapboxGl.NavigationControl();
-    map.addControl(nav, 'top-right');
+    if(this.props.controls) {
+      const nav = new MapboxGl.NavigationControl();
+      map.addControl(nav, 'top-right');
+    }
 
     const inspect = new MapboxInspect({
       popup: new MapboxGl.Popup({

@@ -59,10 +59,6 @@ export class StyleStore {
     this.mapStyles = loadStoredStyles()
   }
 
-  init(cb) {
-    cb(null)
-  }
-
   // Delete entire style history
   purge() {
     for (let i = 0; i < window.localStorage.length; i++) {
@@ -73,17 +69,14 @@ export class StyleStore {
     }
   }
 
-  // Find the last edited style
-  latestStyle(cb) {
-    if(this.mapStyles.length === 0) return loadDefaultStyle(cb)
-    const styleId = window.localStorage.getItem(storageKeys.latest)
-    const styleItem = window.localStorage.getItem(styleKey(styleId))
-
-    if(styleItem) return cb(JSON.parse(styleItem))
-    loadDefaultStyle(cb)
+  // Save current style replacing previous version
+  fetch(id) {
+    const key = styleKey(id)
+    return JSON.parse(window.localStorage.getItem(key));
   }
 
   // Save current style replacing previous version
+  // TODO: Generate thumbnail!
   save(mapStyle) {
     mapStyle = style.ensureStyleValidity(mapStyle)
     const key = styleKey(mapStyle.id)

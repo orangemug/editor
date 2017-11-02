@@ -41,24 +41,14 @@ export default class App extends React.Component {
       onLocalStyleChange: mapStyle => this.onStyleChanged(mapStyle, false)
     })
 
-    const styleUrl = initialStyleUrl()
-    if(styleUrl) {
-      this.styleStore = new StyleStore()
-      loadStyleUrl(styleUrl, mapStyle => this.onStyleChanged(mapStyle))
-    } else {
-      this.styleStore.init(err => {
-        if(err) {
-          console.log('Falling back to local storage for storing styles')
-          this.styleStore = new StyleStore()
-        }
-        this.styleStore.latestStyle(mapStyle => this.onStyleChanged(mapStyle))
-      })
-    }
+    this.styleStore = new StyleStore()
+    const mapStyle = this.styleStore.fetch(this.props.styleId);
+    console.log("MAP_STYPE", this.props.styleId, mapStyle);
 
     this.state = {
       errors: [],
       infos: [],
-      mapStyle: style.emptyStyle,
+      mapStyle: mapStyle,
       selectedLayerIndex: 0,
       sources: {},
       vectorLayers: {},
