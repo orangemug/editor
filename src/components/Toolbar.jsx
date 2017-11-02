@@ -21,6 +21,7 @@ import SettingsModal from './modals/SettingsModal'
 import ExportModal from './modals/ExportModal'
 import SourcesModal from './modals/SourcesModal'
 import OpenModal from './modals/OpenModal'
+import GitHubModal from './modals/GitHubModal'
 
 import style from '../libs/style'
 
@@ -95,6 +96,10 @@ export default class Toolbar extends React.Component {
         isOpen={this.state.isOpen.export}
         onOpenToggle={this.toggleModal.bind(this, 'export')}
       />
+      <GitHubModal
+        isOpen={this.state.isOpen.github}
+        onOpenToggle={this.toggleModal.bind(this, 'github')}
+      />
       <OpenModal
         isOpen={this.state.isOpen.open}
         onStyleOpen={this.props.onStyleOpen}
@@ -120,6 +125,10 @@ export default class Toolbar extends React.Component {
       <ToolbarAction onClick={this.toggleModal.bind(this, 'export')}>
         <MdFileDownload />
         <IconText>Export</IconText>
+      </ToolbarAction>
+      <ToolbarAction onClick={this.toggleModal.bind(this, 'github')}>
+        <SourcesIcon />
+        <IconText>Save GitHub</IconText>
       </ToolbarAction>
       <ToolbarAction onClick={this.toggleModal.bind(this, 'sources')}>
         <SourcesIcon />

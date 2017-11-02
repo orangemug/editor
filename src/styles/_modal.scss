@@ -233,3 +233,8 @@
   text-decoration: none;
   color: #ef5350;
 }
+
+.maputnik-modal__repos {
+  max-height: 140px;
+  overflow-y: auto;
+}

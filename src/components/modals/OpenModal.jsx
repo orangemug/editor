@@ -4,11 +4,14 @@ import Button from '../Button'
 import FileReaderInput from 'react-file-reader-input'
 import request from 'request'
 
+import GitHub from 'github-api'
+
 import FileUploadIcon from 'react-icons/lib/md/file-upload'
 import AddIcon from 'react-icons/lib/md/add-circle-outline'
 
 import style from '../../libs/style.js'
 import publicStyles from '../../config/styles.json'
+
 
 class PublicStyle extends React.Component {
   static propTypes = {
@@ -48,7 +51,14 @@ class OpenModal extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+
+    this.state = {
+      github: new GitHub({
+        token: window.localStorage.getItem("github_access_token")
+      })
+    };
+
+    this.checkGitHubAuth();
   }
 
   clearError() {
@@ -108,6 +118,54 @@ class OpenModal extends React.Component {
   onOpenToggle() {
     this.clearError();
     this.props.onOpenToggle();
+    this.checkGitHubAuth();
+  }
+
+  checkGitHubAuth() {
+    console.log("CHECK AUTH")
+    this.state.github.getUser().getProfile()
+      .then(() => {
+        this.getRepoList();
+        console.log(">> AUTH");
+        this.setState({
+          githubAuthState: "authenticated"
+        })
+      })
+      .catch(() => {
+        console.log(">> NO AUTH");
+        this.setState({
+          githubAuthState: "unauthenticated"
+        })
+      })
+  }
+
+  openFromRepo(fullname) {
+    const [user, repo] = fullname.split("/");
+    console.log("user/repo", fullname, user, repo);
+    this.state.github.getRepo(user, repo)
+      .getContents("master", "style.json")
+      .then((res) => {
+        console.log(res);
+        const data = JSON.parse(window.atob(res.data.content));
+        console.log("data", data);
+
+        this.props.onStyleOpen(data);
+        this.onOpenToggle()
+      })
+  }
+
+  getRepoList() {
+    this.state.github.getUser().listRepos({})
+      .then((repos) => {
+        this.setState({
+          githubRepos: repos.data.map((repo) => {
+            return {
+              full_name: repo.full_name,
+              permissions: repo.permissions
+            };
+          })
+        })
+      })
   }
 
   render() {
@@ -131,6 +189,8 @@ class OpenModal extends React.Component {
       );
     }
 
+    const repos = this.state.githubRepos || [];
+
     return <Modal
       isOpen={this.props.isOpen}
       onOpenToggle={() => this.onOpenToggle()}
@@ -143,6 +203,25 @@ class OpenModal extends React.Component {
         <FileReaderInput onChange={this.onUpload.bind(this)}>
           <Button className="maputnik-upload-button"><FileUploadIcon /> Upload</Button>
         </FileReaderInput>
+      </section>
+
+      <section className="maputnik-modal-section">
+        <h2>Github</h2>
+        <p>Load from GitHub</p>
+        <div className="maputnik-modal__repos">
+          {repos.map((repo) => {
+            return (
+              <div>
+                <a href="#" onClick={() => this.openFromRepo(repo.full_name)}>
+                  {repo.full_name}
+                </a>
+              </div>
+            )
+          })}
+        </div>
+        <div>
+          <Button className="maputnik-upload-button">Auth with GitHub</Button>
+        </div>
       </section>
 
       <section className="maputnik-modal-section">
