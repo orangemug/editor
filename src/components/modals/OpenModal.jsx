@@ -168,6 +168,11 @@ class OpenModal extends React.Component {
       })
   }
 
+  githubLogin() {
+    // Go and login.
+    window.location.pathname = "/auth/github/login";
+  }
+
   render() {
     const styleOptions = publicStyles.map(style => {
       return <PublicStyle
@@ -220,7 +225,7 @@ class OpenModal extends React.Component {
           })}
         </div>
         <div>
-          <Button className="maputnik-upload-button">Auth with GitHub</Button>
+          <Button className="maputnik-upload-button" onClick={() => this.githubLogin()}>Authorise with GitHub</Button>
         </div>
       </section>
 
