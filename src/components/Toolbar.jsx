@@ -69,6 +69,7 @@ export default class Toolbar extends React.Component {
         open: false,
         add: false,
         export: false,
+        github: false
       }
     }
   }
@@ -97,6 +98,7 @@ export default class Toolbar extends React.Component {
         onOpenToggle={this.toggleModal.bind(this, 'export')}
       />
       <GitHubModal
+        mapStyle={this.props.mapStyle}
         isOpen={this.state.isOpen.github}
         onOpenToggle={this.toggleModal.bind(this, 'github')}
       />
