@@ -23,6 +23,8 @@ import SourcesModal from './modals/SourcesModal'
 import OpenModal from './modals/OpenModal'
 import GitHubModal from './modals/GitHubModal'
 
+import styleSpec from '@mapbox/mapbox-gl-style-spec'
+
 import style from '../libs/style'
 
 function IconText(props) {
@@ -40,12 +42,28 @@ function ToolbarLink(props) {
 }
 
 function ToolbarAction(props) {
+  function onClick() {
+    if(!props.disabled) {
+      props.onClick()
+    }
+  }
+
+  let className = 'maputnik-toolbar-action ';
+  if(props.disabled) {
+    className += 'maputnik-toolbar-action--disabled'
+  }
+
   return <a
-    className='maputnik-toolbar-action'
-    onClick={props.onClick}
+    className={className}
+    onClick={onClick}
   >
     {props.children}
   </a>
+}
+
+function hasStyleChanged(beforeStyle, afterStyle) {
+  const changes = styleSpec.diff(beforeStyle, afterStyle);
+  return (changes.length > 0);
 }
 
 export default class Toolbar extends React.Component {
@@ -128,10 +146,12 @@ export default class Toolbar extends React.Component {
         <MdFileDownload />
         <IconText>Export</IconText>
       </ToolbarAction>
-      <ToolbarAction onClick={this.toggleModal.bind(this, 'github')}>
-        <SourcesIcon />
-        <IconText>Save GitHub</IconText>
-      </ToolbarAction>
+      {window.githubOrig && (
+        <ToolbarAction onClick={this.toggleModal.bind(this, 'github')} disabled={!hasStyleChanged(window.githubOrig, this.props.mapStyle)}>
+          <SourcesIcon />
+          <IconText>Save GitHub</IconText>
+        </ToolbarAction>
+      )}
       <ToolbarAction onClick={this.toggleModal.bind(this, 'sources')}>
         <SourcesIcon />
         <IconText>Sources</IconText>

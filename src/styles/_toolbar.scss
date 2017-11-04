@@ -46,6 +46,14 @@
   @extend .maputnik-toolbar-link;
 }
 
+.maputnik-toolbar-action--disabled {
+  opacity: 0.5;
+
+  &:hover {
+    background-color: initial;
+  }
+}
+
 .maputnik-icon-text {
   padding-left: $margin-1;
 }
