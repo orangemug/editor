@@ -20,9 +20,12 @@ let qsObj = querystring.parse(urlObj.query);
 if(qsObj.access_token) {
   window.localStorage.setItem("github_access_token", qsObj.access_token);
 
-  // TODO: Just remove the access_token
-  console.warn("Clearing querystring");
-  window.location.search = "";
+  console.debug("Remove access_token from querystring");
+
+  delete qsObj["access_token"];
+  const qsStr = querystring.stringify(qsObj);
+
+  window.location.search = qsStr;
 }
 
 
