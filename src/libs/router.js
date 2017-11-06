@@ -5,7 +5,9 @@ export default function router(routes) {
   const mappedRoutes = routes
     .map(function(route) {
       let keys = [];
-      const re = pathToRegexp(route.path, keys);
+      const re = pathToRegexp(route.path, keys, {
+        end: false
+      });
 
       return {
         check: function(path) {
