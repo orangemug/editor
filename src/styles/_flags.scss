@@ -1,0 +1,72 @@
+/**
+ * TODO: This overrides a bunch CSS. Remove once we tidy the css reset
+ */
+.maputnik {
+  &-flags {
+    min-height: 100%;
+    background: #fff;
+
+    button {
+      background: #fafafa;
+      border: solid 1px #ccc;
+      padding: 4px 8px;
+      border-radius: 2px;
+    }
+
+    &__header {
+      padding: 4px;
+
+      h1 {
+        color: #222;
+      }
+
+      p {
+        color: #111;
+        font-size: 14px;
+      }
+    }
+
+    &__flags-title {
+      display: flex;
+      padding: 4px;
+      background: #eee;
+      align-self: center;
+
+      h2 {
+        flex: 1;
+        color: #222;
+      }
+
+    }
+
+    &__flags {
+      color: black;
+
+      .flag {
+        &:not(:first-child) {
+          border-top: solid 1px #eee;
+        }
+
+        padding: 4px;
+        margin-bottom: 4px;
+        padding-top: 4px;
+        padding-left: 26px;
+        position: relative;
+
+        input {
+          position: absolute;
+          left: 4px;
+        }
+
+        &__name {
+          display: inline;
+          font-size: 16px;
+        }
+
+        &__description {
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+}

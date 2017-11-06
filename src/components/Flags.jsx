@@ -65,34 +65,38 @@ export default class Flags extends React.Component {
   render() {
     const flags = this.state.flags;
 
-    return <div>
-      <div className="">
+    return <div className="maputnik-flags">
+      <div className="maputnik-flags__header">
         <h1>Careful, here be dragons!</h1>
         <p>
           These experimental features may change, break or disappear at any time, so be warned. Some experiments have issues attached to please take a look before using the feature.
         </p>
       </div>
-      <div className="">
+      <div className="maputnik-flags__flags-title">
         <h2>Experiments</h2>
         <button onClick={() => this.setDefaults(true)}>Reset all to default</button>
       </div>
-      <div className="flags">
-      {availableFlags.map((flag) => {
-        const currentState = this.state.flags[flag.id]
-        const defaultState = flag.default
-        const isSet = (defaultState !== currentState);
+      <div className="maputnik-flags__flags">
+        {availableFlags.map((flag) => {
+          const currentState = this.state.flags[flag.id]
+          const defaultState = flag.default
+          const isSet = (defaultState !== currentState);
 
-        const classNames = ["flag"]
-        if(isSet) {
-          classNames.push("flag--is-set");
-        }
+          const classNames = ["flag"]
+          if(isSet) {
+            classNames.push("flag--is-set");
+          }
 
-        return <div key={flag.id} className={classNames.join(" ")}>
-          <input name={flag.id} type="checkbox" onChange={(e) => this.updateFlag(flag)} checked={currentState}/>
-          {flag.name}
-          {flag.description}
-        </div>
-      })}
+          return <div key={flag.id} className={classNames.join(" ")}>
+            <input name={flag.id} type="checkbox" onChange={(e) => this.updateFlag(flag)} checked={currentState}/>
+            <div className="flag__name">
+              {flag.name}
+            </div>
+            <div className="flag__description">
+              {flag.description}
+            </div>
+          </div>
+        })}
       </div>
     </div>
   }
