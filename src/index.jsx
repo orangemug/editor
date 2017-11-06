@@ -8,12 +8,15 @@ import Flags from './components/Flags';
 
 import querystring from 'querystring';
 import url from 'url';
+import router from './libs/router';
 
 
 const urlObj = url.parse(window.location.href);
-var qsObj = querystring.parse(urlObj.query);
+let qsObj = querystring.parse(urlObj.query);
 
 
+// HACK: To grab the access token
+// NOTE: This is currently insecure as the token will be left in the users browser history.
 if(qsObj.access_token) {
   window.localStorage.setItem("github_access_token", qsObj.access_token);
 
@@ -23,11 +26,20 @@ if(qsObj.access_token) {
 }
 
 
-const hash = document.location.hash.slice(1)
+const targetElement = document.querySelector("#app");
 
-if(hash === "flags") {
-  ReactDOM.render(<Flags/>, document.querySelector("#app"));
-}
-else {
-  ReactDOM.render(<App/>, document.querySelector("#app"));
-}
+router([
+  {
+    "path": "/flags",
+    "handler": function() {
+      ReactDOM.render(<Flags/>, targetElement);
+    }
+  },
+  {
+    "path": ":path*",
+    "handler": function() {
+      ReactDOM.render(<App/>, targetElement);
+    }
+  }
+]);
+
