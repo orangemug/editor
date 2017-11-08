@@ -62,6 +62,8 @@ class ToolbarAction extends React.Component {
 
   render() {
     return <a
+      tabindex="0"
+      href="#"
       className='maputnik-toolbar-action'
       onClick={this.props.onClick}
     >

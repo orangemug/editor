@@ -89,29 +89,33 @@ class LayerListItem extends React.Component {
   }
 
   render() {
-    return <li
-      key={this.props.layerId}
-      onClick={e => this.props.onLayerSelect(this.props.layerId)}
-      className={classnames({
-        "maputnik-layer-list-item": true,
-        "maputnik-layer-list-item-selected": this.props.isSelected,
-        [this.props.className]: true,
-      })}>
-        <LayerTypeDragHandle type={this.props.layerType} />
-        <span className="maputnik-layer-list-item-id">{this.props.layerId}</span>
-        <span style={{flexGrow: 1}} />
-        <IconAction
-          action={'delete'}
-          onClick={e => this.props.onLayerDestroy(this.props.layerId)}
-        />
-        <IconAction
-          action={'copy'}
-          onClick={e => this.props.onLayerCopy(this.props.layerId)}
-        />
-        <IconAction
-          action={this.props.visibility === 'visible' ? 'hide' : 'show'}
-          onClick={e => this.props.onLayerVisibilityToggle(this.props.layerId)}
-        />
+    return <li>
+      <a
+        key={this.props.layerId}
+        href="#"
+        tabindex="0"
+        onClick={e => this.props.onLayerSelect(this.props.layerId)}
+        className={classnames({
+          "maputnik-layer-list-item": true,
+          "maputnik-layer-list-item-selected": this.props.isSelected,
+          [this.props.className]: true,
+        })}>
+          <LayerTypeDragHandle type={this.props.layerType} />
+          <span className="maputnik-layer-list-item-id">{this.props.layerId}</span>
+          <span style={{flexGrow: 1}} />
+          <IconAction
+            action={'delete'}
+            onClick={e => this.props.onLayerDestroy(this.props.layerId)}
+          />
+          <IconAction
+            action={'copy'}
+            onClick={e => this.props.onLayerCopy(this.props.layerId)}
+          />
+          <IconAction
+            action={this.props.visibility === 'visible' ? 'hide' : 'show'}
+            onClick={e => this.props.onLayerVisibilityToggle(this.props.layerId)}
+          />
+      </a>
     </li>
   }
 }

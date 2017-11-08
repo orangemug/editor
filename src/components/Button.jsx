@@ -14,6 +14,8 @@ class Button extends React.Component {
     return <a
       onClick={this.props.onClick}
       className={classnames("maputnik-button", this.props.className)}
+      href="#"
+      tabindex="0"
       style={this.props.style}>
       {this.props.children}
     </a>
