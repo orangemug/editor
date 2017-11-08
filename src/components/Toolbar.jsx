@@ -65,7 +65,7 @@ class ToolbarAction extends React.Component {
 
   render() {
     let className = 'maputnik-toolbar-action ';
-    if(props.disabled) {
+    if(this.props.disabled) {
       className += 'maputnik-toolbar-action--disabled'
     }
 
@@ -143,12 +143,6 @@ export default class Toolbar extends React.Component {
         onStyleOpen={this.props.onStyleOpen}
         onOpenToggle={this.toggleModal.bind(this, 'open')}
       />
-      {window.githubOrig && (
-        <ToolbarAction onClick={this.toggleModal.bind(this, 'github')} disabled={!hasStyleChanged(window.githubOrig, this.props.mapStyle)}>
-          <SourcesIcon />
-          <IconText>Save GitHub</IconText>
-        </ToolbarAction>
-      )}
       <SourcesModal
           mapStyle={this.props.mapStyle}
           onStyleChanged={this.props.onStyleChanged}
@@ -172,6 +166,12 @@ export default class Toolbar extends React.Component {
             <MdFileDownload />
             <IconText>Export</IconText>
           </ToolbarAction>
+          {window.githubOrig && (
+            <ToolbarAction onClick={this.toggleModal.bind(this, 'github')} disabled={!hasStyleChanged(window.githubOrig, this.props.mapStyle)}>
+              <SourcesIcon />
+              <IconText>Save GitHub</IconText>
+            </ToolbarAction>
+          )}
           <ToolbarAction onClick={this.toggleModal.bind(this, 'sources')}>
             <SourcesIcon />
             <IconText>Sources</IconText>

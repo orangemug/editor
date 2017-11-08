@@ -1,16 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Modal from './Modal'
 import GitHub from 'github-api'
 import Button from '../Button'
 
 import styleSpec from '@mapbox/mapbox-gl-style-spec/style-spec'
 
-
 class GitHubModal extends React.Component {
   static propTypes = {
-    mapStyle: React.PropTypes.object.isRequired,
-    isOpen: React.PropTypes.bool.isRequired,
-    onOpenToggle: React.PropTypes.func.isRequired,
+    mapStyle: PropTypes.object.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    onOpenToggle: PropTypes.func.isRequired,
   }
 
   constructor(props) {
