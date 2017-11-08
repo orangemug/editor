@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { saveAs } from 'file-saver'
 
-import styleSpec from '@mapbox/mapbox-gl-style-spec'
+import styleSpec from '@mapbox/mapbox-gl-style-spec/style-spec'
 import InputBlock from '../inputs/InputBlock'
 import StringInput from '../inputs/StringInput'
 import SelectInput from '../inputs/SelectInput'
@@ -17,8 +18,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 class Gist extends React.Component {
   static propTypes = {
-    mapStyle: React.PropTypes.object.isRequired,
-    onStyleChanged: React.PropTypes.func.isRequired,
+    mapStyle: PropTypes.object.isRequired,
+    onStyleChanged: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -126,7 +127,7 @@ class Gist extends React.Component {
     const user = gist.user || 'anonymous';
     const preview = !!gist.files['index.html'];
     if(preview) {
-      return <span><a target="_blank" href={"https://bl.ocks.org/"+user+"/"+gist.id}>Preview</a>,{' '}</span>
+      return <span><a target="_blank" rel="noopener noreferrer" href={"https://bl.ocks.org/"+user+"/"+gist.id}>Preview</a>,{' '}</span>
     }
     return null;
   }
@@ -144,7 +145,7 @@ class Gist extends React.Component {
         <p>
           Latest saved gist:{' '}
           {this.renderPreviewLink(this)}
-          <a target="_blank" href={"https://gist.github.com/" + user + "/" + gist.id}>Source</a>
+          <a target="_blank" rel="noopener noreferrer" href={"https://gist.github.com/" + user + "/" + gist.id}>Source</a>
         </p>
         <p>
           <CopyToClipboard text={maputnikStyleLink}>
@@ -177,7 +178,7 @@ class Gist extends React.Component {
                   value={(this.props.mapStyle.metadata || {})['maputnik:openmaptiles_access_token']}
                   onChange={this.changeMetadataProperty.bind(this, "maputnik:openmaptiles_access_token")}/>
             </InputBlock>
-            <a target="_blank" href="https://openmaptiles.com/hosting/">Get your free access token</a>
+            <a target="_blank" rel="noopener noreferrer" href="https://openmaptiles.com/hosting/">Get your free access token</a>
           </div>
       : null}
       {this.renderLatestGist()}
@@ -197,10 +198,10 @@ function stripAccessTokens(mapStyle) {
 
 class ExportModal extends React.Component {
   static propTypes = {
-    mapStyle: React.PropTypes.object.isRequired,
-    onStyleChanged: React.PropTypes.func.isRequired,
-    isOpen: React.PropTypes.bool.isRequired,
-    onOpenToggle: React.PropTypes.func.isRequired,
+    mapStyle: PropTypes.object.isRequired,
+    onStyleChanged: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    onOpenToggle: PropTypes.func.isRequired,
   }
 
   constructor(props) {

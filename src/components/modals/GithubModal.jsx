@@ -3,7 +3,7 @@ import Modal from './Modal'
 import GitHub from 'github-api'
 import Button from '../Button'
 
-import styleSpec from '@mapbox/mapbox-gl-style-spec'
+import styleSpec from '@mapbox/mapbox-gl-style-spec/style-spec'
 
 
 class GitHubModal extends React.Component {

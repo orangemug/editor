@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import MapboxGl from 'mapbox-gl'
 import MapboxInspect from 'mapbox-gl-inspect'
@@ -8,6 +9,7 @@ import style from '../../libs/style.js'
 import tokens from '../../config/tokens.json'
 import colors from 'mapbox-gl-inspect/lib/colors'
 import Color from 'color'
+import ZoomControl from '../../libs/zoomcontrol'
 import { colorHighlightedLayer } from '../../libs/highlight'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import '../../mapboxgl.css'
@@ -57,10 +59,10 @@ function buildInspectStyle(originalMapStyle, coloredLayers, highlightedLayer) {
 
 export default class MapboxGlMap extends React.Component {
   static propTypes = {
-    onDataChange: React.PropTypes.func,
-    mapStyle: React.PropTypes.object.isRequired,
-    inspectModeEnabled: React.PropTypes.bool.isRequired,
-    highlightedLayer: React.PropTypes.object,
+    onDataChange: PropTypes.func,
+    mapStyle: PropTypes.object.isRequired,
+    inspectModeEnabled: PropTypes.bool.isRequired,
+    highlightedLayer: PropTypes.object,
   }
 
   static defaultProps = {
@@ -108,6 +110,9 @@ export default class MapboxGlMap extends React.Component {
       style: this.props.mapStyle,
       hash: true,
     })
+
+    const zoom = new ZoomControl;
+    map.addControl(zoom, 'top-right');
 
     const nav = new MapboxGl.NavigationControl();
     map.addControl(nav, 'top-right');
