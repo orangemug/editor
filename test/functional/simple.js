@@ -26,7 +26,7 @@ browser.addCommand('setValueSafe', function(selector, text) {
       return;
     }
     else {
-      console.error("Warning: setValue failed, trying again.");
+      console.error("Warning: setValue failed, trying again...");
     }
   }
 })
