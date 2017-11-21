@@ -10,6 +10,7 @@ import AutocompleteInput from '../inputs/AutocompleteInput'
 class LayerSourceBlock extends React.Component {
   static propTypes = {
     value: PropTypes.string,
+    wdKey: PropTypes.string,
     onChange: PropTypes.func,
     sourceIds: PropTypes.array,
   }

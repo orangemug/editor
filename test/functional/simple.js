@@ -18,6 +18,7 @@ var COVERAGE_PATH = artifacts.pathSync("/coverage");
  */
 browser.addCommand('setValueSafe', function(selector, text) {
   for(var i=0; i<10; i++) {
+    browser.waitForVisible(selector);
     browser.setValue(selector, text);
     var browserText = browser.getValue(selector);
 
@@ -66,6 +67,7 @@ describe('maputnik', function() {
       "example"
     ]));
     browser.waitForExist(".maputnik-toolbar-link");
+    browser.flushReactUpdates();
   });
 
   it('check logo exists', function () {
