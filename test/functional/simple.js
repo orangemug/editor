@@ -29,6 +29,9 @@ browser.addCommand('setValueSafe', function(selector, text) {
       console.error("Warning: setValue failed, trying again...");
     }
   }
+
+  // Wait for change events to fire and state updated
+  browser.flushReactUpdates();
 })
 
 browser.addCommand('flushReactUpdates', function() {
@@ -97,8 +100,6 @@ describe('maputnik', function() {
       browser.flushReactUpdates();
       browser.setValueSafe(wd.$("add-layer.layer-id", "input"), "background:"+id);
 
-      // Wait for change events to fire and state updated
-      browser.flushReactUpdates();
       browser.click(wd.$("add-layer"));
 
       var styleObj = getStyleStore(browser);
@@ -115,11 +116,10 @@ describe('maputnik', function() {
 
       browser.selectByValue(wd.$("add-layer.layer-type", "select"), "fill");
       browser.flushReactUpdates();
+
       browser.setValueSafe(wd.$("add-layer.layer-id", "input"), "fill:"+id);
       browser.setValueSafe(wd.$("add-layer.layer-source-block", "input"), "example");
 
-      // Wait for change events to fire and state updated
-      browser.flushReactUpdates();
       browser.click(wd.$("add-layer"));
 
       var styleObj = getStyleStore(browser);
