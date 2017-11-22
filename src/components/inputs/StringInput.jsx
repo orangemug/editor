@@ -18,6 +18,7 @@ class StringInput extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log("@@ STRING componentWillReceiveProps", JSON.stringify(nextProps))
     this.setState({ value: nextProps.value || '' })
   }
 
@@ -45,13 +46,13 @@ class StringInput extends React.Component {
       value: this.state.value,
       placeholder: this.props.default,
       onChange: e => {
-        console.log("@@ STRING CHANGE", e.target.value);
+        console.log("@@ STRING CHANGE", JSON.stringify(e.target.value));
         this.setState({
           value: e.target.value
         })
       },
       onBlur: () => {
-        console.log("@@ STRING BLUR", this.state.value);
+        console.log("@@ STRING BLUR", JSON.stringify(this.state.value), "props:", JSON.stringify(this.props.value));
         if(this.state.value!==this.props.value) this.props.onChange(this.state.value)
       }
     });
