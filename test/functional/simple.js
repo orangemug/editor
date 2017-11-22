@@ -120,6 +120,7 @@ describe('maputnik', function() {
       browser.setValueSafe(wd.$("add-layer.layer-id", "input"), "fill:"+id);
       browser.setValueSafe(wd.$("add-layer.layer-source-block", "input"), "example");
 
+      browser.flushReactUpdates();
       browser.click(wd.$("add-layer"));
 
       console.log(browser.log("browser"));
