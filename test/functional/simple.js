@@ -117,8 +117,8 @@ describe('maputnik', function() {
       browser.selectByValue(wd.$("add-layer.layer-type", "select"), "fill");
       browser.flushReactUpdates();
 
-      browser.setValueSafe(wd.$("add-layer.layer-id", "input"), "fill:"+id);
       browser.setValueSafe(wd.$("add-layer.layer-source-block", "input"), "example");
+      browser.setValueSafe(wd.$("add-layer.layer-id", "input"), "fill:"+id);
 
       browser.click(wd.$("add-layer"));
 
