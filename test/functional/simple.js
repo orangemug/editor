@@ -117,10 +117,19 @@ describe('maputnik', function() {
       browser.selectByValue(wd.$("add-layer.layer-type", "select"), "fill");
       browser.flushReactUpdates();
 
+      browser.setValueSafe(wd.$("add-layer.layer-id", "input"), "fill:"+id);
+      console.log(browser.log("browser"));
+
       browser.setValueSafe(wd.$("add-layer.layer-source-block", "input"), "example");
+      console.log(browser.log("browser"));
+
       browser.setValueSafe(wd.$("add-layer.layer-id", "input"), "fill:"+id);
 
+      console.log(browser.log("browser"));
+
       browser.click(wd.$("add-layer"));
+
+      console.log(browser.log("browser"));
 
       var styleObj = getStyleStore(browser);
       assert.deepEqual(styleObj.layers, [

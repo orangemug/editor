@@ -44,8 +44,14 @@ class StringInput extends React.Component {
       style: this.props.style,
       value: this.state.value,
       placeholder: this.props.default,
-      onChange: e => this.setState({ value: e.target.value }),
+      onChange: e => {
+        console.log("@@ STRING CHANGE", e.target.value);
+        this.setState({
+          value: e.target.value
+        })
+      },
       onBlur: () => {
+        console.log("@@ STRING BLUR", this.state.value);
         if(this.state.value!==this.props.value) this.props.onChange(this.state.value)
       }
     });

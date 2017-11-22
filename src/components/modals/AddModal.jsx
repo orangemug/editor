@@ -78,7 +78,10 @@ class AddModal extends React.Component {
       <LayerIdBlock
         value={this.state.id}
         wdKey="add-layer.layer-id"
-        onChange={v => this.setState({ id: v })}
+        onChange={v => {
+          console.log("upper_id_change", v)
+          this.setState({ id: v })
+        }}
       />
       <LayerTypeBlock
         value={this.state.type}
