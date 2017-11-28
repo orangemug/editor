@@ -22,6 +22,7 @@ class Modal extends React.Component {
           <span className="maputnik-modal-header-space"></span>
           <a className="maputnik-modal-header-toggle"
             onClick={() => this.props.onOpenToggle(false)}
+            data-wd-key={this.props["data-wd-key"]+".close-modal"}
           >
             <CloseIcon />
           </a>

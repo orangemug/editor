@@ -33,6 +33,7 @@ class IconAction extends React.Component {
   static propTypes = {
     action: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
+    wdKey: PropTypes.string
   }
 
   renderIcon() {
@@ -41,13 +42,13 @@ class IconAction extends React.Component {
       case 'show': return <VisibilityIcon />
       case 'hide': return <VisibilityOffIcon />
       case 'delete': return <DeleteIcon />
-      default: return null
     }
   }
 
   render() {
     return <a
       className="maputnik-layer-list-icon-action"
+      data-wd-key={this.props.wdKey}
       onClick={this.props.onClick}
     >
       {this.renderIcon()}
@@ -102,14 +103,17 @@ class LayerListItem extends React.Component {
         <span className="maputnik-layer-list-item-id">{this.props.layerId}</span>
         <span style={{flexGrow: 1}} />
         <IconAction
+          wdKey={"layer-list-item:"+this.props.layerId+":delete"}
           action={'delete'}
           onClick={e => this.props.onLayerDestroy(this.props.layerId)}
         />
         <IconAction
+          wdKey={"layer-list-item:"+this.props.layerId+":copy"}
           action={'copy'}
           onClick={e => this.props.onLayerCopy(this.props.layerId)}
         />
         <IconAction
+          wdKey={"layer-list-item:"+this.props.layerId+":toggle-visibility"}
           action={this.props.visibility === 'visible' ? 'hide' : 'show'}
           onClick={e => this.props.onLayerVisibilityToggle(this.props.layerId)}
         />

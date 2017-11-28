@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import Button from '../Button'
 import InputBlock from '../inputs/InputBlock'
 import StringInput from '../inputs/StringInput'
-import SelectInput from '../inputs/SelectInput'
 import Modal from './Modal'
 
 import LayerTypeBlock from '../layers/LayerTypeBlock'

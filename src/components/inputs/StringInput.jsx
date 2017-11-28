@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 class StringInput extends React.Component {
   static propTypes = {
+    "data-wd-key": PropTypes.string,
     value: PropTypes.string,
     style: PropTypes.object,
     default: PropTypes.string,
@@ -41,6 +42,7 @@ class StringInput extends React.Component {
     }
 
     return React.createElement(tag, {
+      "data-wd-key": this.props["data-wd-key"],
       className: classes.join(" "),
       style: this.props.style,
       value: this.state.value,

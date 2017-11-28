@@ -19,11 +19,6 @@ import MultiButtonInput from '../inputs/MultiButtonInput'
 import { changeType, changeProperty } from '../../libs/layer'
 import layout from '../../config/layout.json'
 
-class UnsupportedLayer extends React.Component {
-  render() {
-    return <div></div>
-  }
-}
 
 function layoutGroups(layerType) {
   const layerGroup = {
@@ -172,7 +167,6 @@ export default class LayerEditor extends React.Component {
         layer={this.props.layer}
         onChange={this.props.onLayerChanged}
       />
-      default: return null
     }
   }
 

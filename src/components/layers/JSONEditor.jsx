@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import CodeMirror from 'react-codemirror'
 import InputBlock from '../inputs/InputBlock'
 import StringInput from '../inputs/StringInput'
-import SelectInput from '../inputs/SelectInput'
 
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/addon/lint/lint'
