@@ -777,6 +777,26 @@ describe('maputnik', function() {
             //   }
             // ]);
           });
+
+          it("color", null, function() {
+            var bgId = createBackground();
+            var id = uuid();
+
+            browser.click(wd.$("layer-list-item:background:"+bgId));
+
+            browser.click(wd.$("spec-field:background-color", "input"))
+            // browser.debug();
+
+            var styleObj = getStyleStore(browser);
+            console.log("styleObj", styleObj);
+            assert.deepEqual(styleObj.layers, [
+              {
+                "id": 'background:'+bgId,
+                "type": 'background'
+              }
+            ]);
+
+          })
         })
 
         describe("filter", function() {
