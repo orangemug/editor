@@ -1,3 +1,4 @@
+version: 2
 machine:
   node:
     version: 6
@@ -9,7 +10,8 @@ test:
     - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
     - rm google-chrome.deb
     - ./node_modules/.bin/selenium-standalone install
-    - ./node_modules/.bin/selenium-standalone start:
+    - run:
+      command: ./node_modules/.bin/selenium-standalone start
       background: true
   post:
     - npm run build
