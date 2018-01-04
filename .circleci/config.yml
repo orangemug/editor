@@ -4,6 +4,8 @@ jobs:
     docker:
       # specify the version you desire here
       - image: node:8
+    selenium:
+      - image: selenium/standalone-chrome:3.1.0
     working_directory: ~/repo
     steps:
       - checkout
@@ -21,15 +23,6 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run: mkdir -p /tmp/artifacts/logs
-      - run: curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      - run: dpkg -i google-chrome.deb
-      - run: sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
-      - run: rm google-chrome.deb
-      - run: ./node_modules/.bin/selenium-standalone install
-      - run:
-          command: ./node_modules/.bin/selenium-standalone start
-          background: true
-
-      - run: npm test
+      - run: DOCKER_HOST=selenium npm test
       - run: npm run build
       - run: ./node_modules/.bin/istanbul report --include /tmp/artifacts/coverage/coverage.json --dir /tmp/artifacts/coverage html lcov
