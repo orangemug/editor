@@ -9,31 +9,31 @@ jobs:
       - checkout
       # Download and cache dependencies
       - restore_cache:
-          keys:
+        keys:
           - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
+            # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
       - run: npm install
 
       - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+        paths:
+          - node_modules
+        key: v1-dependencies-{{ checksum "package.json" }}
 
       # pre
-			- run: mkdir -p $CIRCLE_ARTIFACTS/logs
-			- run: curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-			- run: sudo dpkg -i google-chrome.deb
-			- run: sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
-			- run: rm google-chrome.deb
-			- run: ./node_modules/.bin/selenium-standalone install
-			- run:
-				command: ./node_modules/.bin/selenium-standalone start
-				background: true
+      - run: mkdir -p $CIRCLE_ARTIFACTS/logs
+      - run: curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      - run: sudo dpkg -i google-chrome.deb
+      - run: sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
+      - run: rm google-chrome.deb
+      - run: ./node_modules/.bin/selenium-standalone install
+      - run:
+        command: ./node_modules/.bin/selenium-standalone start
+        background: true
 
       # run tests!
       - run: npm test
-			# post
-			- run: npm run build
-			- run: ./node_modules/.bin/istanbul report --include $CIRCLE_ARTIFACTS/coverage/coverage.json --dir $CIRCLE_ARTIFACTS/coverage html lcov
+      # post
+      - run: npm run build
+      - run: ./node_modules/.bin/istanbul report --include $CIRCLE_ARTIFACTS/coverage/coverage.json --dir $CIRCLE_ARTIFACTS/coverage html lcov
