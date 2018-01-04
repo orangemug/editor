@@ -13,7 +13,11 @@ var COVERAGE_PATH = artifacts.pathSync("/coverage");
 var SCREENSHOTS_PATH = artifacts.pathSync("/screenshots");
 
 
-browser.timeoutsAsyncScript(10*1000);
+browser.timeouts({
+  "script":   10*1000,
+  "pageLoad": 10*1000,
+  "implicit": 10*1000
+});
 
 
 var modelCommands = {
