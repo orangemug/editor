@@ -356,7 +356,7 @@ describe('maputnik', function() {
     })
   })
 
-  describe("zoom level", function() {
+  describe.skip("zoom level", function() {
     it("via url", function() {
       var zoomLevel = "12.37"
       browser.url(config.baseUrl+"?debug&style="+getStyleUrl([
@@ -380,7 +380,7 @@ describe('maputnik', function() {
     })
   })
 
-  describe("groups", function() {
+  describe.skip("groups", function() {
     it("simple", function() {
       browser.url(config.baseUrl+"?debug&style="+getStyleUrl([
         "geojson:example"
@@ -418,7 +418,7 @@ describe('maputnik', function() {
     })
   })
 
-  describe("history", function() {
+  describe.skip("history", function() {
     /**
      * See <https://github.com/webdriverio/webdriverio/issues/1126>
      */
