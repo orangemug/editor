@@ -10,7 +10,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Create artifacts dir"
+          name: "Create artifacts directory"
           command: mkdir /tmp/artifacts
       - restore_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
