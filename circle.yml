@@ -9,7 +9,7 @@ test:
     - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
     - rm google-chrome.deb
     - ./node_modules/.bin/selenium-standalone install
-    - ./node_modules/.bin/selenium-standalone start > $CIRCLE_ARTIFACTS/logs/selenium-standalone.log:
+    - ./node_modules/.bin/selenium-standalone start:
       background: true
   post:
     - npm run build
