@@ -366,8 +366,10 @@ describe('maputnik', function() {
       ])+"#"+zoomLevel+"/41.3805/2.1635");
 
       browser.waitUntil(function () {
-        var text = browser.getText(".mapboxgl-ctrl-zoom")
-        return text === "Zoom level: "+(zoomLevel);
+        return (
+          browser.isVisible(".mapboxgl-ctrl-zoom")
+          && browser.getText(".mapboxgl-ctrl-zoom") === "Zoom level: "+(zoomLevel)
+        );
       }, 10*1000)
     })
     it("via map controls", function() {
