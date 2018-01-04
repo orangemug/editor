@@ -356,15 +356,17 @@ describe('maputnik', function() {
     })
   })
 
-  describe.skip("zoom level", function() {
+  describe("zoom level", function() {
     it("via url", function() {
       var zoomLevel = "12.37"
       browser.url(config.baseUrl+"?debug&style="+getStyleUrl([
         "geojson:example"
       ])+"#"+zoomLevel+"/41.3805/2.1635");
 
-      var text = browser.getText(".mapboxgl-ctrl-zoom")
-      assert.equal(text, "Zoom level: "+zoomLevel);
+      browser.waitUntil(function () {
+        var text = browser.getText(".mapboxgl-ctrl-zoom")
+        return text === "Zoom level: "+(zoomLevel);
+      })
     })
     it("via map controls", function() {
       var zoomLevel = 12.37;
