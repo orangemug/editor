@@ -358,7 +358,7 @@ describe('maputnik', function() {
     })
   })
 
-  describe("zoom level", function() {
+  describe.skip("zoom level", function() {
     it("via url", function() {
       var zoomLevel = "12.37"
       browser.url(config.baseUrl+"?debug&style="+getStyleUrl([
