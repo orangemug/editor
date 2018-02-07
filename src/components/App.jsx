@@ -25,6 +25,16 @@ import MapboxGl from 'mapbox-gl'
 import mapboxUtil from 'mapbox-gl/src/util/mapbox'
 
 
+function NaNOrZero(v) {
+  v = Number(v);
+  if(Number.isNaN(v)) {
+    return 0;
+  }
+  else {
+    return v;
+  }
+}
+
 function updateRootSpec(spec, fieldName, newValues) {
   return {
     ...spec,
@@ -46,6 +56,9 @@ export default class App extends React.Component {
       onLocalStyleChange: mapStyle => this.onStyleChanged(mapStyle, false)
     })
 
+    this._onHashChange = this._onHashChange.bind(this);
+    this._onHashChange();
+
     const styleUrl = initialStyleUrl()
     if(styleUrl) {
       this.styleStore = new StyleStore()
@@ -60,7 +73,10 @@ export default class App extends React.Component {
       })
     }
 
+    const initialPosition = this._getHashState();
+
     this.state = {
+      ...initialPosition,
       errors: [],
       infos: [],
       mapStyle: style.emptyStyle,
@@ -77,12 +93,14 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+    window.addEventListener('hashchange', this._onHashChange);
     this.fetchSources();
     Mousetrap.bind(['ctrl+z'], this.onUndo.bind(this));
     Mousetrap.bind(['ctrl+y'], this.onRedo.bind(this));
   }
 
   componentWillUnmount() {
+    window.removeEventListener('hashchange', this._onHashChange);
     Mousetrap.unbind(['ctrl+z'], this.onUndo.bind(this));
     Mousetrap.unbind(['ctrl+y'], this.onRedo.bind(this));
   }
@@ -249,9 +267,44 @@ export default class App extends React.Component {
     }
   }
 
+  _onHashChange() {
+    this.setState(this._getHashState())
+  }
+
+  _getHashState () {
+    const [zoom, lat, lng] = window.location.hash.replace('#', '').split('/');
+    return {
+      zoom: NaNOrZero(zoom),
+      lat: NaNOrZero(lat),
+      lng: NaNOrZero(lng)
+    }
+  }
+
   mapRenderer() {
     const mapProps = {
+      lat: this.state.lat,
+      lng: this.state.lng,
+      zoom: this.state.zoom,
       mapStyle: style.replaceAccessToken(this.state.mapStyle, {allowFallback: true}),
+      onViewChange: (e) => {
+        const d = {
+          lat:  NaNOrZero(e.lat),
+          lng:  NaNOrZero(e.lng),
+          zoom: NaNOrZero(e.zoom),
+        }
+
+        // Adapted from <https://github.com/mapbox/mapbox-gl-js/blob/24373a4027e4531b1acfbb9bf99861aef6a31c71/src/ui/hash.js> to get a consistant zoom across renderers
+        const zoom = Math.round(d.zoom * 100) / 100;
+
+        // See <https://twitter.com/mourner/status/935958080529068038>
+        const precision = Math.ceil((zoom * Math.LN2 + Math.log(512 / 360 / 0.5)) / Math.LN10);
+        const m = Math.pow(10, precision);
+        const lng = Math.round(d.lng * m) / m;
+        const lat = Math.round(d.lat * m) / m;
+
+        const hashStr = `#${zoom}/${lat}/${lng}`
+        history.replaceState('', '', hashStr);
+      },
       onDataChange: (e) => {
         this.layerWatcher.analyzeMap(e.map)
         this.fetchSources();

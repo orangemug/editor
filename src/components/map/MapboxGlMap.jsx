@@ -55,6 +55,7 @@ export default class MapboxGlMap extends React.Component {
   static propTypes = {
     onDataChange: PropTypes.func,
     onLayerSelect: PropTypes.func.isRequired,
+    onViewChange: PropTypes.func.isRequired,
     mapStyle: PropTypes.object.isRequired,
     inspectModeEnabled: PropTypes.bool.isRequired,
     highlightedLayer: PropTypes.object,
@@ -63,8 +64,12 @@ export default class MapboxGlMap extends React.Component {
   static defaultProps = {
     onMapLoaded: () => {},
     onDataChange: () => {},
+    onViewChange: () => {},
     onLayerSelect: () => {},
     mapboxAccessToken: tokens.mapbox,
+    lat: 0,
+    lng: 0,
+    zoom: 0,
   }
 
   constructor(props) {
@@ -79,10 +84,36 @@ export default class MapboxGlMap extends React.Component {
     }
   }
 
+  _onViewChange() {
+    if(!this.state.map) {
+      return;
+    }
+    const center = this.state.map.getCenter();
+    const zoom = this.state.map.getZoom();
+
+    this.props.onViewChange({
+      lng: center.lng, lat: center.lat, zoom
+    })
+  }
+
   componentWillReceiveProps(nextProps) {
     if(!this.state.map) return
     const metadata = nextProps.mapStyle.metadata || {}
     MapboxGl.accessToken = metadata['maputnik:mapbox_access_token'] || tokens.mapbox
+
+    if (this.props.zoom != nextProps.zoom) {
+      this.state.map.setZoom(nextProps.zoom);
+    }
+
+    if (
+      this.props.lng != nextProps.lng ||
+      this.props.lat != nextProps.lat
+    ) {
+      this.state.map.setCenter({
+        lng: nextProps.lng,
+        lat: nextProps.lat
+      })
+    }
 
     if(!nextProps.inspectModeEnabled) {
       //Mapbox GL now does diffing natively so we don't need to calculate
@@ -102,9 +133,13 @@ export default class MapboxGlMap extends React.Component {
 
   componentDidMount() {
     const map = new MapboxGl.Map({
+      center: [
+        this.props.lng,
+        this.props.lat
+      ],
+      zoom: this.props.zoom,
       container: this.container,
-      style: this.props.mapStyle,
-      hash: true,
+      style: this.props.mapStyle
     })
 
     const zoom = new ZoomControl;
@@ -140,6 +175,8 @@ export default class MapboxGlMap extends React.Component {
     map.on("style.load", () => {
       this.setState({ map, inspect });
     })
+
+    map.on('moveend', () => this._onViewChange());
 
     map.on("data", e => {
       if(e.dataType !== 'tile') return

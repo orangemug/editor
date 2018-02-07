@@ -9,6 +9,7 @@ import 'ol/ol.css'
 class OpenLayers3Map extends React.Component {
   static propTypes = {
     onDataChange: PropTypes.func,
+    onViewChange: PropTypes.func,
     mapStyle: PropTypes.object.isRequired,
     accessToken: PropTypes.string,
     style: PropTypes.object,
@@ -16,7 +17,11 @@ class OpenLayers3Map extends React.Component {
 
   static defaultProps = {
     onMapLoaded: () => {},
+    onViewChange: () => {},
     onDataChange: () => {},
+    lat: 0,
+    lng: 0,
+    zoom: 0,
   }
 
   constructor(props) {
@@ -32,8 +37,34 @@ class OpenLayers3Map extends React.Component {
   componentWillReceiveProps(nextProps) {
     require.ensure(["ol", "ol-mapbox-style"], () => {
       if(!this.map) return
-      this.updateStyle(nextProps.mapStyle)
+
+      this.updateStyle(nextProps.mapStyle);
+
+      // TODO: Conditional check doens't work...
+      // if (this.props.zoom != nextProps.zoom) {
+        this.map.getView().setZoom(nextProps.zoom);
+      // }
+
+      // TODO: Conditional check doens't work...
+      // if (
+      //   this.props.lng != nextProps.lng
+      //   || this.props.lat != nextProps.lat
+      // ) {
+        const proj = require('ol/proj').default;
+        const center = proj.transform([this.props.lng, this.props.lat], "EPSG:4326", 'EPSG:3857');
+        this.map.getView().setCenter(center)
+      // }
     })
+
+  }
+
+  onChange() {
+    const proj = require('ol/proj').default;
+    const zoom = this.map.getView().getZoom();
+    const center = this.map.getView().getCenter();
+
+    const [lng, lat] = proj.transform(center, 'EPSG:3857', "EPSG:4326");
+    this.props.onViewChange({lng, lat, zoom})
   }
 
   componentDidMount() {
@@ -46,14 +77,20 @@ class OpenLayers3Map extends React.Component {
       const olView = require('ol/view').default
       const olZoom = require('ol/control/zoom').default
 
+
+      const proj = require('ol/proj').default;
+
       const map = new olMap({
         target: this.container,
         layers: [],
         view: new olView({
-          zoom: 2,
-          center: [52.5, -78.4]
+          zoom: this.props.zoom,
+          center: proj.transform([this.props.lng, this.props.lat], "EPSG:4326", 'EPSG:3857')
         })
       })
+
+      map.on("moveend", () => this.onChange())
+
       map.addControl(new olZoom())
       this.map = map
       this.updateStyle(this.props.mapStyle)
