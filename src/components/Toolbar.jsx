@@ -6,6 +6,7 @@ import classnames from 'classnames'
 import MdFileDownload from 'react-icons/lib/md/file-download'
 import MdFileUpload from 'react-icons/lib/md/file-upload'
 import OpenIcon from 'react-icons/lib/md/open-in-browser'
+import MdMenu from 'react-icons/lib/md/menu'
 import SettingsIcon from 'react-icons/lib/md/settings'
 import MdInfo from 'react-icons/lib/md/info'
 import SourcesIcon from 'react-icons/lib/md/layers'
@@ -62,12 +63,12 @@ class ToolbarAction extends React.Component {
   }
 
   render() {
-    return <a
+    return <button
       className='maputnik-toolbar-action'
       onClick={this.props.onClick}
     >
       {this.props.children}
-    </a>
+    </button>
   }
 }
 
@@ -106,8 +107,17 @@ export default class Toolbar extends React.Component {
     })
   }
 
+  toggleMenu() {
+    this.setState({
+      menuOpen: !this.state.menuOpen
+    })
+  }
+
   render() {
-    return <div className='maputnik-toolbar'>
+    return <div className={classnames({
+      'maputnik-toolbar': true,
+      'maputnik-toolbar--open': this.state.menuOpen
+    })}>
       <SettingsModal
         mapStyle={this.props.mapStyle}
         onStyleChanged={this.props.onStyleChanged}
@@ -132,9 +142,12 @@ export default class Toolbar extends React.Component {
           onOpenToggle={this.toggleModal.bind(this, 'sources')}
       />
       <div className="maputnik-toolbar__inner">
+        <button className="menu" onClick={() => this.toggleMenu()}>
+          <MdMenu />
+        </button>
         <ToolbarLink
           href={"https://github.com/maputnik/editor"}
-          className="maputnik-toolbar-logo"
+          className="maputnik-toolbar-logo hide"
         >
           <img src={logoImage} alt="Maputnik" />
           <h1>Maputnik

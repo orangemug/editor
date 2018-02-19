@@ -1,12 +1,45 @@
 // TOOLBAR
 .maputnik-toolbar {
-  position: fixed;
-  height: $toolbar-height;
-  width: 100%;
-  z-index: 100;
-  left: 0;
-  top: $toolbar-offset;
   background-color: $color-black;
+  overflow: hidden;
+  flex: 0 0 40px;
+  transition: flex-basis 160ms cubic-bezier(0.4, 0.0, 0.2, 1);
+
+  &--open {
+    flex-basis: 180px;
+  }
+}
+
+// TODO: Should go elsewhere
+button {
+  cursor: pointer;
+
+  &:active {
+    background: #444;
+  }
+
+  &:focus {
+    background: #333;
+    outline: none;
+  }
+}
+
+.hide {
+  display: none !important;
+}
+
+.menu {
+  padding: 10px;
+  background: inherit;
+  border: none;
+  text-align: left;
+  border-bottom: solid 1px $color-midgray;
+  color: white;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .maputnik-toolbar-logo {
@@ -37,6 +70,9 @@
   color: $color-white;
   text-decoration: none;
   line-height: 20px;
+  background: inherit;
+  border: none;
+  text-align: left;
 
   h1 {
     position: relative;
@@ -44,6 +80,13 @@
 
   &:hover {
     background-color: $color-midgray;
+  }
+
+  svg {
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
   }
 }
 
@@ -68,15 +111,17 @@
 }
 
 .maputnik-toolbar-logo {
-  flex: 0 0 170px;
 }
 
 .maputnik-toolbar__inner {
   display: flex;
+  flex-direction: column;
 }
 
 .maputnik-toolbar__actions {
   white-space: nowrap;
   flex: 1;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
