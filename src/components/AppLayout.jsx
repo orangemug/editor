@@ -26,7 +26,7 @@ class AppLayout extends React.Component {
       {this.props.toolbar}
       <div style={{display: "flex", flexDirection: "column", flex: 1, boxShadow: "-1px 0px 6px 0px rgba(0, 0, 0, 0.28)"}}>
         <div style={{height: "41px", padding: "12px", borderBottom: "solid 1px #36383e"}}>
-            github:lukasmartinelli/osm-liberty/blob/gh-pages/style.json
+          {this.props.filename}
         </div>
         <div style={{display: "flex", flex: 1}}>
           <div className="maputnik-layout-list">

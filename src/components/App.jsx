@@ -61,6 +61,7 @@ export default class App extends React.Component {
     }
 
     this.state = {
+      filename: "New file",
       errors: [],
       infos: [],
       mapStyle: style.emptyStyle,
@@ -112,7 +113,7 @@ export default class App extends React.Component {
     })
   }
 
-  onStyleChanged(newStyle, save=true) {
+  onStyleChanged(newStyle, save=true, filename) {
 
     const errors = styleSpec.validate(newStyle, styleSpec.latest)
     if(errors.length === 0) {
@@ -127,6 +128,7 @@ export default class App extends React.Component {
       this.revisionStore.addRevision(newStyle)
       if(save) this.saveStyle(newStyle)
       this.setState({
+        filename: filename || "New file",
         mapStyle: newStyle,
         errors: [],
       })
@@ -314,6 +316,7 @@ export default class App extends React.Component {
     /> : null
 
     return <AppLayout
+      filename={this.state.filename}
       toolbar={toolbar}
       layerList={layerList}
       layerEditor={layerEditor}
