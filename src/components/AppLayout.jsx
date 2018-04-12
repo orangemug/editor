@@ -1,3 +1,4 @@
+import classnames from 'classnames'
 import React from 'react'
 import PropTypes from 'prop-types'
 import ScrollContainer from './ScrollContainer'
@@ -21,11 +22,39 @@ class AppLayout extends React.Component {
     }
   }
 
+  getStyleState(file) {
+    let state;
+
+    if(this.props.revisionStore.numberOfRevisions > 0) {
+      state = "unsaved-changes";
+    }
+    else {
+      state = "up-to-date";
+    }
+
+    const messages = {
+      "up-to-date": "in sync",
+      "unsaved-changes": "unsaved changes"
+    }
+
+    const message = messages[state];
+
+    return (
+      <div className={classnames({
+        'filetype-icon': true,
+        ['filetype-icon--'+state]: true
+      })}>
+        {message}
+      </div>
+    );
+  }
+
   render() {
     return <div className="maputnik-layout">
       {this.props.toolbar}
       <div style={{display: "flex", flexDirection: "column", flex: 1, boxShadow: "-1px 0px 6px 0px rgba(0, 0, 0, 0.28)"}}>
         <div style={{height: "41px", padding: "12px", borderBottom: "solid 1px #36383e"}}>
+          {this.getStyleState()}
           {this.props.filename}
         </div>
         <div style={{display: "flex", flex: 1}}>
@@ -39,11 +68,13 @@ class AppLayout extends React.Component {
               {this.props.layerEditor}
             </ScrollContainer>
           </div>
-          {this.props.map}
-          {this.props.bottom && <div className="maputnik-layout-bottom">
-              {this.props.bottom}
-            </div>
-          }
+          <div className="maputnik-map-container">
+            {this.props.map}
+            {this.props.bottom && <div className="maputnik-layout-bottom">
+                {this.props.bottom}
+              </div>
+            }
+          </div>
         </div>
       </div>
     </div>

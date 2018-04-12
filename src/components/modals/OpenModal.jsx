@@ -68,7 +68,11 @@ class OpenModal extends React.Component {
         if (!error && response.statusCode == 200) {
           const mapStyle = style.ensureStyleValidity(JSON.parse(body))
           console.log('Loaded style ', mapStyle.id)
-          this.props.onStyleOpen(mapStyle, true, styleUrl)
+          this.props.onStyleOpen(mapStyle, {
+            save: true,
+            filename: styleUrl,
+            isNew: true
+          })
           this.onOpenToggle()
         } else {
           console.warn('Could not open the style URL', styleUrl)
@@ -100,7 +104,11 @@ class OpenModal extends React.Component {
         return;
       }
       mapStyle = style.ensureStyleValidity(mapStyle)
-      this.props.onStyleOpen(mapStyle, true, file.name);
+      this.props.onStyleOpen(mapStyle, {
+        save: true,
+        filename: file.name,
+        isNew: true
+      });
       this.onOpenToggle();
     }
     reader.onerror = e => console.log(e.target);

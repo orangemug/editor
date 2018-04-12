@@ -113,7 +113,11 @@ export default class App extends React.Component {
     })
   }
 
-  onStyleChanged(newStyle, save=true, filename) {
+  onStyleChanged(newStyle, opts={}) {
+    opts = Object.assign({
+      save: true,
+      isNew: false
+    }, opts);
 
     const errors = styleSpec.validate(newStyle, styleSpec.latest)
     if(errors.length === 0) {
@@ -125,13 +129,23 @@ export default class App extends React.Component {
         this.updateIcons(newStyle.sprite)
       }
 
-      this.revisionStore.addRevision(newStyle)
-      if(save) this.saveStyle(newStyle)
+      if(opts.isNew) {
+        this.revisionStore.reset([newStyle])
+      }
+      else {
+        this.revisionStore.addRevision(newStyle)
+      }
+      if(opts.save) this.saveStyle(newStyle)
       this.setState({
-        filename: filename || "New file",
         mapStyle: newStyle,
         errors: [],
       })
+
+      if(opts.filename) {
+        this.setState({
+          filename: opts.filename,
+        })
+      }
     } else {
       this.setState({
         errors: errors.map(err => err.message)
@@ -317,6 +331,7 @@ export default class App extends React.Component {
 
     return <AppLayout
       filename={this.state.filename}
+      revisionStore={this.revisionStore}
       toolbar={toolbar}
       layerList={layerList}
       layerEditor={layerEditor}

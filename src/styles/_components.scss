@@ -1,6 +1,13 @@
 // MAP
+.maputnik-map-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
 .maputnik-map {
   width: 100%;
+  flex: 1;
 }
 
 // DOC LABEL
@@ -129,3 +136,22 @@
     color: $color-red;
   }
 }
+
+.filetype-icon {
+  display: inline-block;
+  background: black;
+  padding: 2px 5px;
+  border-radius: 2px;
+  text-size: smaller;
+  margin-right: 8px;
+
+  &--unsaved-changes {
+    background: #c62828;
+  }
+
+  &--up-to-date {
+    background: #2E7D32;
+  }
+}
+
+

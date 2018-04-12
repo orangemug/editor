@@ -1,7 +1,6 @@
 export class RevisionStore {
   constructor(initialRevisions=[]) {
-    this.revisions = initialRevisions
-    this.currentIdx = initialRevisions.length - 1
+    this.reset(initialRevisions);
   }
 
   get latest() {
@@ -10,6 +9,15 @@ export class RevisionStore {
 
   get current() {
     return this.revisions[this.currentIdx]
+  }
+
+  get numberOfRevisions() {
+    return this.currentIdx;
+  }
+
+  reset(initialRevisions) {
+    this.revisions = initialRevisions;
+    this.currentIdx = initialRevisions.length - 1;
   }
 
   addRevision(revision) {
