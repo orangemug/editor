@@ -117,6 +117,7 @@ export default class MapboxGlMap extends React.Component {
       popup: new MapboxGl.Popup({
         closeOnClick: false
       }),
+      blockHoverPopupOnClick: true,
       showMapPopup: true,
       showMapPopupOnHover: false,
       showInspectMapPopupOnHover: true,
