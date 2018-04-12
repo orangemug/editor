@@ -47,7 +47,7 @@ button {
   text-align: left;
   background-color: $color-black;
   padding: $margin-2;
-  height: $toolbar-height;
+  height: 35px;
   display: inline-block;
   position: relative;
 
@@ -64,7 +64,7 @@ button {
 
 .maputnik-toolbar-link {
   vertical-align: top;
-  height: $toolbar-height;
+  height: 40px;
   display: inline-block;
   padding: $margin-3;
   font-size: $font-size-5;
