@@ -2,6 +2,8 @@ import classnames from 'classnames'
 import React from 'react'
 import PropTypes from 'prop-types'
 import ScrollContainer from './ScrollContainer'
+import logoImage from 'maputnik-design/logos/logo-color.svg'
+import pkgJson from '../../package.json'
 
 class AppLayout extends React.Component {
   static propTypes = {
@@ -53,7 +55,13 @@ class AppLayout extends React.Component {
     return <div className="maputnik-layout">
       {this.props.toolbar}
       <div style={{display: "flex", flexDirection: "column", flex: 1, boxShadow: "-1px 0px 6px 0px rgba(0, 0, 0, 0.28)"}}>
-        <div style={{height: "41px", padding: "12px", borderBottom: "solid 1px #36383e"}}>
+        <div style={{height: "41px", padding: "4px", borderBottom: "solid 1px #36383e"}}>
+          <div className="maputnik-toolbar-logo">
+            <img src={logoImage} alt="Maputnik" />
+              <h1>Maputnik
+              <span className="maputnik-toolbar-version">v{pkgJson.version}</span>
+            </h1>
+          </div>
           {this.getStyleState()}
           {this.props.filename}
         </div>
