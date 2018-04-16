@@ -12,17 +12,30 @@ export default class LayerEditorGroup extends React.Component {
     onActiveToggle: PropTypes.func.isRequired
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isActive: true
+    };
+  }
+
+  onActiveToggle() {
+    this.setState({
+      isActive: !this.state.isActive
+    })
+  }
+
   render() {
     return <div>
       <div className="maputnik-layer-editor-group"
         data-wd-key={"layer-editor-group:"+this.props["data-wd-key"]}
-        onClick={e => this.props.onActiveToggle(!this.props.isActive)}
+        onClick={e => this.onActiveToggle()}
       >
         <span>{this.props.title}</span>
         <span style={{flexGrow: 1}} />
-        <Collapser isCollapsed={this.props.isActive} />
+        <Collapser isCollapsed={this.state.isActive} />
       </div>
-      <Collapse isOpened={this.props.isActive}>
+      <Collapse isOpened={this.state.isActive}>
         {this.props.children}
       </Collapse>
     </div>

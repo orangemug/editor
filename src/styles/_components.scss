@@ -1,11 +1,7 @@
 // MAP
 .maputnik-map {
-  position: fixed !important;
-  top: $toolbar-height + $toolbar-offset;
-  right: 0;
-  bottom: 0;
-  height: calc(100% - #{$toolbar-height + $toolbar-offset});
-  width: 75%;
+  height: 100%;
+  width: 100%;
 }
 
 // DOC LABEL

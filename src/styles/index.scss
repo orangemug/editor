@@ -47,3 +47,18 @@ $toolbar-offset: 0;
 .maputnik-layout {
   height: 100vh;
 }
+
+.maputnik-export {
+  display: flex;
+  height: 100%;
+}
+
+.maputnik-export__settings {
+  min-width: 300px;
+}
+
+.maputnik-export__preview {
+  flex: 1;
+  overflow: hidden;
+  background: $color-midgray;
+}

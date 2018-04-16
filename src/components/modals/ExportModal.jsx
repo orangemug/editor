@@ -239,6 +239,11 @@ class ExportModal extends React.Component {
     saveAs(blob, this.props.mapStyle.id + ".json");
   }
 
+  onExportRaster() {
+    // HACK
+    window.open("http://localhost:8080/editor/?exporter");
+  }
+
   render() {
     return <Modal
       data-wd-key="export-modal"
@@ -262,6 +267,13 @@ class ExportModal extends React.Component {
         <h4>Save style</h4>
         <Gist mapStyle={this.props.mapStyle} onStyleChanged={this.props.onStyleChanged}/>
       </div>
+
+      <div className="maputnik-modal-section">
+        <Button onClick={() => this.onExportRaster()}>
+          Export as raster
+        </Button>
+      </div>
+
     </Modal>
   }
 }

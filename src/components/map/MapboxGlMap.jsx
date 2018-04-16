@@ -54,6 +54,14 @@ function buildInspectStyle(originalMapStyle, coloredLayers, highlightedLayer) {
 export default class MapboxGlMap extends React.Component {
   static propTypes = {
     onDataChange: PropTypes.func,
+    onMove: PropTypes.func,
+    onZoom: PropTypes.func,
+    onPitch: PropTypes.func,
+    onRotate: PropTypes.func,
+    onMoveEnd: PropTypes.func,
+    onZoomEnd: PropTypes.func,
+    onPitchEnd: PropTypes.func,
+    onRotateEnd: PropTypes.func,
     onLayerSelect: PropTypes.func.isRequired,
     mapStyle: PropTypes.object.isRequired,
     inspectModeEnabled: PropTypes.bool.isRequired,
@@ -64,7 +72,19 @@ export default class MapboxGlMap extends React.Component {
     onMapLoaded: () => {},
     onDataChange: () => {},
     onLayerSelect: () => {},
+    onMove: () => {},
+    onZoom: () => {},
+    onPitch: () => {},
+    onRotate: () => {},
+    onMoveEnd: () => {},
+    onZoomEnd: () => {},
+    onPitchEnd: () => {},
+    onRotateEnd: () => {},
     mapboxAccessToken: tokens.mapbox,
+    zoom: 0,
+    center: [0,0],
+    bearing: 0,
+    pitch: 0,
   }
 
   constructor(props) {
@@ -84,10 +104,36 @@ export default class MapboxGlMap extends React.Component {
     const metadata = nextProps.mapStyle.metadata || {}
     MapboxGl.accessToken = metadata['maputnik:mapbox_access_token'] || tokens.mapbox
 
+    nextProps = Object.assign({}, this.props, nextProps);
+
     if(!nextProps.inspectModeEnabled) {
       //Mapbox GL now does diffing natively so we don't need to calculate
       //the necessary operations ourselves!
       this.state.map.setStyle(nextProps.mapStyle, { diff: true})
+
+      this.state.map.once("render", () => {
+        const center = this.state.map.getCenter();
+
+        if(
+          nextProps.center[0] !== center[0] ||
+          nextProps.center[1] !== center[1]
+        ) {
+          this.state.map.setCenter(nextProps.center);
+        }
+
+        if(nextProps.zoom !== this.state.map.getZoom()) {
+          this.state.map.setZoom(nextProps.zoom);
+        }
+
+        if(nextProps.pitch !== this.state.map.getPitch()) {
+          this.state.map.setPitch(nextProps.pitch);
+        }
+
+        if(nextProps.bearing !== this.state.map.getBearing()) {
+          this.state.map.setBearing(nextProps.bearing);
+        }
+      })
+
     }
   }
 
@@ -105,6 +151,10 @@ export default class MapboxGlMap extends React.Component {
       container: this.container,
       style: this.props.mapStyle,
       hash: true,
+      center: this.props.center,
+      zoom: this.props.zoom,
+      pitch: this.props.pitch,
+      bearing: this.props.bearing,
     })
 
     const zoom = new ZoomControl;
@@ -112,6 +162,8 @@ export default class MapboxGlMap extends React.Component {
 
     const nav = new MapboxGl.NavigationControl();
     map.addControl(nav, 'top-right');
+
+    const props = this.props;
 
     const inspect = new MapboxInspect({
       popup: new MapboxGl.Popup({
@@ -141,9 +193,27 @@ export default class MapboxGlMap extends React.Component {
       this.setState({ map, inspect });
     })
 
+    map.on("move",    props.onMove);
+    map.on("zoom",    props.onZoom);
+    map.on("pitch",   props.onPitch);
+    map.on("rotate",  props.onRotate);
+
+    map.on("moveend", (e) => {
+      props.onMoveEnd(map.getCenter())
+    });
+    map.on("zoomend", (e) => {
+      props.onZoomEnd(map.getZoom())
+    });
+    map.on("pitchend", (e) => {
+      props.onPitchEnd(map.getPitch())
+    });
+    map.on("rotateend", (e) => {
+      props.onRotateEnd(map.getBearing())
+    });
+
     map.on("data", e => {
       if(e.dataType !== 'tile') return
-      this.props.onDataChange({
+      props.onDataChange({
         map: this.state.map
       })
     })
