@@ -36,7 +36,9 @@ export default class LayerEditorGroup extends React.Component {
         <Collapser isCollapsed={this.state.isActive} />
       </div>
       <Collapse isOpened={this.state.isActive}>
-        {this.props.children}
+        <div className="react-collapse-container">
+          {this.props.children}
+        </div>
       </Collapse>
     </div>
   }
