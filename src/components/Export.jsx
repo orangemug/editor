@@ -8,6 +8,7 @@ import NumberInput from './inputs/NumberInput'
 import SelectInput from './inputs/SelectInput'
 import LayerEditorGroup from './layers/LayerEditorGroup'
 import Button from './Button'
+import style from '../libs/style.js'
 
 
 import { StyleStore } from '../libs/stylestore'
@@ -27,7 +28,7 @@ export default class Export extends React.Component {
     // HACK: Sometimes this is before the component is created.
     setTimeout(() => {
       this.setState({
-        style: newStyle
+        style: style.replaceAccessToken(newStyle, {allowFallback: true})
       })
     }, 0)
   }
