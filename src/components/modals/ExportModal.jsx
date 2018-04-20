@@ -241,7 +241,7 @@ class ExportModal extends React.Component {
 
   onExportRaster() {
     // HACK
-    window.open("http://localhost:8080/editor/?exporter");
+    window.open("?exporter");
   }
 
   render() {
