@@ -40,8 +40,8 @@ export default class Export extends React.Component {
     this.styleStore.latestStyle(mapStyle => this.onStyleChanged(mapStyle))
 
     this.state = {
-      width: 300,
-      height: 300,
+      width: 100,
+      height: 100,
       unit: "mm",
       style: null,
       dpi: 300,
