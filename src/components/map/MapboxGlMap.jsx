@@ -63,12 +63,14 @@ export default class MapboxGlMap extends React.Component {
     onPitchEnd: PropTypes.func,
     onRotateEnd: PropTypes.func,
     onLayerSelect: PropTypes.func.isRequired,
-    mapStyle: PropTypes.object.isRequired,
-    inspectModeEnabled: PropTypes.bool.isRequired,
+    mapStyle: PropTypes.object,
+    inspectModeEnabled: PropTypes.bool,
     highlightedLayer: PropTypes.object,
   }
 
   static defaultProps = {
+    mapStyle: null,
+    inspectModeEnabled: false,
     onMapLoaded: () => {},
     onDataChange: () => {},
     onLayerSelect: () => {},
@@ -218,6 +220,8 @@ export default class MapboxGlMap extends React.Component {
         map: this.state.map
       })
     })
+
+    this.setState({map: map})
   }
 
   render() {

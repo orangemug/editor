@@ -21,12 +21,15 @@ function saveBlob(blob, filename) {
 }
 
 
-export default class App extends React.Component {
+export default class Export extends React.Component {
 
   onStyleChanged(newStyle) {
-    this.setState({
-      style: newStyle
-    })
+    // HACK: Sometimes this is before the component is created.
+    setTimeout(() => {
+      this.setState({
+        style: newStyle
+      })
+    }, 0)
   }
 
   constructor(props) {
@@ -39,7 +42,7 @@ export default class App extends React.Component {
       width: 300,
       height: 300,
       unit: "mm",
-      style: {},
+      style: null,
       dpi: 300,
       format: "png",
       longitude: 0,
@@ -91,6 +94,7 @@ export default class App extends React.Component {
 
   render() {
     const mapProps = {
+      mapStyle: this.state.style,
       pitch: this.state.pitch,
       center: {
         lng: this.state.longitude,
@@ -99,6 +103,9 @@ export default class App extends React.Component {
       zoom: this.state.zoom,
       bearing: this.state.bearing
     }
+
+    const width  = mapboxGlToBlob.toPixels(this.state.width,  this.state.unit).replace("px", "");
+    const height = mapboxGlToBlob.toPixels(this.state.height, this.state.unit).replace("px", "");
 
     return (
       <div className="maputnik-export">
@@ -201,7 +208,7 @@ export default class App extends React.Component {
         </div>
 
         <div className="maputnik-export__preview">
-          <VirtualScreen width={this.state.width} height={this.state.height}>
+          <VirtualScreen width={width} height={height}>
             <div style={{background: "blue", width: "100%", height: "100%"}}>
               <MapboxGlMap
                 {...mapProps}

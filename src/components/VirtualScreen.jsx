@@ -39,10 +39,6 @@ export default class VirtualScreen extends React.Component {
 		};
 	}
 
-  getDerivedStateFromProps(nextProps) {
-    this._updateState(nextProps);
-  }
-
   componentWillReceiveProps(nextProps) {
     this._updateState(nextProps);
   }

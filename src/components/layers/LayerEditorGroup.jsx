@@ -7,15 +7,18 @@ export default class LayerEditorGroup extends React.Component {
   static propTypes = {
     "data-wd-key": PropTypes.string,
     title: PropTypes.string.isRequired,
-    isActive: PropTypes.bool.isRequired,
-    children: PropTypes.element.isRequired,
-    onActiveToggle: PropTypes.func.isRequired
+    isActive: PropTypes.bool,
+    children: PropTypes.node.isRequired
+  }
+
+  static defaultProps = {
+    isActive: true
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      isActive: true
+      isActive: props.isActive
     };
   }
 
