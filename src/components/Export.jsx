@@ -7,7 +7,7 @@ import StringInput from './inputs/StringInput'
 import NumberInput from './inputs/NumberInput'
 import SelectInput from './inputs/SelectInput'
 import LayerEditorGroup from './layers/LayerEditorGroup'
-import Button from './button'
+import Button from './Button'
 
 
 import { StyleStore } from '../libs/stylestore'
