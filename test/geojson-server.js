@@ -31,7 +31,7 @@ function buildStyle(opts) {
 
 function buildGeoJSONSource(data) {
   return {
-    type: "vector",
+    type: "geojson",
     data: data
   };
 }

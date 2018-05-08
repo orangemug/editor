@@ -125,40 +125,35 @@ describe("layers", function() {
 
   describe('background', function () {
 
-    it.skip("add", function() {
+    it("add", function() {
       var id = helper.modal.addLayer.fill({
         type: "background"
       })
 
       browser.waitUntil(function() {
         var styleObj = helper.getStyleStore(browser);
-        assert.deepEqual(styleObj.layers, [
-          {
-            "id": id,
-            "type": 'background'
-          }
-        ]);
+        assert.deepEqual(styleObj.layers.length, 1);
+        assert.deepEqual(styleObj.layers[0], {
+          "id": id,
+          "type": 'background'
+        });
+        return true;
       });
     });
 
     describe("modify", function() {
       function createBackground() {
         // Setup
-        var id = uuid();
-
-        browser.selectByValue(wd.$("add-layer.layer-type", "select"), "background");
-        browser.flushReactUpdates();
-        browser.setValueSafe(wd.$("add-layer.layer-id", "input"), "background:"+id);
-
-        browser.click(wd.$("add-layer"));
+        var id = helper.modal.addLayer.fill({
+          type: "background"
+        })
 
         var styleObj = helper.getStyleStore(browser);
-        assert.deepEqual(styleObj.layers, [
-          {
-            "id": 'background:'+id,
-            "type": 'background'
-          }
-        ]);
+        assert.deepEqual(styleObj.layers.length, 1);
+        assert.deepEqual(styleObj.layers[0], {
+          "type": 'background',
+          "id": id
+        });
         return id;
       }
 
@@ -168,7 +163,7 @@ describe("layers", function() {
         it("id", function() {
           var bgId = createBackground();
 
-          browser.click(wd.$("layer-list-item:background:"+bgId))
+          browser.click(wd.$("layer-list-item:"+bgId))
 
           var id = uuid();
           browser.setValueSafe(wd.$("layer-editor.layer-id", "input"), "foobar:"+id)
@@ -189,18 +184,17 @@ describe("layers", function() {
         it("min-zoom", function() {
           var bgId = createBackground();
 
-          browser.click(wd.$("layer-list-item:background:"+bgId))
+          browser.click(wd.$("layer-list-item:"+bgId))
           browser.setValueSafe(wd.$("min-zoom", "input"), 1)
           browser.click(wd.$("layer-editor.layer-id", "input"));
 
           var styleObj = helper.getStyleStore(browser);
-          assert.deepEqual(styleObj.layers, [
-            {
-              "id": 'background:'+bgId,
-              "type": 'background',
-              "minzoom": 1
-            }
-          ]);
+          assert.deepEqual(styleObj.layers.length, 1);
+          assert.deepEqual(styleObj.layers[0], {
+            "id": bgId,
+            "type": 'background',
+            "minzoom": 1
+          });
 
           // AND RESET!
           // browser.setValueSafe(wd.$("min-zoom", "input"), "")
@@ -219,38 +213,35 @@ describe("layers", function() {
         it("max-zoom", function() {
           var bgId = createBackground();
 
-          browser.click(wd.$("layer-list-item:background:"+bgId))
+          browser.click(wd.$("layer-list-item:"+bgId))
           browser.setValueSafe(wd.$("max-zoom", "input"), 1)
           browser.click(wd.$("layer-editor.layer-id", "input"));
 
           var styleObj = helper.getStyleStore(browser);
-          assert.deepEqual(styleObj.layers, [
-            {
-              "id": 'background:'+bgId,
-              "type": 'background',
-              "maxzoom": 1
-            }
-          ]);
+          assert.deepEqual(styleObj.layers.length, 1);
+          assert.deepEqual(styleObj.layers[0], {
+            "id": bgId,
+            "type": 'background',
+            "maxzoom": 1
+          });
         });
 
         it("comments", function() {
           var bgId = createBackground();
           var id = uuid();
 
-          browser.click(wd.$("layer-list-item:background:"+bgId));
+          browser.click(wd.$("layer-list-item:"+bgId));
           browser.setValueSafe(wd.$("layer-comment", "textarea"), id);
           browser.click(wd.$("layer-editor.layer-id", "input"));
 
           var styleObj = helper.getStyleStore(browser);
-          assert.deepEqual(styleObj.layers, [
-            {
-              "id": 'background:'+bgId,
-              "type": 'background',
-              metadata: {
-                'maputnik:comment': id
-              }
+          assert.deepEqual(styleObj.layers[0], {
+            "id": bgId,
+            "type": 'background',
+            metadata: {
+              'maputnik:comment': id
             }
-          ]);
+          });
 
           // Unset it again.
           // TODO: This fails
@@ -269,20 +260,17 @@ describe("layers", function() {
 
         it("color", null, function() {
           var bgId = createBackground();
-          var id = uuid();
 
-          browser.click(wd.$("layer-list-item:background:"+bgId));
+          browser.click(wd.$("layer-list-item:"+bgId));
 
           browser.click(wd.$("spec-field:background-color", "input"))
           // browser.debug();
 
           var styleObj = helper.getStyleStore(browser);
-          assert.deepEqual(styleObj.layers, [
-            {
-              "id": 'background:'+bgId,
-              "type": 'background'
-            }
-          ]);
+          assert.deepEqual(styleObj.layers[0], {
+            "id": bgId,
+            "type": 'background'
+          });
 
         })
       })
@@ -309,7 +297,7 @@ describe("layers", function() {
           var bgId = createBackground();
           var id = uuid();
 
-          browser.click(wd.$("layer-list-item:background:"+bgId));
+          browser.click(wd.$("layer-list-item:"+bgId));
 
           var errorSelector = ".CodeMirror-lint-marker-error";
           assert.equal(browser.isExisting(errorSelector), false);
@@ -325,7 +313,7 @@ describe("layers", function() {
   });
 
   describe('fill', function () {
-    it.skip("add", function() {
+    it("add", function() {
       // browser.debug();
 
       var id = helper.modal.addLayer.fill({
@@ -334,13 +322,12 @@ describe("layers", function() {
       });
 
       var styleObj = helper.getStyleStore(browser);
-      assert.deepEqual(styleObj.layers, [
-        {
-          "id": id,
-          "type": 'fill',
-          "source": "example"
-        }
-      ]);
+      assert.deepEqual(styleObj.layers.length, 1)
+      assert.deepEqual(styleObj.layers[0], {
+        "id": id,
+        "type": 'fill',
+        "source": "example"
+      });
     })
 
     // TODO: Change source
@@ -348,20 +335,19 @@ describe("layers", function() {
   });
 
   describe('line', function () {
-    it.skip("add", function() {
+    it("add", function() {
       var id = helper.modal.addLayer.fill({
         type: "line",
         layer: "example"
       });
 
       var styleObj = helper.getStyleStore(browser);
-      assert.deepEqual(styleObj.layers, [
-        {
-          "id": id,
-          "type": "line",
-          "source": "example",
-        }
-      ]);
+      assert.deepEqual(styleObj.layers.length, 1)
+      assert.deepEqual(styleObj.layers[0], {
+        "id": id,
+        "type": "line",
+        "source": "example",
+      });
     });
 
     it("groups", null, function() {
@@ -371,75 +357,71 @@ describe("layers", function() {
   });
 
   describe('symbol', function () {
-    it.skip("add", function() {
+    it("add", function() {
       var id = helper.modal.addLayer.fill({
         type: "symbol",
         layer: "example"
       });
 
       var styleObj = helper.getStyleStore(browser);
-      assert.deepEqual(styleObj.layers, [
-        {
-          "id": id,
-          "type": "symbol",
-          "source": "example",
-        }
-      ]);
+      assert.deepEqual(styleObj.layers.length, 1);
+      assert.deepEqual(styleObj.layers[0], {
+        "id": id,
+        "type": "symbol",
+        "source": "example",
+      });
     });
   });
 
   describe('raster', function () {
-    it.skip("add", function() {
+    it("add", function() {
       var id = helper.modal.addLayer.fill({
         type: "raster",
         layer: "raster"
       });
 
       var styleObj = helper.getStyleStore(browser);
-      assert.deepEqual(styleObj.layers, [
-        {
-          "id": id,
-          "type": "raster",
-          "source": "raster",
-        }
-      ]);
+      assert.deepEqual(styleObj.layers.length, 1);
+      assert.deepEqual(styleObj.layers[0], {
+        "id": id,
+        "type": "raster",
+        "source": "raster",
+      });
     });
   });
 
   describe('circle', function () {
-    it.skip("add", function() {
+    it("add", function() {
       var id = helper.modal.addLayer.fill({
         type: "circle",
         layer: "example"
       });
 
       var styleObj = helper.getStyleStore(browser);
-      assert.deepEqual(styleObj.layers, [
-        {
-          "id": id,
-          "type": "circle",
-          "source": "example",
-        }
-      ]);
+      assert.deepEqual(styleObj.layers.length, 1);
+      assert.deepEqual(styleObj.layers[0], {
+        "id": id,
+        "type": "circle",
+        "source": "example",
+      });
     });
 
   });
 
   describe('fill extrusion', function () {
-    it.skip("add", function() {
+    it("add", function() {
       var id = helper.modal.addLayer.fill({
         type: "fill-extrusion",
         layer: "example"
       });
 
       var styleObj = helper.getStyleStore(browser);
-      assert.deepEqual(styleObj.layers, [
-        {
-          "id": id,
-          "type": 'fill-extrusion',
-          "source": "example"
-        }
-      ]);
+      assert.deepEqual(styleObj.layers.length, 1);
+      assert.deepEqual(styleObj.layers[0], {
+        "id": id,
+        "type": 'fill-extrusion',
+        "source": "example"
+      });
     });
   });
 
