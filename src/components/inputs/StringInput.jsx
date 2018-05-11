@@ -41,7 +41,9 @@ class StringInput extends React.Component {
     }
 
     return React.createElement(tag, {
+      "aria-describedby": this.props["aria-describedby"],
       "data-wd-key": this.props["data-wd-key"],
+      id: this.props.id,
       className: classes.join(" "),
       style: this.props.style,
       value: this.state.value,

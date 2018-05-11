@@ -12,6 +12,7 @@ class InputBlock extends React.Component {
       PropTypes.element,
     ]).isRequired,
     doc: PropTypes.string,
+    docId: PropTypes.string,
     action: PropTypes.element,
     children: PropTypes.node.isRequired,
     style: PropTypes.object,
@@ -34,6 +35,7 @@ class InputBlock extends React.Component {
       {this.props.doc &&
       <div className="maputnik-input-block-label">
         <DocLabel
+          id={this.props.docId}
           label={this.props.label}
           doc={this.props.doc}
         />

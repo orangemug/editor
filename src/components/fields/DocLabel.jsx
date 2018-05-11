@@ -8,16 +8,17 @@ export default class DocLabel extends React.Component {
       PropTypes.string
     ]).isRequired,
     doc: PropTypes.string.isRequired,
+    id: PropTypes.string,
   }
 
   render() {
-    return <label className="maputnik-doc-wrapper">
+    return <div className="maputnik-doc-wrapper">
       <div className="maputnik-doc-target">
-        <span>{this.props.label}</span>
-        <div className="maputnik-doc-popup">
+        <label for={this.props.id+"_element"}>{this.props.label}</label>
+        <div id={this.props.id} className="maputnik-doc-popup">
           {this.props.doc}
         </div>
-      </div >
-    </label>
+      </div>
+    </div>
   }
 }

@@ -13,6 +13,7 @@ class FilterEditorBlock extends React.Component {
     return <div className="maputnik-filter-editor-block">
       <div className="maputnik-filter-editor-block-action">
         <Button
+          title="delete"
           className="maputnik-delete-filter"
           onClick={this.props.onDelete}
         >
