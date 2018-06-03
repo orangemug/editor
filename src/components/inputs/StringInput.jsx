@@ -18,7 +18,7 @@ class StringInput extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({ value: nextProps.value || '' })
   }
 
@@ -42,6 +42,7 @@ class StringInput extends React.Component {
 
     return React.createElement(tag, {
       "data-wd-key": this.props["data-wd-key"],
+      spellCheck: !(tag === "input"),
       className: classes.join(" "),
       style: this.props.style,
       value: this.state.value,
