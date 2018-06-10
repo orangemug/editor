@@ -9,6 +9,7 @@ import CheckboxInput from '../inputs/CheckboxInput'
 import Button from '../Button'
 import Modal from './Modal'
 import MdFileDownload from 'react-icons/lib/md/file-download'
+import MdImage from 'react-icons/lib/md/image'
 import TiClipboard from 'react-icons/lib/ti/clipboard'
 import style from '../../libs/style.js'
 import GitHub from 'github-api'
@@ -269,8 +270,13 @@ class ExportModal extends React.Component {
       </div>
 
       <div className="maputnik-modal-section">
+        <h4>Export as raster</h4>
+        <p>
+          Export design as an image file
+        </p>
         <Button onClick={() => this.onExportRaster()}>
-          Export as raster
+          <MdImage />
+          Open in raster exporter
         </Button>
       </div>
 
