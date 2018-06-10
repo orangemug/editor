@@ -119,86 +119,90 @@ export default class Export extends React.Component {
           <LayerEditorGroup
             title={"Export settings"}
           >
-            <InputBlock label={"Width (mm)"} doc={""}>
-              <NumberInput
-                data-wd-key="export.width" 
-                value={this.state.width}
-                onChange={(v) => this.onChange("width", v)}
-              />
-            </InputBlock>
+            <div>
+              <InputBlock label={"Width (mm)"} doc={""}>
+                <NumberInput
+                  data-wd-key="export.width" 
+                  value={this.state.width}
+                  onChange={(v) => this.onChange("width", v)}
+                />
+              </InputBlock>
 
-            <InputBlock label={"Height (mm)"} doc={""}>
-              <NumberInput
-                data-wd-key="export.height" 
-                value={this.state.height}
-                onChange={(v) => this.onChange("height", v)}
-              />
-            </InputBlock>
+              <InputBlock label={"Height (mm)"} doc={""}>
+                <NumberInput
+                  data-wd-key="export.height" 
+                  value={this.state.height}
+                  onChange={(v) => this.onChange("height", v)}
+                />
+              </InputBlock>
 
-            <InputBlock label={"DPI"} doc={""}>
-              <NumberInput
-                data-wd-key="export.dpi" 
-                value={this.state.dpi}
-                onChange={(v) => this.onChange("dpi", v)}
-              />
-            </InputBlock>
+              <InputBlock label={"DPI"} doc={""}>
+                <NumberInput
+                  data-wd-key="export.dpi" 
+                  value={this.state.dpi}
+                  onChange={(v) => this.onChange("dpi", v)}
+                />
+              </InputBlock>
 
-            <InputBlock label={"Format"} doc={""}>
-              <SelectInput
-                data-wd-key="export.format" 
-                options={[
-                  ['png', 'PNG'],
-                  ['jpeg', 'JPEG']
-                ]}
-                value={this.state.format}
-                onChange={(v) => this.onChange("format", v)}
-              />
+              <InputBlock label={"Format"} doc={""}>
+                <SelectInput
+                  data-wd-key="export.format" 
+                  options={[
+                    ['png', 'PNG'],
+                    ['jpeg', 'JPEG']
+                  ]}
+                  value={this.state.format}
+                  onChange={(v) => this.onChange("format", v)}
+                />
 
-            </InputBlock>
+              </InputBlock>
+            </div>
           </LayerEditorGroup>
 
           <LayerEditorGroup
             title={"Map"}
           >
-            <InputBlock label={"Latitude"} doc={""}>
-              <NumberInput
-                data-wd-key="export.latitude" 
-                value={this.state.latitude}
-                onChange={(v) => this.onChange("latitude", v)}
-              />
-            </InputBlock>
+            <div>
+              <InputBlock label={"Latitude"} doc={""}>
+                <NumberInput
+                  data-wd-key="export.latitude" 
+                  value={this.state.latitude}
+                  onChange={(v) => this.onChange("latitude", v)}
+                />
+              </InputBlock>
 
-            <InputBlock label={"Longitude"} doc={""}>
-              <NumberInput
-                data-wd-key="export.longitude" 
-                value={this.state.longitude}
-                onChange={(v) => this.onChange("longitude", v)}
-              />
-            </InputBlock>
+              <InputBlock label={"Longitude"} doc={""}>
+                <NumberInput
+                  data-wd-key="export.longitude" 
+                  value={this.state.longitude}
+                  onChange={(v) => this.onChange("longitude", v)}
+                />
+              </InputBlock>
 
-            <InputBlock label={"Pitch"} doc={""}>
-              <NumberInput
-                data-wd-key="export.pitch" 
-                value={this.state.pitch}
-                onChange={(v) => this.onChange("pitch", v)}
-              />
-            </InputBlock>
+              <InputBlock label={"Pitch"} doc={""}>
+                <NumberInput
+                  data-wd-key="export.pitch" 
+                  value={this.state.pitch}
+                  onChange={(v) => this.onChange("pitch", v)}
+                />
+              </InputBlock>
 
-            <InputBlock label={"Zoom"} doc={""}>
-              <NumberInput
-                data-wd-key="export.zoom" 
-                value={this.state.zoom}
-                onChange={(v) => this.onChange("zoom", v)}
-              />
-            </InputBlock>
+              <InputBlock label={"Zoom"} doc={""}>
+                <NumberInput
+                  data-wd-key="export.zoom" 
+                  value={this.state.zoom}
+                  onChange={(v) => this.onChange("zoom", v)}
+                />
+              </InputBlock>
 
-            <InputBlock label={"Bearing"} doc={""}>
-              <NumberInput
-                data-wd-key="export.bearing" 
-                value={this.state.bearing}
-                onChange={(v) => this.onChange("bearing", v)}
-              />
-            </InputBlock>
+              <InputBlock label={"Bearing"} doc={""}>
+                <NumberInput
+                  data-wd-key="export.bearing" 
+                  value={this.state.bearing}
+                  onChange={(v) => this.onChange("bearing", v)}
+                />
+              </InputBlock>
+            </div>
           </LayerEditorGroup>
 
           <Button
