@@ -216,6 +216,8 @@ export default class Export extends React.Component {
           <VirtualScreen width={width} height={height}>
             <div style={{background: "blue", width: "100%", height: "100%"}}>
               <MapboxGlMap
+                // HACK: Causes map pane to re-initialize
+                key={this.state.width+"x"+this.state.height}
                 {...mapProps}
                 onMoveEnd={(e) => this.onMoveEnd(e)}
                 onZoomEnd={(e) => this.onZoomEnd(e)}
