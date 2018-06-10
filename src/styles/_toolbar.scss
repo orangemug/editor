@@ -1,11 +1,5 @@
 // TOOLBAR
 .maputnik-toolbar {
-  position: fixed;
-  height: $toolbar-height;
-  width: 100%;
-  z-index: 100;
-  left: 0;
-  top: $toolbar-offset;
   background-color: $color-black;
 }
 

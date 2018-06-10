@@ -47,6 +47,16 @@ $toolbar-offset: 0;
 
 .maputnik-layout {
   height: 100vh;
+  display: flex;
+}
+
+.maputnik-toolbar {
+  flex: 0;
+}
+
+.maputnik-layout-main {
+  flex: 1;
+  display: flex;
 }
 
 .maputnik-export {
@@ -55,7 +65,7 @@ $toolbar-offset: 0;
 }
 
 .maputnik-export__settings {
-  min-width: 300px;
+  max-width: 300px;
   overflow: auto;
 }
 
@@ -63,4 +73,8 @@ $toolbar-offset: 0;
   flex: 1;
   overflow: hidden;
   background: $color-midgray;
+}
+
+.maputnik-map-container {
+  flex: 1;
 }

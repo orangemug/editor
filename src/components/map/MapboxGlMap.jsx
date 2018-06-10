@@ -88,6 +88,7 @@ export default class MapboxGlMap extends React.Component {
     center: [0,0],
     bearing: 0,
     pitch: 0,
+    options: {},
   }
 
   constructor(props) {
