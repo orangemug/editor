@@ -115,28 +115,26 @@ export default class MapboxGlMap extends React.Component {
       //the necessary operations ourselves!
       this.state.map.setStyle(nextProps.mapStyle, { diff: true})
 
-      this.state.map.once("render", () => {
-        const center = this.state.map.getCenter();
+      const center = this.state.map.getCenter();
 
-        if(
-          nextProps.center[0] !== center[0] ||
-          nextProps.center[1] !== center[1]
-        ) {
-          this.state.map.setCenter(nextProps.center);
-        }
+      if(
+        nextProps.center.lat !== center.lat ||
+        nextProps.center.lng !== center.lng
+      ) {
+        this.state.map.setCenter(nextProps.center);
+      }
 
-        if(nextProps.zoom !== this.state.map.getZoom()) {
-          this.state.map.setZoom(nextProps.zoom);
-        }
+      if(nextProps.zoom !== this.state.map.getZoom()) {
+        this.state.map.setZoom(nextProps.zoom);
+      }
 
-        if(nextProps.pitch !== this.state.map.getPitch()) {
-          this.state.map.setPitch(nextProps.pitch);
-        }
+      if(nextProps.pitch !== this.state.map.getPitch()) {
+        this.state.map.setPitch(nextProps.pitch);
+      }
 
-        if(nextProps.bearing !== this.state.map.getBearing()) {
-          this.state.map.setBearing(nextProps.bearing);
-        }
-      })
+      if(nextProps.bearing !== this.state.map.getBearing()) {
+        this.state.map.setBearing(nextProps.bearing);
+      }
 
     }
   }
