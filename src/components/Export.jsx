@@ -9,6 +9,7 @@ import SelectInput from './inputs/SelectInput'
 import LayerEditorGroup from './layers/LayerEditorGroup'
 import Button from './Button'
 import style from '../libs/style.js'
+import Modal from './modals/Modal'
 
 
 import { StyleStore } from '../libs/stylestore'
@@ -40,6 +41,9 @@ export default class Export extends React.Component {
     this.styleStore.latestStyle(mapStyle => this.onStyleChanged(mapStyle))
 
     this.state = {
+      isOpen: {
+        exporting: false
+      },
       width: 100,
       height: 100,
       unit: "mm",
@@ -79,12 +83,56 @@ export default class Export extends React.Component {
       }
     }
 
+    this.showLoadingModal();
+
     const format = this.state.format;
-    mapboxGlToBlob
+    this.cancelExport();
+
+    const exportPromise = mapboxGlToBlob
       .toBlob(opts, "image/"+format)
-      .then(function(blob) {
+
+    exportPromise
+      .then((blob) => {
         saveBlob(blob, "map."+format);
+        this.hideLoadingModal();
       })
+      .catch((err) => {
+        if(exportPromise.isCanceled) {
+          return;
+        }
+        throw err;
+      })
+
+    this.setState({
+      exportPromise: exportPromise
+    });
+  }
+
+  cancelExport() {
+    if(this.state.exportPromise && this.state.exportPromise.cancel) {
+      this.state.exportPromise.cancel();
+    }
+  }
+
+  cancelAndClose() {
+    this.cancelExport();
+    this.hideLoadingModal();
+  }
+
+  hideLoadingModal() {
+    this.setState({
+      isOpen: {
+        exporting: false
+      }
+    })
+  }
+
+  showLoadingModal() {
+    this.setState({
+      isOpen: {
+        exporting: true
+      }
+    })
   }
 
   onChange(key, value) {
@@ -205,11 +253,13 @@ export default class Export extends React.Component {
             </div>
           </LayerEditorGroup>
 
-          <Button
-            onClick={() => this.export()}
-          >
-            Export
-          </Button>
+          <div className="maputnik-input-block">
+            <Button
+              onClick={() => this.export()}
+            >
+              Export
+            </Button>
+          </div>
         </div>
 
         <div className="maputnik-export__preview">
@@ -228,6 +278,21 @@ export default class Export extends React.Component {
             </div>
           </VirtualScreen>
         </div>
+
+        <Modal
+          isOpen={this.state.isOpen.exporting}
+          title="Exporting style"
+          closable={false}
+        >
+          <p>
+            Exporting style...
+          </p>
+          <Button
+            onClick={() => this.cancelAndClose()}
+          >
+            Cancel
+          </Button>
+        </Modal>
       </div>
     )
   }

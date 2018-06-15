@@ -13,6 +13,11 @@ class Modal extends React.Component {
     children: PropTypes.node,
   }
 
+  static defaultProps = {
+    closable: true,
+    onOpenToggle: () => {}
+  }
+
   getApplicationNode() {
     return document.getElementById('app');
   }
@@ -32,12 +37,13 @@ class Modal extends React.Component {
           <header className="maputnik-modal-header">
             <h1 className="maputnik-modal-header-title">{this.props.title}</h1>
             <span className="maputnik-modal-header-space"></span>
-            <button className="maputnik-modal-header-toggle"
-              onClick={() => this.props.onOpenToggle(false)}
-              data-wd-key={this.props["data-wd-key"]+".close-modal"}
-            >
+            {this.props.closable && <button className="maputnik-modal-header-toggle"
+                onClick={() => this.props.onOpenToggle(false)}
+                data-wd-key={this.props["data-wd-key"]+".close-modal"}
+              >
               <CloseIcon />
             </button>
+            }
           </header>
           <div className="maputnik-modal-scroller">
             <div className="maputnik-modal-content">{this.props.children}</div>
