@@ -210,17 +210,28 @@ export default class MapboxGlMap extends React.Component {
     map.on("pitch",   props.onPitch);
     map.on("rotate",  props.onRotate);
 
+    function getFullState() {
+      const center = map.getCenter();
+      return {
+        latitude: center.lat,
+        longitude: center.lng,
+        bearing: map.getBearing(),
+        zoom: map.getZoom(),
+        pitch: map.getPitch()
+      }
+    }
+
     map.on("moveend", (e) => {
-      props.onMoveEnd(map.getCenter())
+      props.onMoveEnd(getFullState())
     });
     map.on("zoomend", (e) => {
-      props.onZoomEnd(map.getZoom())
+      props.onZoomEnd(getFullState())
     });
     map.on("pitchend", (e) => {
-      props.onPitchEnd(map.getPitch())
+      props.onPitchEnd(getFullState())
     });
     map.on("rotateend", (e) => {
-      props.onRotateEnd(map.getBearing())
+      props.onRotateEnd(getFullState())
     });
 
     map.on("data", e => {

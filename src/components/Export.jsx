@@ -219,10 +219,10 @@ export default class Export extends React.Component {
                 // HACK: Causes map pane to re-initialize
                 key={this.state.width+"x"+this.state.height}
                 {...mapProps}
-                onMoveEnd={(e) => this.onMoveEnd(e)}
-                onZoomEnd={(e) => this.onZoomEnd(e)}
-                onPitchEnd={(e) => this.onPitchEnd(e)}
-                onRotateEnd={(e) => this.onRotateEnd(e)}
+                onMoveEnd={(newState) => this.onUpdate(newState)}
+                onZoomEnd={(newState) => this.onUpdate(newState)}
+                onPitchEnd={(newState) => this.onUpdate(newState)}
+                onRotateEnd={(newState) => this.onUpdate(newState)}
                 mapStyle={this.state.style}
               />
             </div>
@@ -232,29 +232,8 @@ export default class Export extends React.Component {
     )
   }
 
-  onMoveEnd(e) {
-    this.setState({
-      longitude: e.lng,
-      latitude: e.lat
-    })
-  }
-
-  onRotateEnd(v) {
-    this.setState({
-      bearing: v
-    })
-  }
-
-  onPitchEnd(v) {
-    this.setState({
-      pitch: v
-    })
-  }
-
-  onZoomEnd(v) {
-    this.setState({
-      zoom: v
-    })
+  onUpdate(newState) {
+    this.setState(newState);
   }
 
 }
