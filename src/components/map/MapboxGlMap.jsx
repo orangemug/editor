@@ -210,14 +210,22 @@ export default class MapboxGlMap extends React.Component {
     map.on("pitch",   props.onPitch);
     map.on("rotate",  props.onRotate);
 
+    function round(x, n) {
+      return Math.round(x * Math.pow(10, n)) / Math.pow(10, n);
+    }
+
+    function roundValue(x) {
+      return round(x, 4);
+    }
+
     function getFullState() {
       const center = map.getCenter();
       return {
-        latitude: center.lat,
-        longitude: center.lng,
-        bearing: map.getBearing(),
-        zoom: map.getZoom(),
-        pitch: map.getPitch()
+        latitude:  roundValue(center.lat),
+        longitude: roundValue(center.lng),
+        bearing:   roundValue(map.getBearing()),
+        zoom:      roundValue(map.getZoom()),
+        pitch:     roundValue(map.getPitch()),
       }
     }
 
