@@ -39,7 +39,7 @@ export default class LayerEditorGroup extends React.Component {
         <span style={{flexGrow: 1}} />
         <Collapser isCollapsed={this.state.isActive} />
       </div>
-      <Collapse isActive={this.props.isActive}>
+      <Collapse isActive={this.state.isActive}>
         <div className="react-collapse-container">
           {this.props.children}
         </div>
