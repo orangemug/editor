@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Collapser from './Collapser'
+import classnames from 'classnames'
 
 export default class LayerListGroup extends React.Component {
   static propTypes = {
@@ -11,12 +12,20 @@ export default class LayerListGroup extends React.Component {
   }
 
   render() {
-    return <li className="maputnik-layer-list-group">
+    return <li
+      className={classnames({
+        "maputnik-layer-list-group": true,
+        "maputnik-layer-list-group--error": this.props.hasError
+      })}
+    >
       <div className="maputnik-layer-list-group-header"
         data-wd-key={"layer-list-group:"+this.props["data-wd-key"]}
         onClick={e => this.props.onActiveToggle(!this.props.isActive)}
       >
-        <span className="maputnik-layer-list-group-title">{this.props.title}</span>
+        <span className="maputnik-layer-list-group-title">
+          {this.props.hasError && "[error] "}
+          {this.props.title}
+        </span>
         <span className="maputnik-space" />
         <Collapser
           style={{ height: 14, width: 14 }}

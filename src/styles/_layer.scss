@@ -131,6 +131,12 @@
   }
 }
 
+.maputnik-layer-list-group--error {
+  .maputnik-layer-list-group-header {
+    color: #e57373;
+  }
+}
+
 // FILTER EDITOR
 .maputnik-layer-editor-group {
   font-weight: bold;

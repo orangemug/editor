@@ -70,7 +70,7 @@ class LayerListContainer extends React.Component {
 
     let newGroups=[]
 
-    this.groupedLayers().forEach(layers => {
+    this.groupedLayers().forEach(({layers}) => {
       const groupPrefix = layerPrefix(layers[0].id)
       const lookupKey = [groupPrefix, idx].join('-')
       
@@ -95,11 +95,19 @@ class LayerListContainer extends React.Component {
     for (let i = 0; i < this.props.layers.length; i++) {
       const previousLayer = this.props.layers[i-1]
       const layer = this.props.layers[i]
+      const error = this.props.errors[i];
+
       if(previousLayer && layerPrefix(previousLayer.id) == layerPrefix(layer.id)) {
         const lastGroup = groups[groups.length - 1]
-        lastGroup.push(layer)
+        lastGroup.layers.push(layer);
+        if(error) {
+          lastGroup.hasError = true;
+        }
       } else {
-        groups.push([layer])
+        groups.push({
+          hasError: !!error,
+          layers: [layer]
+        })
       }
     }
     return groups
@@ -127,10 +135,11 @@ class LayerListContainer extends React.Component {
 
     const listItems = []
     let idx = 0
-    this.groupedLayers().forEach(layers => {
+    this.groupedLayers().forEach(({layers, hasError}) => {
       const groupPrefix = layerPrefix(layers[0].id)
       if(layers.length > 1) {
         const grp = <LayerListGroup
+          hasError={hasError}
           data-wd-key={[groupPrefix, idx].join('-')}
           key={[groupPrefix, idx].join('-')}
           title={groupPrefix}
