@@ -36,7 +36,21 @@ function layoutGroups(layerType) {
     title: 'JSON Editor',
     type: 'jsoneditor'
   }
+
+  if(layerType == "invalid") {
+    return [
+      {
+        title: 'Layer',
+        type: 'layer',
+        fields: [
+          "id", "type"
+        ]
+      }
+    ].concat(layout[layerType].groups).concat([editorGroup])
+  }
+  else {
     return [layerGroup, filterGroup].concat(layout[layerType].groups).concat([editorGroup])
+  }
 }
 
 /** Layer editor supporting multiple types of layers. */
@@ -72,17 +86,31 @@ export default class LayerEditor extends React.Component {
 
     //TODO: Clean this up and refactor into function
     const editorGroups = {}
-    layoutGroups(this.props.layer.type).forEach(group => {
+    layoutGroups(this.getType()).forEach(group => {
       editorGroups[group.title] = true
     })
 
     this.state = { editorGroups }
   }
 
+  getType() {
+    if(!layout.hasOwnProperty(this.props.layer.type)) {
+      return "invalid";
+    }
+    else {
+      return this.props.layer.type;
+    }
+  }
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     const additionalGroups = { ...this.state.editorGroups }
 
-    layout[nextProps.layer.type].groups.forEach(group => {
+    let type = nextProps.layer.type;
+    if(!layout.hasOwnProperty(nextProps.layer.type)) {
+      type = "invalid";
+    }
+
+    layout[type].groups.forEach(group => {
       if(!(group.title in additionalGroups)) {
         additionalGroups[group.title] = true
       }
@@ -127,42 +155,63 @@ export default class LayerEditor extends React.Component {
       sourceLayerIds = this.props.sources[this.props.layer.source].layers;
     }
 
-    switch(type) {
-      case 'layer': return <div>
+    const layerFields = {
+      id: (
         <LayerIdBlock
           value={this.props.layer.id}
           wdKey="layer-editor.layer-id"
           onChange={newId => this.props.onLayerIdChange(this.props.layer.id, newId)}
         />
+      ),
+      type: (
         <LayerTypeBlock
-          value={this.props.layer.type}
+          value={this.getType()}
           onChange={newType => this.props.onLayerChanged(changeType(this.props.layer, newType))}
         />
-        {this.props.layer.type !== 'background' && <LayerSourceBlock
+      ),
+      source: (
+        this.getType() !== 'background' && <LayerSourceBlock
           sourceIds={Object.keys(this.props.sources)}
           value={this.props.layer.source}
           onChange={v => this.changeProperty(null, 'source', v)}
         />
-        }
-        {['background', 'raster', 'hillshade', 'heatmap'].indexOf(this.state.type) < 0 &&
+      ),
+      sourceLayer: (
+        ['background', 'raster', 'hillshade', 'heatmap'].indexOf(this.state.type) < 0 &&
         <LayerSourceLayerBlock
           sourceLayerIds={sourceLayerIds}
           value={this.props.layer['source-layer']}
           onChange={v => this.changeProperty(null, 'source-layer', v)}
         />
-        }
+      ),
+      minZoom: (
         <MinZoomBlock
           value={this.props.layer.minzoom}
           onChange={v => this.changeProperty(null, 'minzoom', v)}
         />
+      ),
+      maxZoom: (
         <MaxZoomBlock
           value={this.props.layer.maxzoom}
           onChange={v => this.changeProperty(null, 'maxzoom', v)}
         />
+      ),
+      comment: (
         <CommentBlock
           value={comment}
           onChange={v => this.changeProperty('metadata', 'maputnik:comment', v == ""  ? undefined : v)}
         />
+      )
+    }
+    if(type === "layer")  {
+      fields = fields || Object.keys(layerFields)
+    }
+
+    switch(type) {
+      case 'layer': return <div>
+        {fields.map((id) => {
+          return layerFields[id];
+        })}
       </div>
       case 'filter': return <div>
         <div className="maputnik-filter-editor-wrapper">
@@ -194,7 +243,7 @@ export default class LayerEditor extends React.Component {
   }
 
   render() {
-    const layerType = this.props.layer.type
+    const layerType = this.getType()
     const groups = layoutGroups(layerType).filter(group => {
       return !(layerType === 'background' && group.type === 'source')
     }).map(group => {

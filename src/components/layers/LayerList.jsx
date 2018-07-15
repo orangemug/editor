@@ -145,6 +145,7 @@ class LayerListContainer extends React.Component {
 
         const listItem = <LayerListItem
           className={classnames({
+            'maputnik-layer-list-item-error': this.props.errors[idx],
             'maputnik-layer-list-item-collapsed': layers.length > 1 && this.isCollapsed(groupPrefix, groupIdx) && idx !== this.props.selectedLayerIndex,
             'maputnik-layer-list-item-group-last': idxInGroup == layers.length - 1 && layers.length > 1
           })}

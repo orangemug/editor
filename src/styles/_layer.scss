@@ -82,6 +82,10 @@
     color: $color-white;
   }
 
+  &-item-error {
+    color: #e57373;
+  }
+
   &-item-collapsed {
     position: absolute;
     max-height: 0;

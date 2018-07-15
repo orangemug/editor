@@ -13,21 +13,33 @@ class LayerTypeBlock extends React.Component {
   }
 
   render() {
+    let options = [
+      ['background', 'Background'],
+      ['fill', 'Fill'],
+      ['line', 'Line'],
+      ['symbol', 'Symbol'],
+      ['raster', 'Raster'],
+      ['circle', 'Circle'],
+      ['fill-extrusion', 'Fill Extrusion'],
+      ['hillshade', 'Hillshade'],
+      ['heatmap', 'Heatmap'],
+    ]
+
+    if(this.props.value === "invalid") {
+      options.push(["invalid", "Invalid type"]);
+    }
+    else {
+      // Type changes are way to complex so don't allow them, users can delete the layer instead.
+      options = options.filter((option) => {
+        return this.props.value === option[0];
+      })
+    }
+
     return <InputBlock label={"Type"} doc={styleSpec.latest.layer.type.doc}
       data-wd-key={this.props.wdKey}
     >
       <SelectInput
-        options={[
-          ['background', 'Background'],
-          ['fill', 'Fill'],
-          ['line', 'Line'],
-          ['symbol', 'Symbol'],
-          ['raster', 'Raster'],
-          ['circle', 'Circle'],
-          ['fill-extrusion', 'Fill Extrusion'],
-          ['hillshade', 'Hillshade'],
-          ['heatmap', 'Heatmap'],
-        ]}
+        options={options}
         onChange={this.props.onChange}
         value={this.props.value}
       />

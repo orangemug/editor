@@ -162,6 +162,7 @@ export default class App extends React.Component {
       errors: [],
       infos: [],
       mapStyle: style.emptyStyle,
+      hopefulMapStyle: style.emptyStyle,
       selectedLayerIndex: 0,
       sources: {},
       vectorLayers: {},
@@ -201,7 +202,7 @@ export default class App extends React.Component {
   }
 
   updateFonts(urlTemplate) {
-    const metadata = this.state.mapStyle.metadata || {}
+    const metadata = this.state.hopefulMapStyle.metadata || {}
     const accessToken = metadata['maputnik:openmaptiles_access_token'] || tokens.openmaptiles
 
     let glyphUrl = (typeof urlTemplate === 'string')? urlTemplate.replace('{key}', accessToken): urlTemplate;
@@ -218,13 +219,19 @@ export default class App extends React.Component {
 
   onStyleChanged(newStyle, save=true) {
 
-    const errors = styleSpec.validate(newStyle, styleSpec.latest)
+    const errorsObj = styleSpec.validate(newStyle, styleSpec.latest)
+    const errors = [];
+    errorsObj.forEach((error) => {
+      const matches = error.message.match(/^layers\[(\d+)\](.*)$/)
+      errors[matches[1]] = {message: matches[2]};
+    })
+
     if(errors.length === 0) {
 
-      if(newStyle.glyphs !== this.state.mapStyle.glyphs) {
+      if(newStyle.glyphs !== this.state.hopefulMapStyle.glyphs) {
         this.updateFonts(newStyle.glyphs)
       }
-      if(newStyle.sprite !== this.state.mapStyle.sprite) {
+      if(newStyle.sprite !== this.state.hopefulMapStyle.sprite) {
         this.updateIcons(newStyle.sprite)
       }
 
@@ -232,10 +239,12 @@ export default class App extends React.Component {
       if(save) this.saveStyle(newStyle)
       this.setState({
         mapStyle: newStyle,
+        hopefulMapStyle: newStyle,
         errors: [],
       })
     } else {
       this.setState({
+        hopefulMapStyle: newStyle,
         errors: errors.map(err => err.message)
       })
     }
@@ -245,7 +254,7 @@ export default class App extends React.Component {
 
   onUndo() {
     const activeStyle = this.revisionStore.undo()
-    const messages = undoMessages(this.state.mapStyle, activeStyle)
+    const messages = undoMessages(this.state.hopefulMapStyle, activeStyle)
     this.saveStyle(activeStyle)
     this.setState({
       mapStyle: activeStyle,
@@ -255,7 +264,7 @@ export default class App extends React.Component {
 
   onRedo() {
     const activeStyle = this.revisionStore.redo()
-    const messages = redoMessages(this.state.mapStyle, activeStyle)
+    const messages = redoMessages(this.state.hopefulMapStyle, activeStyle)
     this.saveStyle(activeStyle)
     this.setState({
       mapStyle: activeStyle,
@@ -265,7 +274,7 @@ export default class App extends React.Component {
 
   onMoveLayer(move) {
     let { oldIndex, newIndex } = move;
-    let layers = this.state.mapStyle.layers;
+    let layers = this.state.hopefulMapStyle.layers;
     oldIndex = clamp(oldIndex, 0, layers.length-1);
     newIndex = clamp(newIndex, 0, layers.length-1);
     if(oldIndex === newIndex) return;
@@ -283,14 +292,14 @@ export default class App extends React.Component {
 
   onLayersChange(changedLayers) {
     const changedStyle = {
-      ...this.state.mapStyle,
+      ...this.state.hopefulMapStyle,
       layers: changedLayers
     }
     this.onStyleChanged(changedStyle)
   }
 
   onLayerDestroy(layerId) {
-    let layers = this.state.mapStyle.layers;
+    let layers = this.state.hopefulMapStyle.layers;
     const remainingLayers = layers.slice(0);
     const idx = style.indexOfLayer(remainingLayers, layerId)
     remainingLayers.splice(idx, 1);
@@ -298,7 +307,7 @@ export default class App extends React.Component {
   }
 
   onLayerCopy(layerId) {
-    let layers = this.state.mapStyle.layers;
+    let layers = this.state.hopefulMapStyle.layers;
     const changedLayers = layers.slice(0)
     const idx = style.indexOfLayer(changedLayers, layerId)
 
@@ -309,7 +318,7 @@ export default class App extends React.Component {
   }
 
   onLayerVisibilityToggle(layerId) {
-    let layers = this.state.mapStyle.layers;
+    let layers = this.state.hopefulMapStyle.layers;
     const changedLayers = layers.slice(0)
     const idx = style.indexOfLayer(changedLayers, layerId)
 
@@ -324,7 +333,7 @@ export default class App extends React.Component {
 
 
   onLayerIdChange(oldId, newId) {
-    const changedLayers = this.state.mapStyle.layers.slice(0)
+    const changedLayers = this.state.hopefulMapStyle.layers.slice(0)
     const idx = style.indexOfLayer(changedLayers, oldId)
 
     changedLayers[idx] = {
@@ -336,7 +345,7 @@ export default class App extends React.Component {
   }
 
   onLayerChanged(layer) {
-    const changedLayers = this.state.mapStyle.layers.slice(0)
+    const changedLayers = this.state.hopefulMapStyle.layers.slice(0)
     const idx = style.indexOfLayer(changedLayers, layer.id)
     changedLayers[idx] = layer
 
@@ -352,7 +361,7 @@ export default class App extends React.Component {
   fetchSources() {
     const sourceList = {...this.state.sources};
 
-    for(let [key, val] of Object.entries(this.state.mapStyle.sources)) {
+    for(let [key, val] of Object.entries(this.state.hopefulMapStyle.sources)) {
       if(sourceList.hasOwnProperty(key)) {
         continue;
       }
@@ -440,7 +449,7 @@ export default class App extends React.Component {
   }
 
   onLayerSelect(layerId) {
-    const idx = style.indexOfLayer(this.state.mapStyle.layers, layerId)
+    const idx = style.indexOfLayer(this.state.hopefulMapStyle.layers, layerId)
     this.setState({ selectedLayerIndex: idx })
   }
 
@@ -458,12 +467,12 @@ export default class App extends React.Component {
   }
 
   render() {
-    const layers = this.state.mapStyle.layers || []
+    const layers = this.state.hopefulMapStyle.layers || []
     const selectedLayer = layers.length > 0 ? layers[this.state.selectedLayerIndex] : null
-    const metadata = this.state.mapStyle.metadata || {}
+    const metadata = this.state.hopefulMapStyle.metadata || {}
 
     const toolbar = <Toolbar
-      mapStyle={this.state.mapStyle}
+      mapStyle={this.state.hopefulMapStyle}
       inspectModeEnabled={this.state.inspectModeEnabled}
       sources={this.state.sources}
       onStyleChanged={this.onStyleChanged.bind(this)}
@@ -480,6 +489,7 @@ export default class App extends React.Component {
       onLayersChange={this.onLayersChange.bind(this)}
       onLayerSelect={this.onLayerSelect.bind(this)}
       selectedLayerIndex={this.state.selectedLayerIndex}
+      errors={this.state.errors}
       layers={layers}
       sources={this.state.sources}
     />
@@ -488,7 +498,7 @@ export default class App extends React.Component {
       layer={selectedLayer}
       layerIndex={this.state.selectedLayerIndex}
       isFirstLayer={this.state.selectedLayerIndex < 1}
-      isLastLayer={this.state.selectedLayerIndex === this.state.mapStyle.layers.length-1}
+      isLastLayer={this.state.selectedLayerIndex === this.state.hopefulMapStyle.layers.length-1}
       sources={this.state.sources}
       vectorLayers={this.state.vectorLayers}
       spec={this.state.spec}
@@ -512,13 +522,13 @@ export default class App extends React.Component {
         onOpenToggle={this.toggleModal.bind(this, 'shortcuts')}
       />
       <SettingsModal
-        mapStyle={this.state.mapStyle}
+        mapStyle={this.state.hopefulMapStyle}
         onStyleChanged={this.onStyleChanged.bind(this)}
         isOpen={this.state.isOpen.settings}
         onOpenToggle={this.toggleModal.bind(this, 'settings')}
       />
       <ExportModal
-        mapStyle={this.state.mapStyle}
+        mapStyle={this.state.hopefulMapStyle}
         onStyleChanged={this.onStyleChanged.bind(this)}
         isOpen={this.state.isOpen.export}
         onOpenToggle={this.toggleModal.bind(this, 'export')}
@@ -529,7 +539,7 @@ export default class App extends React.Component {
         onOpenToggle={this.toggleModal.bind(this, 'open')}
       />
       <SourcesModal
-        mapStyle={this.state.mapStyle}
+        mapStyle={this.state.hopefulMapStyle}
         onStyleChanged={this.onStyleChanged.bind(this)}
         isOpen={this.state.isOpen.sources}
         onOpenToggle={this.toggleModal.bind(this, 'sources')}
