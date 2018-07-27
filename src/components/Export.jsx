@@ -211,7 +211,7 @@ export default class Export extends React.Component {
             title={"Map"}
           >
             <div>
-              <InputBlock label={"Latitude"} doc={""}>
+              <InputBlock label={"Latitude (center)"} doc={""}>
                 <NumberInput
                   data-wd-key="export.latitude" 
                   value={this.state.latitude}
@@ -219,7 +219,7 @@ export default class Export extends React.Component {
                 />
               </InputBlock>
 
-              <InputBlock label={"Longitude"} doc={""}>
+              <InputBlock label={"Longitude (center)"} doc={""}>
                 <NumberInput
                   data-wd-key="export.longitude" 
                   value={this.state.longitude}
