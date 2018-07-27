@@ -1,6 +1,8 @@
 import React from 'react'
 
 
+const PADDING = 4;
+
 export default class VirtualScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -45,9 +47,16 @@ export default class VirtualScreen extends React.Component {
 
   _updateState(props=this.props) {
     const bb = this.el.getBoundingClientRect()
+    const labelBB = this.labelEl.getBoundingClientRect();
 
     this.setState(
-      this._scaleToMax(props.width, props.height, bb.width, bb.height, false)
+      this._scaleToMax(
+        props.width,
+        props.height,
+        bb.width - PADDING*2,
+        bb.height - labelBB.height - PADDING*2,
+        false
+      )
     );
   }
 
@@ -77,7 +86,7 @@ export default class VirtualScreen extends React.Component {
 
     const labelStyle = {
       textAlign: "center",
-      marginTop: "4px"
+      paddingTop: "4px"
     }
 
     return (
@@ -100,7 +109,11 @@ export default class VirtualScreen extends React.Component {
               {this.props.children}
             </div>
           </div>
-          <div className="virtual-screen__screen__label" style={labelStyle}>
+          <div
+            ref={(el) => this.labelEl = el}
+            className="virtual-screen__screen__label"
+            style={labelStyle}
+          >
             Scaled by {this.state.scale}
           </div>
         </div>
