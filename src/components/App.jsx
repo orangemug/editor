@@ -439,9 +439,10 @@ export default class App extends React.Component {
         onLayerSelect={this.onLayerSelect.bind(this)} />
     }
 
-    const elementStyle = {
-      "filter": `url('#${this.state.mapFilter}')`
-    };
+    const elementStyle = {};
+    if(this.state.mapFilter) {
+      elementStyle.filter = `url('#${this.state.mapFilter}')`;
+    }
 
     return <div style={elementStyle}>
       {mapElement}
