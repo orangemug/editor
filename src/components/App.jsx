@@ -1,12 +1,11 @@
+import autoBind from 'react-autobind';
 import React from 'react'
-import Mousetrap from 'mousetrap'
 import cloneDeep from 'lodash.clonedeep'
 import clamp from 'lodash.clamp'
 import {arrayMove} from 'react-sortable-hoc'
 import url from 'url'
 
 import MapboxGlMap from './map/MapboxGlMap'
-import OpenLayers3Map from './map/OpenLayers3Map'
 import LayerList from './layers/LayerList'
 import LayerEditor from './layers/LayerEditor'
 import Toolbar from './Toolbar'
@@ -22,10 +21,10 @@ import SurveyModal from './modals/SurveyModal'
 
 import { downloadGlyphsMetadata, downloadSpriteMetadata } from '../libs/metadata'
 import * as styleSpec from '@mapbox/mapbox-gl-style-spec/style-spec'
-import style from '../libs/style.js'
+import style from '../libs/style'
 import { initialStyleUrl, loadStyleUrl } from '../libs/urlopen'
 import { undoMessages, redoMessages } from '../libs/diffmessage'
-import { loadDefaultStyle, StyleStore } from '../libs/stylestore'
+import { StyleStore } from '../libs/stylestore'
 import { ApiStyleStore } from '../libs/apistore'
 import { RevisionStore } from '../libs/revisions'
 import LayerWatcher from '../libs/layerwatcher'
@@ -54,6 +53,8 @@ function updateRootSpec(spec, fieldName, newValues) {
 export default class App extends React.Component {
   constructor(props) {
     super(props)
+    autoBind(this);
+
     this.revisionStore = new RevisionStore()
     this.styleStore = new ApiStyleStore({
       onLocalStyleChange: mapStyle => this.onStyleChanged(mapStyle, false)
@@ -177,7 +178,8 @@ export default class App extends React.Component {
         survey: localStorage.hasOwnProperty('survey') ? false : true
       },
       mapOptions: {
-        showTileBoundaries: queryUtil.asBool(queryObj, "show-tile-boundaries")
+        showTileBoundaries: queryUtil.asBool(queryObj, "show-tile-boundaries"),
+        showCollisionBoxes: queryUtil.asBool(queryObj, "show-collision-boxes")
       },
       mapFilter: queryObj["color-blindness-emulation"],
     }
@@ -187,14 +189,31 @@ export default class App extends React.Component {
     })
   }
 
+  handleKeyPress(e) {
+    if(navigator.platform.toUpperCase().indexOf('MAC') >= 0) {
+      if(e.metaKey && e.shiftKey && e.keyCode === 90) {
+        this.onRedo(e);
+      }
+      else if(e.metaKey && e.keyCode === 90) {
+        this.onUndo(e);
+      }
+    }
+    else {
+      if(e.ctrlKey && e.keyCode === 90) {
+        this.onUndo(e);
+      }
+      else if(e.ctrlKey && e.keyCode === 89) {
+        this.onRedo(e);
+      }
+    }
+  }
+
   componentDidMount() {
-    Mousetrap.bind(['mod+z'], this.onUndo.bind(this));
-    Mousetrap.bind(['mod+y', 'mod+shift+z'], this.onRedo.bind(this));
+    window.addEventListener("keydown", this.handleKeyPress);
   }
 
   componentWillUnmount() {
-    Mousetrap.unbind(['mod+z'], this.onUndo.bind(this));
-    Mousetrap.unbind(['mod+y', 'mod+shift+z'], this.onRedo.bind(this));
+    window.removeEventListener("keydown", this.handleKeyPress);
   }
 
   saveStyle(snapshotStyle) {
@@ -217,7 +236,7 @@ export default class App extends React.Component {
     })
   }
 
-  onStyleChanged(newStyle, save=true) {
+  onStyleChanged = (newStyle, save=true) => {
 
     const errorsObj = styleSpec.validate(newStyle, styleSpec.latest)
     const errors = [];
@@ -252,7 +271,7 @@ export default class App extends React.Component {
     this.fetchSources();
   }
 
-  onUndo() {
+  onUndo = () => {
     const activeStyle = this.revisionStore.undo()
     const messages = undoMessages(this.state.hopefulMapStyle, activeStyle)
     this.saveStyle(activeStyle)
@@ -262,7 +281,7 @@ export default class App extends React.Component {
     })
   }
 
-  onRedo() {
+  onRedo = () => {
     const activeStyle = this.revisionStore.redo()
     const messages = redoMessages(this.state.hopefulMapStyle, activeStyle)
     this.saveStyle(activeStyle)
@@ -272,7 +291,7 @@ export default class App extends React.Component {
     })
   }
 
-  onMoveLayer(move) {
+  onMoveLayer = (move) => {
     let { oldIndex, newIndex } = move;
     let layers = this.state.hopefulMapStyle.layers;
     oldIndex = clamp(oldIndex, 0, layers.length-1);
@@ -290,7 +309,7 @@ export default class App extends React.Component {
     this.onLayersChange(layers);
   }
 
-  onLayersChange(changedLayers) {
+  onLayersChange = (changedLayers) => {
     const changedStyle = {
       ...this.state.hopefulMapStyle,
       layers: changedLayers
@@ -298,7 +317,7 @@ export default class App extends React.Component {
     this.onStyleChanged(changedStyle)
   }
 
-  onLayerDestroy(layerId) {
+  onLayerDestroy = (layerId) => {
     let layers = this.state.hopefulMapStyle.layers;
     const remainingLayers = layers.slice(0);
     const idx = style.indexOfLayer(remainingLayers, layerId)
@@ -306,7 +325,7 @@ export default class App extends React.Component {
     this.onLayersChange(remainingLayers);
   }
 
-  onLayerCopy(layerId) {
+  onLayerCopy = (layerId) => {
     let layers = this.state.hopefulMapStyle.layers;
     const changedLayers = layers.slice(0)
     const idx = style.indexOfLayer(changedLayers, layerId)
@@ -317,7 +336,7 @@ export default class App extends React.Component {
     this.onLayersChange(changedLayers)
   }
 
-  onLayerVisibilityToggle(layerId) {
+  onLayerVisibilityToggle = (layerId) => {
     let layers = this.state.hopefulMapStyle.layers;
     const changedLayers = layers.slice(0)
     const idx = style.indexOfLayer(changedLayers, layerId)
@@ -332,7 +351,7 @@ export default class App extends React.Component {
   }
 
 
-  onLayerIdChange(oldId, newId) {
+  onLayerIdChange = (oldId, newId) => {
     const changedLayers = this.state.hopefulMapStyle.layers.slice(0)
     const idx = style.indexOfLayer(changedLayers, oldId)
 
@@ -344,7 +363,7 @@ export default class App extends React.Component {
     this.onLayersChange(changedLayers)
   }
 
-  onLayerChanged(layer) {
+  onLayerChanged = (layer) => {
     const changedLayers = this.state.hopefulMapStyle.layers.slice(0)
     const idx = style.indexOfLayer(changedLayers, layer.id)
     changedLayers[idx] = layer
@@ -352,7 +371,7 @@ export default class App extends React.Component {
     this.onLayersChange(changedLayers)
   }
 
-  changeInspectMode() {
+  changeInspectMode = () => {
     this.setState({
       inspectModeEnabled: !this.state.inspectModeEnabled
     })
@@ -379,7 +398,9 @@ export default class App extends React.Component {
           console.warn("Failed to normalizeSourceURL: ", err);
         }
 
-        fetch(url)
+        fetch(url, {
+          mode: 'cors',
+        })
           .then((response) => {
             return response.json();
           })
@@ -416,7 +437,7 @@ export default class App extends React.Component {
 
   mapRenderer() {
     const mapProps = {
-      mapStyle: style.replaceAccessToken(this.state.mapStyle, {allowFallback: true}),
+      mapStyle: style.replaceAccessTokens(this.state.mapStyle, {allowFallback: true}),
       options: this.state.mapOptions,
       onDataChange: (e) => {
         this.layerWatcher.analyzeMap(e.map)
@@ -431,12 +452,12 @@ export default class App extends React.Component {
 
     // Check if OL3 code has been loaded?
     if(renderer === 'ol3') {
-      mapElement = <OpenLayers3Map {...mapProps} />
+      mapElement = <div>TODO</div>
     } else {
       mapElement = <MapboxGlMap {...mapProps}
         inspectModeEnabled={this.state.inspectModeEnabled}
         highlightedLayer={this.state.mapStyle.layers[this.state.selectedLayerIndex]}
-        onLayerSelect={this.onLayerSelect.bind(this)} />
+        onLayerSelect={this.onLayerSelect} />
     }
 
     const elementStyle = {};
@@ -449,7 +470,7 @@ export default class App extends React.Component {
     </div>
   }
 
-  onLayerSelect(layerId) {
+  onLayerSelect = (layerId) => {
     const idx = style.indexOfLayer(this.state.hopefulMapStyle.layers, layerId)
     this.setState({ selectedLayerIndex: idx })
   }
@@ -476,19 +497,19 @@ export default class App extends React.Component {
       mapStyle={this.state.hopefulMapStyle}
       inspectModeEnabled={this.state.inspectModeEnabled}
       sources={this.state.sources}
-      onStyleChanged={this.onStyleChanged.bind(this)}
-      onStyleOpen={this.onStyleChanged.bind(this)}
-      onInspectModeToggle={this.changeInspectMode.bind(this)}
+      onStyleChanged={this.onStyleChanged}
+      onStyleOpen={this.onStyleChanged}
+      onInspectModeToggle={this.changeInspectMode}
       onToggleModal={this.toggleModal.bind(this)}
     />
 
     const layerList = <LayerList
-      onMoveLayer={this.onMoveLayer.bind(this)}
-      onLayerDestroy={this.onLayerDestroy.bind(this)}
-      onLayerCopy={this.onLayerCopy.bind(this)}
-      onLayerVisibilityToggle={this.onLayerVisibilityToggle.bind(this)}
-      onLayersChange={this.onLayersChange.bind(this)}
-      onLayerSelect={this.onLayerSelect.bind(this)}
+      onMoveLayer={this.onMoveLayer}
+      onLayerDestroy={this.onLayerDestroy}
+      onLayerCopy={this.onLayerCopy}
+      onLayerVisibilityToggle={this.onLayerVisibilityToggle}
+      onLayersChange={this.onLayersChange}
+      onLayerSelect={this.onLayerSelect}
       selectedLayerIndex={this.state.selectedLayerIndex}
       errors={this.state.errors}
       layers={layers}
@@ -503,12 +524,12 @@ export default class App extends React.Component {
       sources={this.state.sources}
       vectorLayers={this.state.vectorLayers}
       spec={this.state.spec}
-      onMoveLayer={this.onMoveLayer.bind(this)}
-      onLayerChanged={this.onLayerChanged.bind(this)}
-      onLayerDestroy={this.onLayerDestroy.bind(this)}
-      onLayerCopy={this.onLayerCopy.bind(this)}
-      onLayerVisibilityToggle={this.onLayerVisibilityToggle.bind(this)}
-      onLayerIdChange={this.onLayerIdChange.bind(this)}
+      onMoveLayer={this.onMoveLayer}
+      onLayerChanged={this.onLayerChanged}
+      onLayerDestroy={this.onLayerDestroy}
+      onLayerCopy={this.onLayerCopy}
+      onLayerVisibilityToggle={this.onLayerVisibilityToggle}
+      onLayerIdChange={this.onLayerIdChange}
     /> : null
 
     const bottomPanel = (this.state.errors.length + this.state.infos.length) > 0 ? <MessagePanel
@@ -524,24 +545,24 @@ export default class App extends React.Component {
       />
       <SettingsModal
         mapStyle={this.state.hopefulMapStyle}
-        onStyleChanged={this.onStyleChanged.bind(this)}
+        onStyleChanged={this.onStyleChanged}
         isOpen={this.state.isOpen.settings}
         onOpenToggle={this.toggleModal.bind(this, 'settings')}
       />
       <ExportModal
         mapStyle={this.state.hopefulMapStyle}
-        onStyleChanged={this.onStyleChanged.bind(this)}
+        onStyleChanged={this.onStyleChanged}
         isOpen={this.state.isOpen.export}
         onOpenToggle={this.toggleModal.bind(this, 'export')}
       />
       <OpenModal
         isOpen={this.state.isOpen.open}
-        onStyleOpen={this.onStyleChanged.bind(this)}
+        onStyleOpen={this.onStyleChanged}
         onOpenToggle={this.toggleModal.bind(this, 'open')}
       />
       <SourcesModal
         mapStyle={this.state.hopefulMapStyle}
-        onStyleChanged={this.onStyleChanged.bind(this)}
+        onStyleChanged={this.onStyleChanged}
         isOpen={this.state.isOpen.sources}
         onOpenToggle={this.toggleModal.bind(this, 'sources')}
       />

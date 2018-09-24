@@ -1,4 +1,4 @@
-import React from 'react'
+  import React from 'react'
 import PropTypes from 'prop-types'
 import { Wrapper, Button, Menu, MenuItem } from 'react-aria-menubutton'
 
@@ -15,9 +15,6 @@ import LayerSourceBlock from './LayerSourceBlock'
 import LayerSourceLayerBlock from './LayerSourceLayerBlock'
 
 import MoreVertIcon from 'react-icons/lib/md/more-vert'
-
-import InputBlock from '../inputs/InputBlock'
-import MultiButtonInput from '../inputs/MultiButtonInput'
 
 import { changeType, changeProperty } from '../../libs/layer'
 import layout from '../../config/layout.json'
@@ -116,9 +113,9 @@ export default class LayerEditor extends React.Component {
       }
     })
 
-    this.setState({
+    return {
       editorGroups: additionalGroups
-    })
+    };
   }
 
   getChildContext () {
