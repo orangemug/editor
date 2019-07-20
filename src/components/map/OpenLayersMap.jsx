@@ -95,14 +95,16 @@ export default class OpenLayersMap extends React.Component {
 
     map.on('postrender', (evt) => {
       const center = toLonLat(map.getView().getCenter());
-      this.setState({
+      const mapState = {
         center: [
           center[0].toFixed(2),
           center[1].toFixed(2),
         ],
         rotation: map.getView().getRotation().toFixed(2),
         zoom: map.getView().getZoom().toFixed(2)
-      });
+      };
+      this.setState(mapState);
+      this.props.onChangeMapState(mapState);
     });
 
 

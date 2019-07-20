@@ -190,11 +190,20 @@ export default class MapboxGlMap extends React.Component {
       })
     })
 
-    map.on("zoom", e => {
-      this.setState({
-        zoom: map.getZoom()
-      });
-    })
+    const mapState = {};
+
+    map.on("moveend", e => {
+      const center = map.getCenter();
+      mapState.center = center;
+      this.props.onChangeMapState(mapState);
+    });
+
+    map.on("zoomend", e => {
+      const zoom = map.getZoom();
+      this.setState({zoom});
+      mapState.zoom = zoom;
+      this.props.onChangeMapState(mapState);
+    });
   }
 
   render() {

@@ -39,6 +39,29 @@ import queryUtil from '../libs/query-util'
 import MapboxGl from 'mapbox-gl'
 
 
+function initialMapStateFromHash (hash) {
+  const matches = hash.match(/^#([^/]+)\/([^/]+)\/([^/]+)/);
+
+  if (matches) {
+    return {
+      zoom: parseFloat(matches[1], 10),
+      center: {
+        lng: parseFloat(matches[3], 10),
+        lat: parseFloat(matches[2], 10),
+      },
+    };
+  }
+  else {
+    return {
+      zoom: 0,
+      center: {
+        lng: 0,
+        lat: 0,
+      },
+    };
+  }
+}
+
 // Similar functionality as <https://github.com/mapbox/mapbox-gl-js/blob/7e30aadf5177486c2cfa14fe1790c60e217b5e56/src/util/mapbox.js>
 function normalizeSourceURL (url, apiToken="") {
   const matches = url.match(/^mapbox:\/\/(.*)/);
@@ -222,6 +245,7 @@ export default class App extends React.Component {
       openlayersDebugOptions: {
         debugToolbox: false,
       },
+      mapPropState: initialMapStateFromHash(location.hash),
     }
 
     this.layerWatcher = new LayerWatcher({
@@ -524,6 +548,10 @@ export default class App extends React.Component {
     return metadata['maputnik:renderer'] || 'mbgljs';
   }
 
+  onChangeMapState = (mapPropState) => {
+    this.setState({mapPropState});
+  }
+
   mapRenderer() {
     const metadata = this.state.mapStyle.metadata || {};
 
@@ -545,13 +573,16 @@ export default class App extends React.Component {
         {...mapProps}
         debugToolbox={this.state.openlayersDebugOptions.debugToolbox}
         onLayerSelect={this.onLayerSelect}
+        onChangeMapState={this.onChangeMapState}
       />
     } else {
       mapElement = <MapboxGlMap {...mapProps}
         options={this.state.mapboxGlDebugOptions}
         inspectModeEnabled={this.state.mapState === "inspect"}
         highlightedLayer={this.state.mapStyle.layers[this.state.selectedLayerIndex]}
-        onLayerSelect={this.onLayerSelect} />
+        onLayerSelect={this.onLayerSelect}
+        onChangeMapState={this.onChangeMapState}
+      />
     }
 
     let filterName;
@@ -668,6 +699,7 @@ export default class App extends React.Component {
         onChangeOpenlayersDebug={this.onChangeOpenlayersDebug}
         isOpen={this.state.isOpen.debug}
         onOpenToggle={this.toggleModal.bind(this, 'debug')}
+        mapState={this.state.mapPropState}
       />
       <ShortcutsModal
         ref={(el) => this.shortcutEl = el}
