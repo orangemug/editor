@@ -5,6 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var WorkboxPlugin = require('workbox-webpack-plugin');
 var artifacts = require("../test/artifacts");
 
 var OUTPATH = artifacts.pathSync("/build");
@@ -48,8 +49,15 @@ module.exports = {
       {
         from: './src/manifest.json',
         to: 'manifest.json'
-    }
-  ]),
+      },
+      {
+        from: './src/img/maputnik.png',
+        to: './img/maputnik.png'
+      }
+    ]),
+    new WorkboxPlugin.InjectManifest({
+      swSrc: './service-worker.js',
+    }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       defaultSizes: 'gzip',

@@ -6,6 +6,13 @@ import './favicon.ico'
 import './styles/index.scss'
 import App from './components/App';
 
+if ('serviceWorker' in navigator) {
+  // Use the window load event to keep the page load performant
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js');
+  });
+}
+
 ReactDOM.render(
   <IconContext.Provider value={{className: 'react-icons'}}>
     <App/>

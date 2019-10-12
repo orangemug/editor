@@ -3,7 +3,14 @@
   "short_name": "Maputnik",
   "description": "Visual Map Designer",
   "start_url": ".",
-  "display": "browser",
+  "display": "standalone",
   "background_color": "#1c1f24",
-  "theme_color": "#1c1f24"
+  "theme_color": "#1c1f24",
+  "icons": [
+    {
+      "src": "./img/maputnik.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }

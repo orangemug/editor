@@ -4,6 +4,7 @@ var path = require('path');
 var rules = require('./webpack.rules');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var WorkboxPlugin = require('workbox-webpack-plugin');
 
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8888";
@@ -65,7 +66,14 @@ module.exports = {
       {
         from: './src/manifest.json',
         to: 'manifest.json'
+      },
+      {
+        from: './src/img/maputnik.png',
+        to: './img/maputnik.png'
       }
-    ])
+    ]),
+    new WorkboxPlugin.InjectManifest({
+      swSrc: './service-worker.js',
+    }),
   ]
 };
