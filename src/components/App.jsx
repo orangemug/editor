@@ -12,6 +12,7 @@ import LayerList from './layers/LayerList'
 import LayerEditor from './layers/LayerEditor'
 import Toolbar from './Toolbar'
 import AppLayout from './AppLayout'
+import DataEditor from './DataEditor'
 import MessagePanel from './MessagePanel'
 
 import SettingsModal from './modals/SettingsModal'
@@ -713,13 +714,22 @@ export default class App extends React.Component {
       />
     </div>
 
-    return <AppLayout
-      toolbar={toolbar}
-      layerList={layerList}
-      layerEditor={layerEditor}
-      map={this.mapRenderer()}
-      bottom={bottomPanel}
-      modals={modals}
-    />
+    if (window.location.search.match(/EDITOR/)) {
+      return (
+        <DataEditor
+          mapStyle={style.replaceAccessTokens(this.state.mapStyle, {allowFallback: true})}
+        />
+      );
+    }
+    else {
+      return <AppLayout
+        toolbar={toolbar}
+        layerList={layerList}
+        layerEditor={layerEditor}
+        map={this.mapRenderer()}
+        bottom={bottomPanel}
+        modals={modals}
+      />
+    }
   }
 }

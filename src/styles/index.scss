@@ -56,3 +56,9 @@ $toolbar-offset: 0;
   width: 14px;
   height: 14px;
 }
+
+.data-map--editing {
+  .mapboxgl-canvas-container {
+    cursor: default !important;
+  }
+}

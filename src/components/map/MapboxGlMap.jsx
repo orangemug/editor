@@ -137,6 +137,10 @@ export default class MapboxGlMap extends React.Component {
 
     const map = new MapboxGl.Map(mapOpts);
 
+    if (this.props.onMap) {
+      this.props.onMap(map);
+    }
+
     map.showTileBoundaries = mapOpts.showTileBoundaries;
     map.showCollisionBoxes = mapOpts.showCollisionBoxes;
     map.showOverdrawInspector = mapOpts.showOverdrawInspector;
@@ -170,7 +174,10 @@ export default class MapboxGlMap extends React.Component {
         }
       }
     })
-    map.addControl(inspect)
+
+    if (!this.props.disableInspect) {
+      map.addControl(inspect)
+    }
 
     map.on("style.load", () => {
       this.setState({
