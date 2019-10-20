@@ -39,6 +39,7 @@ class Modal extends React.Component {
       return <AriaModal
         titleText={this.props.title}
         underlayClickExits={this.props.underlayClickExits}
+        underlayClickExits={false}
         underlayProps={this.props.underlayProps}
         getApplicationNode={this.getApplicationNode}
         data-wd-key={this.props["data-wd-key"]}

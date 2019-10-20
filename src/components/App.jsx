@@ -703,7 +703,7 @@ export default class App extends React.Component {
         onOpenToggle={this.toggleModal.bind(this, 'open')}
       />
       <SourcesModal
-        mapStyle={this.state.mapStyle}
+        mapStyle={style.replaceAccessTokens(this.state.mapStyle, {allowFallback: true})}
         onStyleChanged={this.onStyleChanged}
         isOpen={this.state.isOpen.sources}
         onOpenToggle={this.toggleModal.bind(this, 'sources')}
@@ -715,9 +715,74 @@ export default class App extends React.Component {
     </div>
 
     if (window.location.search.match(/EDITOR/)) {
+      const geojson = {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  -17.9296875,
+                  55.57834467218206
+                ],
+                [
+                  -54.140625,
+                  19.642587534013032
+                ]
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    -14.765625,
+                    31.052933985705163
+                  ],
+                  [
+                    -10.1953125,
+                    9.795677582829743
+                  ],
+                  [
+                    -3.1640625,
+                    36.31512514748051
+                  ],
+                  [
+                    -3.8671874999999996,
+                    42.032974332441405
+                  ],
+                  [
+                    -14.765625,
+                    31.052933985705163
+                  ]
+                ]
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [-77.0323, 38.9131]
+            },
+            "properties": {
+              "title": "Mapbox DC",
+              "marker-symbol": "monument"
+            }
+          }
+        ]
+      };
       return (
         <DataEditor
           mapStyle={style.replaceAccessTokens(this.state.mapStyle, {allowFallback: true})}
+          geojson={geojson}
         />
       );
     }

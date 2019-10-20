@@ -45,75 +45,11 @@ export default class DataEditor extends React.Component {
   constructor (props) {
     super(props);
 
-    const geojson = {
-      "type": "FeatureCollection",
-      "features": [
-        {
-          "type": "Feature",
-          "properties": {},
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -17.9296875,
-                55.57834467218206
-              ],
-              [
-                -54.140625,
-                19.642587534013032
-              ]
-            ]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {},
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-              [
-                [
-                  -14.765625,
-                  31.052933985705163
-                ],
-                [
-                  -10.1953125,
-                  9.795677582829743
-                ],
-                [
-                  -3.1640625,
-                  36.31512514748051
-                ],
-                [
-                  -3.8671874999999996,
-                  42.032974332441405
-                ],
-                [
-                  -14.765625,
-                  31.052933985705163
-                ]
-              ]
-            ]
-          }
-        },
-        {
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [-77.0323, 38.9131]
-          },
-          "properties": {
-            "title": "Mapbox DC",
-            "marker-symbol": "monument"
-          }
-        }
-      ]
-    }
 
     this.state = {
       mode: DEFAULT_STATE,
-      geojson: geojson,
-      geojsonCache: geojson,
+      geojson: this.props.geojson,
+      geojsonCache: this.props.geojson,
     };
   }
 
@@ -139,6 +75,7 @@ export default class DataEditor extends React.Component {
     this.setState({
       geojsonCache: this.state.geojson,
     });
+    this.props.onChange(this.state.geojson);
   }
 
   onFinish = () => {

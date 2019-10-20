@@ -6,6 +6,8 @@ import StringInput from '../inputs/StringInput'
 import NumberInput from '../inputs/NumberInput'
 import SelectInput from '../inputs/SelectInput'
 import JSONEditor from '../layers/JSONEditor'
+import Modal from '../modals/Modal'
+import DataEditor from '../DataEditor'
 
 
 class TileJSONSourceEditor extends React.Component {
@@ -112,18 +114,60 @@ class GeoJSONSourceJSONEditor extends React.Component {
     onChange: PropTypes.func.isRequired,
   }
 
+  constructor (props) {
+    super(props);
+    this.state = {
+      isOpen: false,
+    };
+  }
+
+  onOpenEditor = () => {
+    console.log("open in editor");
+    this.setState({
+      isOpen: true,
+    })
+  }
+
+  onOpenToggle = () => {
+    console.log("onOpenToggle")
+    this.setState({
+      isOpen: !this.state.isOpen,
+    })
+  }
+
+  onChange = (data) => {
+    this.props.onChange({
+      ...this.props.source,
+      data,
+    });
+  }
+
   render() {
     return <InputBlock label={"GeoJSON"} doc={latest.source_geojson.data.doc}>
       <JSONEditor
         layer={this.props.source.data}
         maxHeight={200}
-        onChange={data => {
-          this.props.onChange({
-            ...this.props.source,
-            data,
-          })
-        }}
+        onChange={this.onChange}
       />
+      <Modal
+        key="data-modal"
+        isOpen={this.state.isOpen}
+        onOpenToggle={this.onOpenToggle}
+        title={'Edit GeoJSON'}
+      >
+        <div style={{width: '90vw', height: '90vh', position: 'relative', overflow: 'hidden', maxWidth: '100%', maxHeight: '100%'}}>
+          <DataEditor
+            mapStyle={this.props.mapStyle}
+            geojson={this.props.source.data}
+            onChange={this.onChange}
+          />
+        </div>
+      </Modal>
+      <button
+        onClick={this.onOpenEditor}
+      >
+        Edit in editor
+      </button>
     </InputBlock>
   }
 }
@@ -139,6 +183,7 @@ class SourceTypeEditor extends React.Component {
     const commonProps = {
       source: this.props.source,
       onChange: this.props.onChange,
+      mapStyle: this.props.mapStyle,
     }
     switch(this.props.mode) {
       case 'geojson_url': return <GeoJSONSourceUrlEditor {...commonProps} />

@@ -87,6 +87,7 @@ class ActiveSourceTypeEditor extends React.Component {
       </div>
       <div className="maputnik-active-source-type-editor-content">
         <SourceTypeEditor
+          mapStyle={this.props.mapStyle}
           onChange={this.props.onChange}
           mode={editorMode(this.props.source)}
           source={this.props.source}
@@ -119,7 +120,10 @@ class AddSource extends React.Component {
       }
       case 'geojson_json': return {
         type: 'geojson',
-        data: {}
+        data: {
+          "type": "FeatureCollection",
+          "features": []
+        }
       }
       case 'tilejson_vector': return {
         type: 'vector',
@@ -180,6 +184,7 @@ class AddSource extends React.Component {
         />
       </InputBlock>
       <SourceTypeEditor
+        mapStyle={this.props.mapStyle}
         onChange={src => this.setState({ source: src })}
         mode={this.state.mode}
         source={this.state.source}
@@ -212,6 +217,7 @@ class SourcesModal extends React.Component {
     const activeSources = Object.keys(mapStyle.sources).map(sourceId => {
       const source = mapStyle.sources[sourceId]
       return <ActiveSourceTypeEditor
+        mapStyle={this.props.mapStyle}
         key={sourceId}
         sourceId={sourceId}
         source={source}
@@ -259,6 +265,7 @@ class SourcesModal extends React.Component {
 				<h4>Add New Source</h4>
 				<p>Add a new source to your style. You can only choose the source type and id at creation time!</p>
 				<AddSource
+          mapStyle={mapStyle}
 					onAdd={(sourceId, source) => this.props.onStyleChanged(addSource(mapStyle, sourceId, source))}
 				/>
       </div>
