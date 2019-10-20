@@ -62,3 +62,12 @@ $toolbar-offset: 0;
     cursor: default !important;
   }
 }
+
+.Button--selected {
+  background: black;
+  svg {
+    path {
+      fill: #29B6F6;
+    }
+  }
+}
