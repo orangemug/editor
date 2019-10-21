@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {detect} from 'detect-browser';
+import pwa from '../libs/pwa';
 
-import {MdFileDownload, MdOpenInBrowser, MdSettings, MdLayers, MdHelpOutline, MdFindInPage, MdAssignmentTurnedIn} from 'react-icons/md'
+import {MdOpenInNew, MdFileDownload, MdOpenInBrowser, MdSettings, MdLayers, MdHelpOutline, MdFindInPage, MdAssignmentTurnedIn} from 'react-icons/md'
 
 
 import logoImage from 'maputnik-design/logos/logo-color.svg'
@@ -127,8 +128,32 @@ export default class Toolbar extends React.Component {
     }
   }
 
+  componentDidMount () {
+    pwa.on('change', () => {
+      this.setState({
+        installPrompt: pwa.installPrompt,
+      })
+    })
+  }
+
   handleSelection(val) {
     this.props.onSetMapState(val);
+  }
+
+  onInstall = () => {
+    const {installPrompt} = this.state;
+
+    // Show the prompt
+    installPrompt.prompt();
+
+    // Wait for the user to respond to the prompt
+    installPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        this.setState({
+          installPrompt: undefined,
+        });
+      }
+    });
   }
 
   render() {
@@ -225,9 +250,15 @@ export default class Toolbar extends React.Component {
             <MdHelpOutline />
             <IconText>Help</IconText>
           </ToolbarLink>
+          {this.state.installPrompt &&
+            <ToolbarAction onClick={this.onInstall}>
+              <MdOpenInNew />
+              <IconText>Install app</IconText>
+            </ToolbarAction>
+          }
           <ToolbarLinkHighlighted href={"https://gregorywolanski.typeform.com/to/cPgaSY"}>
             <MdAssignmentTurnedIn />
-            <IconText>Take the Maputnik Survey</IconText>
+            <IconText>Take the Survey</IconText>
           </ToolbarLinkHighlighted>
         </div>
       </div>

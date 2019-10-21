@@ -5,12 +5,20 @@ import ReactDOM from 'react-dom';
 import './favicon.ico'
 import './styles/index.scss'
 import App from './components/App';
+import {Workbox} from 'workbox-window';
 
 if ('serviceWorker' in navigator) {
-  // Use the window load event to keep the page load performant
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js');
+  const wb = new Workbox('./service-worker.js');
+
+  wb.addEventListener('waiting', (event) => {
+    wb.addEventListener('controlling', (event) => {
+      // Just force a reload if we have a new version.
+      window.location.reload();
+    });
+    wb.messageSW({type: 'SKIP_WAITING'});
   });
+
+  wb.register();
 }
 
 ReactDOM.render(
