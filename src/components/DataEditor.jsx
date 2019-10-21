@@ -42,6 +42,10 @@ class Button extends React.Component {
 
 export default class DataEditor extends React.Component {
 
+  static defaultProps = {
+    onChange: () => {}
+  }
+
   constructor (props) {
     super(props);
 
@@ -56,18 +60,42 @@ export default class DataEditor extends React.Component {
   onAddLine = () => {
     this.setState({
       mode: 'line',
+      cache: {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": []
+        },
+        "properties": {}
+      }
     })
   }
 
   onAddPolygon = () => {
     this.setState({
       mode: 'polygon',
+      cache: {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [[]]
+        },
+        "properties": {}
+      }
     })
   }
 
   onAddPoint = () => {
     this.setState({
       mode: 'point',
+      cache: {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": []
+        },
+        "properties": {}
+      }
     })
   }
 
@@ -78,13 +106,35 @@ export default class DataEditor extends React.Component {
     this.props.onChange(this.state.geojson);
   }
 
-  onFinish = () => {
+  onFinish = (removeLast) => {
     if (this.state.cache) {
+      let cache = this.state.cache;
+      if (this.state.mode === "polygon") {
+        cache = {
+          ...cache,
+          geometry: {
+            ...cache.geometry,
+            coordinates: [
+              cache.geometry.coordinates[0].slice(0, removeLast ? -2 : -1)
+            ],
+          }
+        }
+      }
+      else if (this.state.mode === "line") {
+        cache = {
+          ...cache,
+          geometry: {
+            ...cache.geometry,
+            coordinates: cache.geometry.coordinates.slice(0, removeLast ? -2 : -1),
+          }
+        }
+      }
+
       const newGeoJSON = {
         ...this.state.geojson,
         features: [
           ...this.state.geojson.features,
-          this.state.cache,
+          cache,
         ],
       }
       this.setState({mode: DEFAULT_STATE, geojson: newGeoJSON, cache: undefined});
@@ -303,9 +353,64 @@ export default class DataEditor extends React.Component {
       this.setState({
         mouseLocation: {lat: ll.lat, lng: ll.lng}
       })
+
+      if (this.state.cache) {
+        if (this.state.mode === "polygon") {
+          const coords = this.state.cache.geometry.coordinates[0];
+          coords[Math.max(coords.length-1, 0)] = [
+            ll.lng, ll.lat
+          ];
+
+          this.setState({
+            cache: {
+              ...this.state.cache,
+              geometry: {
+                ...this.state.cache.geometry,
+                coordinates: [coords]
+              }
+            }
+          });
+        }
+        else if (this.state.mode === "point") {
+          const geom = this.state.cache.geometry;
+          geom.coordinates = [
+            ll.lng, ll.lat
+          ];
+
+          this.setState({
+            cache: {
+              ...this.state.cache,
+              geometry: geom,
+            }
+          });
+        }
+        else if (this.state.mode === "line") {
+          const coords = this.state.cache.geometry.coordinates;
+          coords[Math.max(coords.length-1, 0)] = [
+            ll.lng, ll.lat
+          ];
+
+          this.setState({
+            cache: {
+              ...this.state.cache,
+              geometry: {
+                ...this.state.cache.geometry,
+                coordinates: coords
+              }
+            }
+          });
+        }
+      }
     })
 
     this.map = map;
+
+    map.on('dblclick', (e) => {
+      if (this.state.mode !== "select") {
+        this.onFinish(true);
+        e.preventDefault();
+      }
+    });
 
     map.on('mousedown', (e) => {
       this.onSelectHandle(e);
@@ -553,7 +658,7 @@ export default class DataEditor extends React.Component {
           </Button>
           <Button
             onClick={this.onFinish}
-            disabled={['line', 'polygon', 'point'].indexOf(mode) < 0}
+            disabled={['line', 'polygon'].indexOf(mode) < 0}
           >
             <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
               <path fill="#000000" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4M9,9V15H15V9" />
