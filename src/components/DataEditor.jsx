@@ -6,6 +6,10 @@ import lodash from 'lodash';
 
 const DEFAULT_STATE = 'select';
 
+function capWithin(val, min, max) {
+  return Math.min(max, Math.max(val, min));
+}
+
 function roundCoord (coords, fractionDigits=4) {
   if(!coords) return;
   if(Array.isArray(coords)) {
@@ -306,14 +310,14 @@ export default class DataEditor extends React.Component {
   }
 
   onMoveHandle = (e) => {
-    const ll = e.lngLat.wrap()
+    const ll = e.lngLat;
     if (this.state.selectedHdl) {
       const layer = this.state.geojson.features.find((f, idx) => idx === this.state.selectedHdl.$remoteId);
 
       const {selectedHdl} = this.state;
 
       this.setCoords(layer, selectedHdl.$remoteIdx, [
-        ll.lng,
+        capWithin(ll.lng+this._offset, -360, 360),
         ll.lat,
       ])
 
@@ -326,6 +330,7 @@ export default class DataEditor extends React.Component {
   }
 
   onSelectHandle = (e) => {
+    const ll = e.lngLat;
     const bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]];
     var features = this.map.queryRenderedFeatures(bbox, {
       layers: [
@@ -339,6 +344,17 @@ export default class DataEditor extends React.Component {
     this.map.dragRotate.disable();
 
     const props = features[0].properties;
+
+    const layer = this.state.geojson.features.find((f, idx) => idx === props.$id);
+    const coords = layer.geometry.coordinates[0][props.$idx];
+    this._offset = 0;
+    if (coords[0] < -180 && ll.lng > 0) {
+      this._offset = -360;
+    }
+    else if (coords[0] > 180 && ll.lng < 0) {
+      this._offset = +360;
+    }
+
     this.setState({
       selectedHdl: {
         $remoteId: props.$id,
@@ -349,7 +365,7 @@ export default class DataEditor extends React.Component {
 
   onMap = (map) => {
     map.on('mousemove', (e) => {
-      const ll = e.lngLat.wrap()
+      const ll = e.lngLat;
       this.setState({
         mouseLocation: {lat: ll.lat, lng: ll.lng}
       })
