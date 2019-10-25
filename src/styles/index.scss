@@ -57,17 +57,66 @@ $toolbar-offset: 0;
   height: 14px;
 }
 
-.data-map--editing {
-  .mapboxgl-canvas-container {
-    cursor: default !important;
-  }
+/**
+ * ------ new style css ------
+ */
+.Button {
+  background: #fff;
 }
-
 .Button--selected {
   background: black;
   svg {
     path {
       fill: #29B6F6;
     }
+  }
+}
+
+.DataEditorModal {
+  max-width: calc(100vw - #{$margin-5});
+  max-height: calc(100vh - #{$margin-5});
+  width: 100vw;
+  height: 100vh;
+
+  .maputnik-modal-content {
+    padding: 0;
+    position: relative;
+  }
+}
+
+.DataEditor {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+
+  &__map {
+    position: relative;
+    display: flex;
+    flex: 1;
+
+    &--editing {
+      .mapboxgl-canvas-container {
+        cursor: default !important;
+      }
+    }
+  }
+
+  &__toolbox   {
+    z-index: 99999;
+    position: absolute;
+    top: $margin-3;
+    left: $margin-3;
+    display: flex;
+    flex-direction: row;
+    background: $color-black;
+  }
+
+  &__editor {
+    width: 50%;
+    flex: 1;
+    overflow: auto;
   }
 }

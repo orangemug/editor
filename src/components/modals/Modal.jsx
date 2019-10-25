@@ -46,7 +46,7 @@ class Modal extends React.Component {
         verticallyCenter={true}
         onExit={this.onClose}
       >
-        <div className="maputnik-modal"
+        <div className={`maputnik-modal ${this.props.className || ''}`}
           data-wd-key={this.props["data-wd-key"]}
         >
           <header className="maputnik-modal-header">

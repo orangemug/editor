@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {latest} from '@mapbox/mapbox-gl-style-spec'
 import InputBlock from '../inputs/InputBlock'
+import Button from '../Button'
 import StringInput from '../inputs/StringInput'
 import NumberInput from '../inputs/NumberInput'
 import SelectInput from '../inputs/SelectInput'
@@ -151,23 +152,23 @@ class GeoJSONSourceJSONEditor extends React.Component {
       />
       <Modal
         key="data-modal"
+        className="DataEditorModal"
         isOpen={this.state.isOpen}
         onOpenToggle={this.onOpenToggle}
         title={'Edit GeoJSON'}
       >
-        <div style={{width: '90vw', height: '90vh', position: 'relative', overflow: 'hidden', maxWidth: '100%', maxHeight: '100%'}}>
-          <DataEditor
-            mapStyle={this.props.mapStyle}
-            geojson={this.props.source.data}
-            onChange={this.onChange}
-          />
-        </div>
+        <DataEditor
+          mapStyle={this.props.mapStyle}
+          geojson={this.props.source.data}
+          onChange={this.onChange}
+        />
       </Modal>
-      <button
+      <Button
+        className="maputnik-source-type-editor-edit-button"
         onClick={this.onOpenEditor}
       >
         Edit in editor
-      </button>
+      </Button>
     </InputBlock>
   }
 }

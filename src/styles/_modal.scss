@@ -1,13 +1,15 @@
 //MODAL
 .maputnik-modal {
   min-width: 350px;
-  max-width: 100vw;
+  max-width: 600px;
   overflow: hidden;
   background-color: $color-black;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
   z-index: 3;
   position: relative;
   font-family: $font-family;
+  display: flex;
+  flex-direction: column;
 }
 
 .maputnik-modal-section {
@@ -52,10 +54,13 @@
 .maputnik-modal-scroller {
   max-height: calc(100vh - 35px);
   overflow-y: auto;
+  flex: 1;
+  display: flex;
 }
 
 .maputnik-modal-content {
   padding: $margin-3;
+  flex: 1;
 
   @include flex-column;
 }
@@ -159,6 +164,10 @@
 
 .maputnik-active-source-type-editor {
   min-width: 500px;
+}
+
+.maputnik-source-type-editor-edit-button {
+  margin-top: $margin-2;
 }
 
 .maputnik-active-source-type-editor-header {

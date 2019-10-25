@@ -27,9 +27,9 @@ function roundCoord (coords, fractionDigits=4) {
 
 class Button extends React.Component {
   render () {
-    let className = "";
+    let className = "Button";
     if (this.props.selected) {
-      className = "Button--selected"
+      className += " Button--selected"
     }
 
     return (
@@ -348,10 +348,10 @@ export default class DataEditor extends React.Component {
     const layer = this.state.geojson.features.find((f, idx) => idx === props.$id);
     const coords = layer.geometry.coordinates[0][props.$idx];
     this._offset = 0;
-    if (coords[0] < -180 && ll.lng > 0) {
+    if (coords[0] < -180 && ll.lng > -180) {
       this._offset = -360;
     }
-    else if (coords[0] > 180 && ll.lng < 0) {
+    else if (coords[0] > 180 && ll.lng < 180) {
       this._offset = +360;
     }
 
@@ -627,8 +627,8 @@ export default class DataEditor extends React.Component {
     const {mode} = this.state;
 
     return (
-      <div style={{height: "100%", width: "100%", top: 0, position: "absolute", display: 'flex', flexDirection: 'column'}}>
-        <div key="editor" style={{height: "50%", overflow: "auto"}}>
+      <div className="DataEditor">
+        <div className="DataEditor__editor" key="editor">
           <JSONEditor
             layer={this.state.geojsonCache}
             onChange={(geojson) => {
@@ -636,73 +636,71 @@ export default class DataEditor extends React.Component {
             }}
           />
         </div>
-        <div key="toolbox">
-          <Button
-            selected={mode==='select'}
-            onClick={this.onSelect}
-          >
-            <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
-            <path fill="#000000" d="M10.07,14.27C10.57,14.03 11.16,14.25 11.4,14.75L13.7,19.74L15.5,18.89L13.19,13.91C12.95,13.41 13.17,12.81 13.67,12.58L13.95,12.5L16.25,12.05L8,5.12V15.9L9.82,14.43L10.07,14.27M13.64,21.97C13.14,22.21 12.54,22 12.31,21.5L10.13,16.76L7.62,18.78C7.45,18.92 7.24,19 7,19A1,1 0 0,1 6,18V3A1,1 0 0,1 7,2C7.24,2 7.47,2.09 7.64,2.23L7.65,2.22L19.14,11.86C19.57,12.22 19.62,12.85 19.27,13.27C19.12,13.45 18.91,13.57 18.7,13.61L15.54,14.23L17.74,18.96C18,19.46 17.76,20.05 17.26,20.28L13.64,21.97Z" />
-            </svg>
-          </Button>
-          <Button
-            disabled={mode!=="select"}
-            selected={mode==='point'}
-            onClick={this.onAddPoint}
-          >
-            <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
-              <path fill="#000000" d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
-            </svg>
-          </Button>
-          <Button
-            disabled={mode!=="select"}
-            selected={mode==='line'}
-            onClick={this.onAddLine}
-          >
-            <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
-              <path fill="#000000" d="M15,3V7.59L7.59,15H3V21H9V16.42L16.42,9H21V3M17,5H19V7H17M5,17H7V19H5" />
-            </svg>
-          </Button>
-          <Button
-            disabled={mode!=="select"}
-            selected={mode==='polygon'}
-            onClick={this.onAddPolygon}
-          >
-            <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
-              <path fill="#000000" d="M2,2V8H4.28L5.57,16H4V22H10V20.06L15,20.05V22H21V16H19.17L20,9H22V3H16V6.53L14.8,8H9.59L8,5.82V2M4,4H6V6H4M18,5H20V7H18M6.31,8H7.11L9,10.59V14H15V10.91L16.57,9H18L17.16,16H15V18.06H10V16H7.6M11,10H13V12H11M6,18H8V20H6M17,18H19V20H17" />
-            </svg>
-          </Button>
-          <Button
-            onClick={this.onFinish}
-            disabled={['line', 'polygon'].indexOf(mode) < 0}
-          >
-            <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
-              <path fill="#000000" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4M9,9V15H15V9" />
-            </svg>
-          </Button>
-          <Button
-            disabled={['line', 'polygon', 'point'].indexOf(mode) < 0}
-            onClick={this.onCancel}
-          >
-            <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
-              <path fill="#000000" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
-            </svg>
-          </Button>
-          <Button
-            disabled={selectedIndex < 0}
-            onClick={() => this.onRemove()}
-          >
-            <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
-              <path fill="#000000" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" />
-            </svg>
-          </Button>
-          <span>{JSON.stringify(roundCoord(this.state.mouseLocation))}</span>
-        </div>
         <div
           key="map"
-          style={{flex: 1}}
-          className={`data-map data-map--${this.state.mode !== DEFAULT_STATE ? 'editing' : 'not-editing'}`}
+          className={`DataEditor__map DataEditor__map--${this.state.mode !== DEFAULT_STATE ? 'editing' : 'not-editing'}`}
         >
+          <div className="DataEditor__toolbox" key="toolbox">
+            <Button
+              selected={mode==='select'}
+              onClick={this.onSelect}
+            >
+              <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
+              <path fill="#000000" d="M10.07,14.27C10.57,14.03 11.16,14.25 11.4,14.75L13.7,19.74L15.5,18.89L13.19,13.91C12.95,13.41 13.17,12.81 13.67,12.58L13.95,12.5L16.25,12.05L8,5.12V15.9L9.82,14.43L10.07,14.27M13.64,21.97C13.14,22.21 12.54,22 12.31,21.5L10.13,16.76L7.62,18.78C7.45,18.92 7.24,19 7,19A1,1 0 0,1 6,18V3A1,1 0 0,1 7,2C7.24,2 7.47,2.09 7.64,2.23L7.65,2.22L19.14,11.86C19.57,12.22 19.62,12.85 19.27,13.27C19.12,13.45 18.91,13.57 18.7,13.61L15.54,14.23L17.74,18.96C18,19.46 17.76,20.05 17.26,20.28L13.64,21.97Z" />
+              </svg>
+            </Button>
+            <Button
+              disabled={mode!=="select"}
+              selected={mode==='point'}
+              onClick={this.onAddPoint}
+            >
+              <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
+                <path fill="#000000" d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
+              </svg>
+            </Button>
+            <Button
+              disabled={mode!=="select"}
+              selected={mode==='line'}
+              onClick={this.onAddLine}
+            >
+              <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
+                <path fill="#000000" d="M15,3V7.59L7.59,15H3V21H9V16.42L16.42,9H21V3M17,5H19V7H17M5,17H7V19H5" />
+              </svg>
+            </Button>
+            <Button
+              disabled={mode!=="select"}
+              selected={mode==='polygon'}
+              onClick={this.onAddPolygon}
+            >
+              <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
+                <path fill="#000000" d="M2,2V8H4.28L5.57,16H4V22H10V20.06L15,20.05V22H21V16H19.17L20,9H22V3H16V6.53L14.8,8H9.59L8,5.82V2M4,4H6V6H4M18,5H20V7H18M6.31,8H7.11L9,10.59V14H15V10.91L16.57,9H18L17.16,16H15V18.06H10V16H7.6M11,10H13V12H11M6,18H8V20H6M17,18H19V20H17" />
+              </svg>
+            </Button>
+            <Button
+              onClick={this.onFinish}
+              disabled={['line', 'polygon'].indexOf(mode) < 0}
+            >
+              <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
+                <path fill="#000000" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4M9,9V15H15V9" />
+              </svg>
+            </Button>
+            <Button
+              disabled={['line', 'polygon', 'point'].indexOf(mode) < 0}
+              onClick={this.onCancel}
+            >
+              <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
+                <path fill="#000000" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+              </svg>
+            </Button>
+            <Button
+              disabled={selectedIndex < 0}
+              onClick={() => this.onRemove()}
+            >
+              <svg style={{width:"24px", height:"24px"}} viewBox="0 0 24 24">
+                <path fill="#000000" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" />
+              </svg>
+            </Button>
+          </div>
           <MapboxGlMap
             inspectModeEnabled={false}
             disableInspect={true}
