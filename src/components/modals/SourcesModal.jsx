@@ -24,17 +24,17 @@ class PublicSource extends React.Component {
 
   render() {
     return <div className="maputnik-public-source">
-			<Button
+      <Button
         className="maputnik-public-source-select"
-				onClick={() => this.props.onSelect(this.props.id)}
-			>
-				<div className="maputnik-public-source-info">
-					<p className="maputnik-public-source-name">{this.props.title}</p>
-					<p className="maputnik-public-source-id">#{this.props.id}</p>
-				</div>
-				<span className="maputnik-space" />
-				<MdAddCircleOutline />
-			</Button>
+        onClick={() => this.props.onSelect(this.props.id)}
+      >
+        <div className="maputnik-public-source-info">
+          <p className="maputnik-public-source-name">{this.props.title}</p>
+          <p className="maputnik-public-source-id">#{this.props.id}</p>
+        </div>
+        <span className="maputnik-space" />
+        <MdAddCircleOutline />
+      </Button>
     </div>
   }
 }
@@ -191,7 +191,7 @@ class AddSource extends React.Component {
       />
       <Button
         className="maputnik-add-source-button"
-				onClick={() => this.props.onAdd(this.state.sourceId, this.state.source)}>
+        onClick={() => this.props.onAdd(this.state.sourceId, this.state.source)}>
         Add Source
       </Button>
     </div>
@@ -206,10 +206,26 @@ class SourcesModal extends React.Component {
     onStyleChanged: PropTypes.func.isRequired,
   }
 
+  constructor () {
+    super();
+    this.state = {
+      addKey: 0,
+    };
+  }
+
   stripTitle(source) {
     const strippedSource = {...source}
     delete strippedSource['title']
     return strippedSource
+  }
+
+  onAdd = (sourceId, source) => {
+    this.props.onStyleChanged(
+      addSource(this.props.mapStyle, sourceId, source)
+    );
+    this.setState({
+      addKey: this.state.addKey+1,
+    })
   }
 
   render() {
@@ -262,12 +278,13 @@ class SourcesModal extends React.Component {
       </div>
 
       <div className="maputnik-modal-section">
-				<h4>Add New Source</h4>
-				<p>Add a new source to your style. You can only choose the source type and id at creation time!</p>
-				<AddSource
+        <h4>Add New Source</h4>
+        <p>Add a new source to your style. You can only choose the source type and id at creation time!</p>
+        <AddSource
+          key={this.state.addKey}
           mapStyle={mapStyle}
-					onAdd={(sourceId, source) => this.props.onStyleChanged(addSource(mapStyle, sourceId, source))}
-				/>
+          onAdd={this.onAdd}
+        />
       </div>
     </Modal>
   }
