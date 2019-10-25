@@ -703,7 +703,7 @@ export default class App extends React.Component {
         onOpenToggle={this.toggleModal.bind(this, 'open')}
       />
       <SourcesModal
-        mapStyle={style.replaceAccessTokens(this.state.mapStyle, {allowFallback: true})}
+        mapStyle={this.state.mapStyle}
         onStyleChanged={this.onStyleChanged}
         isOpen={this.state.isOpen.sources}
         onOpenToggle={this.toggleModal.bind(this, 'sources')}
@@ -781,7 +781,7 @@ export default class App extends React.Component {
       };
       return (
         <DataEditor
-          mapStyle={style.replaceAccessTokens(this.state.mapStyle, {allowFallback: true})}
+          mapStyle={this.state.mapStyle}
           geojson={geojson}
         />
       );

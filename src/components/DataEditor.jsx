@@ -2,6 +2,7 @@ import React from 'react'
 import MapboxGlMap from './map/MapboxGlMap'
 import JSONEditor from './layers/JSONEditor'
 import lodash from 'lodash';
+import style from '../libs/style'
 
 
 const DEFAULT_STATE = 'select';
@@ -704,7 +705,7 @@ export default class DataEditor extends React.Component {
           <MapboxGlMap
             inspectModeEnabled={false}
             disableInspect={true}
-            mapStyle={mapStyle}
+            mapStyle={style.replaceAccessTokens(mapStyle, {allowFallback: true})}
             onMap={this.onMap}
           />
         </div>
