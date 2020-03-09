@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames';
 
@@ -14,6 +15,8 @@ import 'codemirror/addon/lint/lint.css'
 import jsonlint from 'jsonlint'
 import stringifyPretty from 'json-stringify-pretty-compact'
 import '../util/codemirror-mgl';
+import jsonToAst from 'json-to-ast';
+import {parseCSSColor} from 'csscolorparser';
 
 
 class JSONEditor extends React.Component {
@@ -59,8 +62,9 @@ class JSONEditor extends React.Component {
   }
 
   componentDidMount () {
+    const value = this.props.getValue(this.props.layer);
     this._doc = CodeMirror(this._el, {
-      value: this.props.getValue(this.props.layer),
+      value: value,
       mode: this.props.mode || {
         name: "mgl",
       },
@@ -77,6 +81,7 @@ class JSONEditor extends React.Component {
       scrollbarStyle: "null",
     });
 
+    this.addInMarkers(value);
     this._doc.on('change', this.onChange);
     this._doc.on('focus', this.onFocus);
     this._doc.on('blur', this.onBlur);
@@ -102,12 +107,75 @@ class JSONEditor extends React.Component {
     this._doc.off('blur', this.onBlur);
   }
 
+  addInMarkers (value) {
+    function createElement (color) {
+      const el = document.createElement("span");
+      const style = {
+        display: "inline-block",
+        width: "1em",
+        height: "1em",
+        background: color,
+        verticalAlign: "text-bottom",
+        borderRadius: "1px",
+        cursor: "pointer",
+        marginRight: "2px",
+        marginLeft: "2px",
+        border: "solid 1px hsla(223, 12%, 30%, 1)",
+      };
+
+      ReactDOM.render(<div
+        style={{display: "inline-block"}}
+        onClick={() => alert("Todo")}
+      >
+        <div style={style}>
+        </div>
+        {color.slice(0, 1)}
+      </div>, el);
+
+      return el;
+    }
+
+    const ast = jsonToAst(value);
+    function walkTree (node, fn) {
+      fn(node);
+      if (node.children) {
+        node.children.forEach(childNode => {
+          walkTree(childNode, fn);
+        })
+      }
+      else if (node.value && node.value.children) {
+        node.value.children.forEach(childNode => {
+          walkTree(childNode, fn);
+        })
+      }
+    }
+
+    walkTree(ast, (node) => {
+      const {type, value} = node;
+      if (
+        type === "Literal" &&
+        typeof(value) === "string" &&
+        parseCSSColor(value) !== null
+      ) {
+        const {start} = node.loc;
+        this._doc.markText(
+          CodeMirror.Pos(start.line-1, start.column),
+          CodeMirror.Pos(start.line-1, start.column+1),
+          {
+            atomic: true,
+            replacedWith: createElement(value),
+          }
+        );
+      }
+    });
+  }
+
   componentDidUpdate(prevProps) {
     if (!this.state.isEditing && prevProps.layer !== this.props.layer) {
       this._cancelNextChange = true;
-      this._doc.setValue(
-        this.props.getValue(this.props.layer),
-      )
+      const value = this.props.getValue(this.props.layer);
+      this._doc.setValue(value);
+      this.addInMarkers(value);
     }
   }
 

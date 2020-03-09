@@ -28,6 +28,7 @@
     "classnames": "^2.2.6",
     "codemirror": "^5.52.0",
     "color": "^3.1.2",
+    "csscolorparser": "^1.0.3",
     "detect-browser": "^4.8.0",
     "file-saver": "^2.0.2",
     "json-to-ast": "^2.1.0",
