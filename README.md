@@ -55,7 +55,7 @@ If you want Maputnik to be accessible externally use the [`--host` option](https
 
 ```bash
 # start externally accessible dev server
-npm start -- --host 0.0.0.0 
+npm start -- --host 0.0.0.0
 ```
 
 The build process will watch for changes to the filesystem, rebuild and autoreload the editor. However note this from the [webpack-dev-server docs](https://webpack.js.org/configuration/dev-server/):
@@ -105,7 +105,7 @@ After some time you should see a browser launch which will be automated by the t
 
 ## Related Projects
 
-- [maputnik-dev-server](https://github.com/nycplanning/labs-maputnik-dev-server) - An express.js server that allows for quickly loading the style from any mapboxGL map into mapuntnik. 
+- [maputnik-dev-server](https://github.com/nycplanning/labs-maputnik-dev-server) - An express.js server that allows for quickly loading the style from any mapboxGL map into mapuntnik.
 
 ## Sponsors
 

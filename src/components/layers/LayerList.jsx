@@ -42,11 +42,16 @@ class LayerListContainer extends React.Component {
     onLayerSelect: () => {},
   }
 
-  state = {
-    collapsedGroups: {},
-    areAllGroupsExpanded: false,
-    isOpen: {
-      add: false,
+  constructor(props) {
+    super(props);
+    this.selectedItemRef = React.createRef();
+    this.scrollContainerRef = React.createRef();
+    this.state = {
+      collapsedGroups: {},
+      areAllGroupsExpanded: false,
+      isOpen: {
+        add: false,
+      }
     }
   }
 
@@ -161,16 +166,40 @@ class LayerListContainer extends React.Component {
     return propsChanged;
   }
 
+  componentDidUpdate (prevProps) {
+    if (prevProps.selectedLayerIndex !== this.props.selectedLayerIndex) {
+      const selectedItemNode = this.selectedItemRef.current;
+      if (selectedItemNode && selectedItemNode.node) {
+        const target = selectedItemNode.node;
+        const options = {
+          root: this.scrollContainerRef.current,
+          threshold: 1.0
+        }
+        const observer = new IntersectionObserver(entries => {
+          observer.unobserve(target);
+          if (entries.length > 0 && entries[0].intersectionRatio < 1) {
+            target.scrollIntoView();
+          }
+        }, options);
+
+        observer.observe(target);
+      }
+    }
+  }
+
   render() {
 
     const listItems = []
     let idx = 0
-    this.groupedLayers().forEach(layers => {
+    const layerIdCount = new Map();
+
+    const layersByGroup = this.groupedLayers();
+    layersByGroup.forEach(layers => {
       const groupPrefix = layerPrefix(layers[0].id)
       if(layers.length > 1) {
         const grp = <LayerListGroup
           data-wd-key={[groupPrefix, idx].join('-')}
-          key={[groupPrefix, idx].join('-')}
+          key={`group-${groupPrefix}-${idx}`}
           title={groupPrefix}
           isActive={!this.isCollapsed(groupPrefix, idx) || idx === this.props.selectedLayerIndex}
           onActiveToggle={this.toggleLayerGroup.bind(this, groupPrefix, idx)}
@@ -189,6 +218,15 @@ class LayerListContainer extends React.Component {
           );
         });
 
+        const additionalProps = {};
+        if (idx === this.props.selectedLayerIndex) {
+          additionalProps.ref = this.selectedItemRef;
+        }
+
+        layerIdCount.set(layer.id,
+          layerIdCount.has(layer.id) ? layerIdCount.get(layer.id) + 1 : 0
+        );
+        const key = `${layer.id}-${layerIdCount.get(layer.id)}`;
         const listItem = <LayerListItem
           className={classnames({
             'maputnik-layer-list-item-collapsed': layers.length > 1 && this.isCollapsed(groupPrefix, groupIdx) && idx !== this.props.selectedLayerIndex,
@@ -196,8 +234,9 @@ class LayerListContainer extends React.Component {
             'maputnik-layer-list-item--error': !!layerError
           })}
           index={idx}
-          key={layer.id}
+          key={key}
           layerId={layer.id}
+          layerIndex={idx}
           layerType={layer.type}
           visibility={(layer.layout || {}).visibility}
           isSelected={idx === this.props.selectedLayerIndex}
@@ -205,13 +244,14 @@ class LayerListContainer extends React.Component {
           onLayerDestroy={this.props.onLayerDestroy.bind(this)}
           onLayerCopy={this.props.onLayerCopy.bind(this)}
           onLayerVisibilityToggle={this.props.onLayerVisibilityToggle.bind(this)}
+          {...additionalProps}
         />
         listItems.push(listItem)
         idx += 1
       })
     })
 
-    return <div className="maputnik-layer-list">
+    return <div className="maputnik-layer-list" ref={this.scrollContainerRef}>
       <AddModal
           layers={this.props.layers}
           sources={this.props.sources}

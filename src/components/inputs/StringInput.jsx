@@ -33,6 +33,7 @@ class StringInput extends React.Component {
         value: props.value
       };
     }
+    return {};
   }
 
   render() {
@@ -76,6 +77,11 @@ class StringInput extends React.Component {
       onBlur: () => {
         if(this.state.value!==this.props.value) {
           this.setState({editing: false});
+          this.props.onChange(this.state.value);
+        }
+      },
+      onKeyDown: (e) => {
+        if (e.keyCode === 13) {
           this.props.onChange(this.state.value);
         }
       },
