@@ -5,6 +5,8 @@ import classnames from 'classnames';
 
 import InputBlock from '../inputs/InputBlock'
 import StringInput from '../inputs/StringInput'
+import ColorField from '../fields/ColorField'
+import ChromePicker from 'react-color/lib/components/chrome/Chrome'
 import CodeMirror from 'codemirror';
 
 import 'codemirror/mode/javascript/javascript'
@@ -17,6 +19,107 @@ import stringifyPretty from 'json-stringify-pretty-compact'
 import '../util/codemirror-mgl';
 import jsonToAst from 'json-to-ast';
 import {parseCSSColor} from 'csscolorparser';
+
+
+
+class CodeColorPicker extends React.Component {
+  constructor () {
+    super()
+    this.state = {
+      pickerOpen: false,
+    };
+  }
+
+  onToggle = () => {
+    this.setState({
+      pickerOpen: !this.state.pickerOpen,
+    });
+  }
+
+  calcPickerOffset () {
+    const elem = this._el
+    if(elem) {
+      const pos = elem.getBoundingClientRect()
+      return {
+        top: pos.top,
+        left: pos.left + 20,
+      }
+    } else {
+      return {
+        top: 160,
+        left: 555,
+      }
+    }
+  }
+
+  onChange (color) {
+    function formatColor(color) {
+      const rgb = color.rgb
+      return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${rgb.a})`
+    }
+
+    this.props.onChange(
+      formatColor(color)
+    );
+  }
+
+  render () {
+    const offset = this.calcPickerOffset();
+    const {color} = this.props;
+    const {pickerOpen} = this.state;
+
+      const style = {
+        display: "inline-block",
+        width: "1em",
+        height: "1em",
+        background: color,
+        verticalAlign: "text-bottom",
+        borderRadius: "1px",
+        cursor: "pointer",
+        marginRight: "2px",
+        marginLeft: "2px",
+        border: "solid 1px hsla(223, 12%, 30%, 1)",
+      };
+
+    return <div
+      ref={(el) => this._el = el}
+      style={{display: "inline-block"}}
+    >
+      <div
+        style={style}
+        onClick={this.onToggle}
+      />
+      {pickerOpen &&
+        <div
+          className="maputnik-color-picker-offset"
+          style={{
+            position: 'fixed',
+            zIndex: 1,
+            left: offset.left,
+            top: offset.top,
+        }}>
+          <ChromePicker
+            style={{zIndex: 999999999}}
+            color={color}
+            onChange={c => this.onChange(c)}
+          />
+          <div
+            className="maputnik-color-picker-offset"
+            onClick={this.onToggle}
+            style={{
+              zIndex: -1,
+              position: 'fixed',
+              top: '0px',
+              right: '0px',
+              bottom: '0px',
+              left: '0px',
+            }}
+          />
+        </div>
+      }
+    </div>
+  }
+}
 
 
 class JSONEditor extends React.Component {
@@ -55,6 +158,8 @@ class JSONEditor extends React.Component {
 
   constructor(props) {
     super(props)
+
+    this._bookmarks = [];
     this.state = {
       isEditing: false,
       prevValue: this.props.getValue(this.props.layer),
@@ -108,33 +213,6 @@ class JSONEditor extends React.Component {
   }
 
   addInMarkers (value) {
-    function createElement (color) {
-      const el = document.createElement("span");
-      const style = {
-        display: "inline-block",
-        width: "1em",
-        height: "1em",
-        background: color,
-        verticalAlign: "text-bottom",
-        borderRadius: "1px",
-        cursor: "pointer",
-        marginRight: "2px",
-        marginLeft: "2px",
-        border: "solid 1px hsla(223, 12%, 30%, 1)",
-      };
-
-      ReactDOM.render(<div
-        style={{display: "inline-block"}}
-        onClick={() => alert("Todo")}
-      >
-        <div style={style}>
-        </div>
-        {color.slice(0, 1)}
-      </div>, el);
-
-      return el;
-    }
-
     const ast = jsonToAst(value);
     function walkTree (node, fn) {
       fn(node);
@@ -150,6 +228,29 @@ class JSONEditor extends React.Component {
       }
     }
 
+    let idx = 0;
+    const createElement = (color, posStart, posEnd, onChange) => {
+      const elIdx = idx++;
+      const el = document.createElement("span");
+      ReactDOM.render(<CodeColorPicker key={elIdx} color={color} onChange={(color) => {
+        onChange(posStart, posEnd, color)
+      }}/>, el);
+      return el;
+    }
+
+    const onChange = (posStart, posEnd, newValue) => {
+      const replaceWith = ""+
+        value.slice(0, posStart)+
+        newValue+
+        value.slice(posEnd);
+
+      console.log("replaceWith", {value, newValue, replaceWith, posStart, posEnd});
+      this.props.onChange(JSON.parse(replaceWith));
+    }
+
+    this._bookmarks.map(bm => bm.clear());
+    this._bookmarks = [];
+
     walkTree(ast, (node) => {
       const {type, value} = node;
       if (
@@ -157,25 +258,35 @@ class JSONEditor extends React.Component {
         typeof(value) === "string" &&
         parseCSSColor(value) !== null
       ) {
-        const {start} = node.loc;
-        this._doc.markText(
-          CodeMirror.Pos(start.line-1, start.column),
-          CodeMirror.Pos(start.line-1, start.column+1),
-          {
-            atomic: true,
-            replacedWith: createElement(value),
-          }
+        const {start, end} = node.loc;
+        const parsedColor = parseCSSColor(value);
+        console.log(">>> parsedColor", {parsedColor, value, node});
+
+        const posStart = CodeMirror.Pos(start.line-1, start.column);
+        const posEnd = CodeMirror.Pos(start.line-1, start.column+1);
+        console.log("posStart", posStart);
+
+        const widgetElement = createElement(
+          value,
+          posStart.ch,
+          CodeMirror.Pos(end.line-1, end.column).ch-2, onChange
         );
+
+        const bm = this._doc.setBookmark(posStart, {widget: widgetElement});
+        this._bookmarks.push(bm);
       }
     });
   }
 
   componentDidUpdate(prevProps) {
-    if (!this.state.isEditing && prevProps.layer !== this.props.layer) {
-      this._cancelNextChange = true;
+    if (prevProps.layer !== this.props.layer) {
       const value = this.props.getValue(this.props.layer);
-      this._doc.setValue(value);
-      this.addInMarkers(value);
+      if (!this.state.isEditing) {
+        this._cancelNextChange = true;
+        this._doc.setValue(value);
+      }
+      // HACK
+      this.addInMarkers(this._doc.getValue());
     }
   }
 
