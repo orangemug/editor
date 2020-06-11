@@ -73,7 +73,7 @@ function CustomMaputnik (props) {
 
   return (
     <div className="custom__maputnik">
-      <div clasName="custom__maputnik__toolbar">
+      <div className="custom__maputnik__toolbar">
         {/* This is a custom toolbar and includes whatever we want */}
         <Toolbar
           onChangeView={uiAction.changeMapState}
