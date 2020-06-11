@@ -105,28 +105,28 @@ export default class App extends React.Component {
       host: params.get("localhost")
     })
 
-    const styleUrl = initialStyleUrl()
-    if(styleUrl && window.confirm("Load style from URL: " + styleUrl + " and discard current changes?")) {
-      this.styleStore = new StyleStore()
-      loadStyleUrl(styleUrl, mapStyle => this.onStyleChanged(mapStyle))
-      removeStyleQuerystring()
-    } else {
-      if(styleUrl) {
-        removeStyleQuerystring()
-      }
-      this.styleStore.init(err => {
-        if(err) {
-          console.log('Falling back to local storage for storing styles')
-          this.styleStore = new StyleStore()
-        }
-        this.styleStore.latestStyle(mapStyle => this.onStyleChanged(mapStyle, {initialLoad: true}))
+    // const styleUrl = initialStyleUrl()
+    // if(styleUrl && window.confirm("Load style from URL: " + styleUrl + " and discard current changes?")) {
+    //   this.styleStore = new StyleStore()
+    //   loadStyleUrl(styleUrl, mapStyle => this.onStyleChanged(mapStyle))
+    //   removeStyleQuerystring()
+    // } else {
+    //   if(styleUrl) {
+    //     removeStyleQuerystring()
+    //   }
+    //   this.styleStore.init(err => {
+    //     if(err) {
+    //       console.log('Falling back to local storage for storing styles')
+    //       this.styleStore = new StyleStore()
+    //     }
+    //     this.styleStore.latestStyle(mapStyle => this.onStyleChanged(mapStyle, {initialLoad: true}))
 
-        if(Debug.enabled()) {
-          Debug.set("maputnik", "styleStore", this.styleStore);
-          Debug.set("maputnik", "revisionStore", this.revisionStore);
-        }
-      })
-    }
+    //     if(Debug.enabled()) {
+    //       Debug.set("maputnik", "styleStore", this.styleStore);
+    //       Debug.set("maputnik", "revisionStore", this.revisionStore);
+    //     }
+    //   })
+    // }
 
     if(Debug.enabled()) {
       Debug.set("maputnik", "revisionStore", this.revisionStore);
