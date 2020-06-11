@@ -4,7 +4,6 @@ import ScrollContainer from './ScrollContainer'
 
 class AppLayout extends React.Component {
   static propTypes = {
-    toolbar: PropTypes.element.isRequired,
     layerList: PropTypes.element.isRequired,
     layerEditor: PropTypes.element,
     map: PropTypes.element.isRequired,
@@ -12,19 +11,8 @@ class AppLayout extends React.Component {
     modals: PropTypes.node,
   }
 
-  static childContextTypes = {
-    reactIconBase: PropTypes.object
-  }
-
-  getChildContext() {
-    return {
-      reactIconBase: { size: 14 }
-    }
-  }
-
   render() {
     return <div className="maputnik-layout">
-      {this.props.toolbar}
       <div className="maputnik-layout-list">
         {this.props.layerList}
       </div>

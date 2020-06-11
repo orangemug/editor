@@ -1,11 +1,9 @@
 // TOOLBAR
 .maputnik-toolbar {
   position: fixed;
-  height: $toolbar-height;
   width: 100%;
   z-index: 100;
   left: 0;
-  top: $toolbar-offset;
   background-color: $color-black;
 }
 
@@ -21,7 +19,6 @@
   text-align: left;
   background-color: $color-black;
   padding: $margin-2;
-  height: $toolbar-height;
   position: relative;
   overflow: hidden;
 
@@ -39,7 +36,6 @@
 
 .maputnik-toolbar-link {
   vertical-align: top;
-  height: $toolbar-height;
   display: inline-block;
   padding: $margin-3;
   font-size: $font-size-5;

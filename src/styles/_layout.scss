@@ -15,10 +15,10 @@
   color: $color-white;
 
   &-list {
-    position: fixed;
+    position: absolute;
     bottom: 0;
-    height: calc(100% - #{$toolbar-height + $toolbar-offset});
-    top: $toolbar-height + $toolbar-offset;
+    height: 100%;
+    top: 0;
     left: 0;
     z-index: 3;
     width: 200px;
@@ -26,10 +26,10 @@
   }
 
   &-drawer {
-    position: fixed;
+    position: absolute;
     bottom: 0;
-    height: calc(100% - #{$toolbar-height + $toolbar-offset});
-    top: $toolbar-height + $toolbar-offset;
+    height: 100%;
+    top: 0;
     left: 200px;
     z-index: 1;
     width: 370px;
@@ -37,7 +37,7 @@
   }
 
   &-bottom {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     right: 0;
     z-index: 1;

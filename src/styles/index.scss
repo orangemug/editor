@@ -22,11 +22,11 @@
  * Hacks for webdriverio isVisibleWithinViewport
  */
 #app {
-  height: 100vh;
+  height: 100%;
 }
 
 .maputnik-layout {
-  height: 100vh;
+  height: 100%;
 }
 
 .react-icons {
@@ -167,3 +167,54 @@
   }
 }
 
+// ------------------
+// root level [start]
+// ------------------
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#app {
+  min-height: 100%;
+  display: flex;
+  height: 100%;
+  flex: 1;
+}
+// ------------------
+// root level [end]
+// ------------------
+
+// --------------------------
+// temp custom code [start]
+// --------------------------
+.custom__maputnik {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  &__toolbar {
+
+  }
+
+  &__editor {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+}
+// --------------------------
+// temp custom code [end]
+// --------------------------
+
+// TODO: Remove me and embed instead.
+.accessiblity-color-filter-defs {
+  display: none;
+}
