@@ -468,25 +468,9 @@ export default class App extends React.Component {
     });
   }
 
-  setDefaultValues = (styleObj) => {
-    const metadata = styleObj.metadata || {}
-    if(metadata['maputnik:renderer'] === undefined) {
-      const changedStyle = {
-        ...styleObj,
-        metadata: {
-          ...styleObj.metadata,
-          'maputnik:renderer': 'mbgljs'
-        }
-      }
-      return changedStyle
-    } else {
-      return styleObj
-    }
-  }
-
   openStyle = (styleObj) => {
-    styleObj = this.setDefaultValues(styleObj)
-    this.onStyleChanged(styleObj)
+    styleObj = style.setDefaults(styleObj);
+    this.onStyleChanged(styleObj);
   }
 
   fetchSources() {

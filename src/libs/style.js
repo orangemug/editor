@@ -126,6 +126,22 @@ function stripAccessTokens(mapStyle) {
   };
 }
 
+function setDefaults (styleObj) {
+  const metadata = styleObj.metadata || {}
+  if(metadata['maputnik:renderer'] === undefined) {
+    const changedStyle = {
+      ...styleObj,
+      metadata: {
+        ...styleObj.metadata,
+        'maputnik:renderer': 'mbgljs'
+      }
+    }
+    return changedStyle
+  } else {
+    return styleObj
+  }
+}
+
 export default {
   ensureStyleValidity,
   emptyStyle,
@@ -134,4 +150,5 @@ export default {
   getAccessToken,
   replaceAccessTokens,
   stripAccessTokens,
+  setDefaults,
 }
