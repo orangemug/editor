@@ -111,7 +111,8 @@ export default class App extends React.Component {
   // }
 
   saveStyle(snapshotStyle) {
-    this.styleStore.save(snapshotStyle)
+    // TODO: Add back in
+    // this.styleStore.save(snapshotStyle)
   }
 
   updateFonts(urlTemplate) {
@@ -272,9 +273,10 @@ export default class App extends React.Component {
       this.updateIcons(newStyle.sprite)
     }
 
-    if (opts.addRevision) {
-      this.revisionStore.addRevision(newStyle);
-    }
+    // TODO: Add back in
+    // if (opts.addRevision) {
+    //   this.revisionStore.addRevision(newStyle);
+    // }
     if (opts.save) {
       this.saveStyle(newStyle);
     }
