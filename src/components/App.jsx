@@ -8,8 +8,6 @@ import arrayMove from 'array-move'
 import url from 'url'
 import hash from "string-hash";
 
-import MapMapboxGl from './MapMapboxGl'
-import MapOpenLayers from './MapOpenLayers'
 import LayerList from './LayerList'
 import LayerEditor from './LayerEditor'
 import AppToolbar from './AppToolbar'
@@ -23,6 +21,7 @@ import ModalOpen from './ModalOpen'
 import ModalShortcuts from './ModalShortcuts'
 import ModalSurvey from './ModalSurvey'
 import ModalDebug from './ModalDebug'
+import MapGeneric from './MapGeneric'
 
 import { downloadGlyphsMetadata, downloadSpriteMetadata } from '../libs/metadata'
 import {latest, validate} from '@mapbox/mapbox-gl-style-spec'
@@ -51,7 +50,6 @@ function normalizeSourceURL (url, apiToken="") {
     return url;
   }
 }
-
 
 
 export default class App extends React.Component {
@@ -143,7 +141,7 @@ export default class App extends React.Component {
       property === 'maputnik:renderer' &&
       value !== get(mapStyle, ['metadata', 'maputnik:renderer'], 'mbgljs')
     ) {
-      this.onUiStateChanged({
+      this.props.onUiStateChanged({
         ...this.props.uiState,
         mapState: 'map',
       });
@@ -392,77 +390,20 @@ export default class App extends React.Component {
   }
 
   mapRenderer() {
-    const {mapStyle} = this.props;
-    const {dirtyMapStyle} = this.state;
-    const metadata = mapStyle.metadata || {};
-
-    const mapProps = {
-      mapStyle: (dirtyMapStyle || mapStyle),
-      replaceAccessTokens: (mapStyle) => {
-        return style.replaceAccessTokens(mapStyle, {
-          allowFallback: true
-        });
-      },
-      onDataChange: (e) => {
-        this.layerWatcher.analyzeMap(e.map)
-        this.fetchSources();
-      },
-    }
-
-    const renderer = this._getRenderer();
-
-    let mapElement;
-    const {
-      mapState,
-      mapboxGlDebugOptions,
-      openlayersDebugOptions,
-      selectedLayerIndex
-    } = this.props.uiState;
-
-
-    // Check if OL code has been loaded?
-    if(renderer === 'ol') {
-      mapElement = <MapOpenLayers
-        {...mapProps}
-        onChange={this.onChangeMapView}
-        debugToolbox={openlayersDebugOptions.debugToolbox}
-        onLayerSelect={this.onLayerSelect}
-      />
-    } else {
-      mapElement = <MapMapboxGl {...mapProps}
-        onChange={this.onChangeMapView}
-        options={mapboxGlDebugOptions}
-        inspectModeEnabled={mapState === "inspect"}
-        highlightedLayer={mapStyle.layers[selectedLayerIndex]}
-        onLayerSelect={this.onLayerSelect} />
-    }
-
-    let filterName;
-    if(mapState.match(/^filter-/)) {
-      filterName = mapState.replace(/^filter-/, "");
-    }
-    const elementStyle = {};
-    if (filterName) {
-      elementStyle.filter = `url('#${filterName}')`;
-    };
-
-    return <div style={elementStyle} className="maputnik-map__container">
-      {mapElement}
-    </div>
   }
 
   // DONE
   onMoveLayer = (move) => {
-    const {mapStyle} = this.props;
+    const {mapStyle, uiState} = this.props;
     let { oldIndex, newIndex } = move;
     let layers = mapStyle.layers;
     oldIndex = clamp(oldIndex, 0, layers.length-1);
     newIndex = clamp(newIndex, 0, layers.length-1);
     if(oldIndex === newIndex) return;
 
-    if (oldIndex === this.props.uiState.selectedLayerIndex) {
+    if (oldIndex === uiState.selectedLayerIndex) {
       this.props.onUiStateChanged({
-        ...this.props.uiState,
+        ...uiState,
         selectedLayerIndex: newIndex,
       });
     }
@@ -553,7 +494,6 @@ export default class App extends React.Component {
     this.onStyleChanged(styleObj);
   }
 
-
   // DONE
   onLayerSelect = (index) => {
     this.props.onUiStateChanged({
@@ -605,10 +545,10 @@ export default class App extends React.Component {
   }
 
   render() {
-    const {mapStyle} = this.props;
-    const {isOpen} = this.props.uiState;
+    const {mapStyle, uiState} = this.props;
+    const {isOpen} = uiState;
     const layers = mapStyle.layers || [];
-    const selectedLayer = layers.length > 0 ? layers[this.props.uiState.selectedLayerIndex] : null
+    const selectedLayer = layers.length > 0 ? layers[uiState.selectedLayerIndex] : null
     const metadata = mapStyle.metadata || {}
 
     const layerList = <LayerList
@@ -618,19 +558,19 @@ export default class App extends React.Component {
       onLayerVisibilityToggle={this.onLayerVisibilityToggle}
       onLayersChange={this.onLayersChange}
       onLayerSelect={this.onLayerSelect}
-      selectedLayerIndex={this.props.uiState.selectedLayerIndex}
+      selectedLayerIndex={uiState.selectedLayerIndex}
       layers={layers}
       sources={this.state.sources}
       errors={this.state.errors}
-      layerTypes={this.props.uiState.layerTypes}
+      layerTypes={uiState.layerTypes}
     />
 
     const layerEditor = selectedLayer ? <LayerEditor
       key={selectedLayer.id}
       layer={selectedLayer}
-      layerIndex={this.props.uiState.selectedLayerIndex}
-      isFirstLayer={this.props.uiState.selectedLayerIndex < 1}
-      isLastLayer={this.props.uiState.selectedLayerIndex === mapStyle.layers.length-1}
+      layerIndex={uiState.selectedLayerIndex}
+      isFirstLayer={uiState.selectedLayerIndex < 1}
+      isLastLayer={uiState.selectedLayerIndex === mapStyle.layers.length-1}
       sources={this.state.sources}
       vectorLayers={this.state.vectorLayers}
       spec={this.state.spec}
@@ -641,12 +581,12 @@ export default class App extends React.Component {
       onLayerVisibilityToggle={this.onLayerVisibilityToggle}
       onLayerIdChange={this.onLayerIdChange}
       errors={this.state.errors}
-      layerTypes={this.props.uiState.layerTypes}
+      layerTypes={uiState.layerTypes}
     /> : null
 
     const bottomPanel = (this.state.errors.length + this.state.infos.length) > 0 ? <MessagePanel
       currentLayer={selectedLayer}
-      selectedLayerIndex={this.props.uiState.selectedLayerIndex}
+      selectedLayerIndex={uiState.selectedLayerIndex}
       onLayerSelect={this.onLayerSelect}
       mapStyle={mapStyle}
       errors={this.state.errors}
@@ -657,8 +597,8 @@ export default class App extends React.Component {
     const modals = <div>
       <ModalDebug
         renderer={this._getRenderer()}
-        mapboxGlDebugOptions={this.props.uiState.mapboxGlDebugOptions}
-        openlayersDebugOptions={this.props.uiState.openlayersDebugOptions}
+        mapboxGlDebugOptions={uiState.mapboxGlDebugOptions}
+        openlayersDebugOptions={uiState.openlayersDebugOptions}
         onChangeMaboxGlDebug={this.onChangeMaboxGlDebug}
         onChangeOpenlayersDebug={this.onChangeOpenlayersDebug}
         isOpen={isOpen.debug}
@@ -676,7 +616,7 @@ export default class App extends React.Component {
         onChangeMetadataProperty={this.onChangeMetadataProperty}
         isOpen={isOpen.settings}
         onOpenToggle={this.toggleModal.bind(this, 'settings')}
-        openlayersDebugOptions={this.state.openlayersDebugOptions}
+        openlayersDebugOptions={uiState.openlayersDebugOptions}
       />
       <ModalExport
         mapStyle={mapStyle}
@@ -694,7 +634,7 @@ export default class App extends React.Component {
         onStyleChanged={this.onStyleChanged}
         isOpen={isOpen.sources}
         onOpenToggle={this.toggleModal.bind(this, 'sources')}
-        publicSources={this.props.uiState.publicSources}
+        publicSources={uiState.publicSources}
       />
       <ModalSurvey
         isOpen={isOpen.survey}
@@ -702,12 +642,28 @@ export default class App extends React.Component {
       />
     </div>
 
+    const map = <MapGeneric
+      mapStyle={mapStyle}
+      dirtyMapStyle={this.state.dirtyMapStyle}
+      renderer={this._getRenderer()}
+      mapState={uiState.mapState}
+      mapboxGlDebugOptions={uiState.mapboxGlDebugOptions}
+      openlayersDebugOptions={uiState.openlayersDebugOptions}
+      selectedLayerIndex={uiState.selectedLayerIndex}
+      onChangeMapView={this.onChangeMapView}
+      onLayerSelect={this.onLayerSelect}
+      onDataChange={e => {
+        this.layerWatcher.analyzeMap(e.map)
+        this.fetchSources();
+      }}
+    />
+
     return <div>
       <div dangerouslySetInnerHTML={{__html: svgAccesibilityFilters}} />
       <AppLayout
         layerList={layerList}
         layerEditor={layerEditor}
-        map={this.mapRenderer()}
+        map={map}
         bottom={bottomPanel}
         modals={modals}
       />

@@ -90,6 +90,9 @@ function CustomMaputnik (props) {
       showCollisionBoxes: false,
       showOverdrawInspector: false,
     },
+    openlayersDebugOptions: {
+      debugToolbox: false,
+    },
     // TODO: Default this...
     selectedLayerIndex: 0,
   });
