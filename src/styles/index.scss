@@ -199,11 +199,24 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1;
+  margin-left: 1.4rem;
+  margin-right: 1.4rem;
+  margin-top: 5.2rem;
+	border: solid 1px #e9edfa;
+	border-bottom: none;
+
+  @media (max-width: 920px) {
+    background: red;
+		border-left: none;
+		border-right: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
 
   &__toolbar {
     padding: 0.4em;
-    background: #eaeaea;
-    border-bottom: solid 1px #ccc;
+    background: #f5f6fa;
+    border-bottom: solid 1px #e9edfa;
 
     button, input {
       margin-right: 0.4em;
