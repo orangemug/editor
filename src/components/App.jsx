@@ -191,7 +191,7 @@ export default class App extends React.Component {
   }
 
   updateFonts(urlTemplate) {
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
     const metadata = mapStyle.metadata || {}
     const accessToken = metadata['maputnik:openmaptiles_access_token'] || tokens.openmaptiles
 
@@ -208,7 +208,7 @@ export default class App extends React.Component {
   }
 
   onChangeMetadataProperty = (property, value) => {
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
     // If we're changing renderer reset the map state.
     if (
       property === 'maputnik:renderer' &&
@@ -335,7 +335,7 @@ export default class App extends React.Component {
       });
     }
 
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
 
     if(newStyle.glyphs !== mapStyle.glyphs) {
       this.updateFonts(newStyle.glyphs)
@@ -355,7 +355,7 @@ export default class App extends React.Component {
       dirtyMapStyle: dirtyMapStyle,
       errors: mappedErrors,
     }, () => {
-      this.props.onStyleChanged(newStyle);
+      this.props.onMapStyleChanged(newStyle);
       this.fetchSources();
     });
 
@@ -381,7 +381,7 @@ export default class App extends React.Component {
   // }
 
   onMoveLayer = (move) => {
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
     let { oldIndex, newIndex } = move;
     let layers = mapStyle.layers;
     oldIndex = clamp(oldIndex, 0, layers.length-1);
@@ -401,7 +401,7 @@ export default class App extends React.Component {
   }
 
   onLayersChange = (changedLayers) => {
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
     const changedStyle = {
       ...mapStyle,
       layers: changedLayers
@@ -410,7 +410,7 @@ export default class App extends React.Component {
   }
 
   onLayerDestroy = (index) => {
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
     let layers = mapStyle.layers;
     const remainingLayers = layers.slice(0);
     remainingLayers.splice(index, 1);
@@ -418,7 +418,7 @@ export default class App extends React.Component {
   }
 
   onLayerCopy = (index) => {
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
     let layers = mapStyle.layers;
     const changedLayers = layers.slice(0)
 
@@ -429,7 +429,7 @@ export default class App extends React.Component {
   }
 
   onLayerVisibilityToggle = (index) => {
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
     let layers = mapStyle.layers;
     const changedLayers = layers.slice(0)
 
@@ -443,7 +443,7 @@ export default class App extends React.Component {
   }
 
   onLayerIdChange = (index, oldId, newId) => {
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
     const changedLayers = mapStyle.layers.slice(0)
     changedLayers[index] = {
       ...changedLayers[index],
@@ -454,7 +454,7 @@ export default class App extends React.Component {
   }
 
   onLayerChanged = (index, layer) => {
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
     const changedLayers = mapStyle.layers.slice(0)
     changedLayers[index] = layer
 
@@ -474,7 +474,7 @@ export default class App extends React.Component {
   }
 
   fetchSources() {
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
     const sourceList = {};
 
     for(let [key, val] of Object.entries(mapStyle.sources)) {
@@ -543,7 +543,7 @@ export default class App extends React.Component {
   }
 
   _getRenderer () {
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
     const metadata = mapStyle.metadata || {};
     return metadata['maputnik:renderer'] || 'mbgljs';
   }
@@ -555,7 +555,7 @@ export default class App extends React.Component {
   }
 
   mapRenderer() {
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
     const {dirtyMapStyle} = this.state;
     const metadata = mapStyle.metadata || {};
 
@@ -665,7 +665,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    const mapStyle = this.props.style;
+    const {mapStyle} = this.props;
     const {isOpen} = this.props.uiState;
     const layers = mapStyle.layers || [];
     const selectedLayer = layers.length > 0 ? layers[this.props.uiState.selectedLayerIndex] : null

@@ -27,7 +27,7 @@ function CustomMaputnik (props) {
   //  - [ ] Move stylestore here
 
   // Need a catch to stop maputnik:renderer being set
-  const [style, setStyle] = useState(DEBUG_STYLE);
+  const [mapStyle, setMapStyle] = useState(DEBUG_STYLE);
   const [uiState, setUiState] = useState({
     layerTypes: [
       "background",
@@ -78,7 +78,7 @@ function CustomMaputnik (props) {
   // setStateInUrl/getInitialStateFromUrl
   useEffect(stateInSearchParamsEffect({
     uiState,
-    style,
+    mapStyle,
   }, []));
 
   return (
@@ -93,8 +93,8 @@ function CustomMaputnik (props) {
       <div className="custom__maputnik__editor">
         {/* The Maputnik editor view */}
         <Maputnik
-          style={style}
-          onStyleChanged={setStyle}
+          mapStyle={mapStyle}
+          onMapStyleChanged={setMapStyle}
           uiState={uiState}
           onUiStateChanged={setUiState}
         />
