@@ -48,7 +48,7 @@ export default class ModalAdd extends React.Component {
       id: '',
     }
 
-    if(props.sources.length > 0) {
+    if(Object.keys(props.sources).length === 1) {
       this.state.source = Object.keys(this.props.sources)[0]
       this.state['source-layer'] = this.props.sources[this.state.source][0]
     }

@@ -87,6 +87,10 @@ export default class App extends React.Component {
   //   window.removeEventListener("keydown", this.handleKeyPress);
   // }
 
+  componentDidMount() {
+    this.fetchSources();
+  }
+
   saveStyle(snapshotStyle) {
     // TODO: Add back in
     // this.styleStore.save(snapshotStyle)
