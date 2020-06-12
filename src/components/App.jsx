@@ -548,7 +548,7 @@ export default class App extends React.Component {
     return metadata['maputnik:renderer'] || 'mbgljs';
   }
 
-  onMapChange = (mapView) => {
+  onChangeMapView = (mapView) => {
     this.setState({
       mapView,
     });
@@ -587,13 +587,13 @@ export default class App extends React.Component {
     if(renderer === 'ol') {
       mapElement = <MapOpenLayers
         {...mapProps}
-        onChange={this.onMapChange}
+        onChange={this.onChangeMapView}
         debugToolbox={openlayersDebugOptions.debugToolbox}
         onLayerSelect={this.onLayerSelect}
       />
     } else {
       mapElement = <MapMapboxGl {...mapProps}
-        onChange={this.onMapChange}
+        onChange={this.onChangeMapView}
         options={mapboxGlDebugOptions}
         inspectModeEnabled={mapState === "inspect"}
         highlightedLayer={mapStyle.layers[selectedLayerIndex]}
