@@ -6,6 +6,19 @@ import Block from './Block'
 import InputSelect from './InputSelect'
 import InputString from './InputString'
 
+
+const TYPE_OPTIONS = [
+  ['background', 'Background'],
+  ['fill', 'Fill'],
+  ['line', 'Line'],
+  ['symbol', 'Symbol'],
+  ['raster', 'Raster'],
+  ['circle', 'Circle'],
+  ['fill-extrusion', 'Fill Extrusion'],
+  ['hillshade', 'Hillshade'],
+  ['heatmap', 'Heatmap'],
+];
+
 export default class FieldType extends React.Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
@@ -20,6 +33,17 @@ export default class FieldType extends React.Component {
   }
 
   render() {
+    const {allowList} = this.props;
+    let typeOptions;
+    if (allowList) {
+      typeOptions = TYPE_OPTIONS.filter(([key, label]) => {
+        return allowList.includes(key);
+      });
+    }
+    else {
+      typeOptions = TYPE_OPTIONS;
+    }
+
     return <Block label={"Type"} fieldSpec={latest.layer.type}
       data-wd-key={this.props.wdKey}
       error={this.props.error}
@@ -32,17 +56,7 @@ export default class FieldType extends React.Component {
       }
       {!this.props.disabled &&
         <InputSelect
-          options={[
-            ['background', 'Background'],
-            ['fill', 'Fill'],
-            ['line', 'Line'],
-            ['symbol', 'Symbol'],
-            ['raster', 'Raster'],
-            ['circle', 'Circle'],
-            ['fill-extrusion', 'Fill Extrusion'],
-            ['hillshade', 'Hillshade'],
-            ['heatmap', 'Heatmap'],
-          ]}
+          options={typeOptions}
           onChange={this.props.onChange}
           value={this.props.value}
         />

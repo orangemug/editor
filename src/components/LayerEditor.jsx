@@ -162,6 +162,7 @@ export default class LayerEditor extends React.Component {
           disabled={true}
           error={errorData.type}
           value={this.props.layer.type}
+          allowList={this.props.layerTypes}
           onChange={newType => this.props.onLayerChanged(
             this.props.layerIndex,
             changeType(this.props.layer, newType)

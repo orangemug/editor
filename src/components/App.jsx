@@ -698,6 +698,7 @@ export default class App extends React.Component {
       layers={layers}
       sources={this.state.sources}
       errors={this.state.errors}
+      layerTypes={this.props.uiState.layerTypes}
     />
 
     const layerEditor = selectedLayer ? <LayerEditor
@@ -716,6 +717,7 @@ export default class App extends React.Component {
       onLayerVisibilityToggle={this.onLayerVisibilityToggle}
       onLayerIdChange={this.onLayerIdChange}
       errors={this.state.errors}
+      layerTypes={this.props.uiState.layerTypes}
     /> : null
 
     const bottomPanel = (this.state.errors.length + this.state.infos.length) > 0 ? <MessagePanel
@@ -768,6 +770,7 @@ export default class App extends React.Component {
         onStyleChanged={this.onStyleChanged}
         isOpen={isOpen.sources}
         onOpenToggle={this.toggleModal.bind(this, 'sources')}
+        publicSources={this.props.uiState.publicSources}
       />
       <ModalSurvey
         isOpen={isOpen.survey}

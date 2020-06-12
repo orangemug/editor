@@ -9,12 +9,14 @@ import stateInSearchParamsEffect from './hooks/state-in-search-params';
 import DEBUG_STYLE from './debug/circles';
 import uiStateHelper from './api/ui-state-helper';
 import Toolbar from './debug/toolbar';
+import publicSources from './config/tilesets.json'
 
 
 function CustomMaputnik (props) {
   // Todo
   //
-  //  - [ ] Add layerTypes to uiState
+  //  - [x] Add layerTypes to uiState
+  //  - [x] Make public data sources configurable
   //  - [x] Create uiStateHelper to modify uiState object
   //  - [ ] Move setStateInUrl/getInitialStateFromUrl
   //  - [x] Move shortcuts here
@@ -43,6 +45,14 @@ function CustomMaputnik (props) {
       shortcuts: false,
       export: false,
       debug: false,
+    },
+    // publicSources: publicSources,
+    publicSources: {
+      "openmaptiles": {
+        "type": "vector",
+        "url": "https://api.maptiler.com/tiles/v3/tiles.json?key={key}",
+        "title": "OpenMapTiles v3"
+      },
     },
     // TODO: Default this...
     mapboxGlDebugOptions: {

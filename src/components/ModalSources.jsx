@@ -10,7 +10,6 @@ import ModalSourcesTypeEditor from './ModalSourcesTypeEditor'
 
 import style from '../libs/style'
 import { deleteSource, addSource, changeSource } from '../libs/source'
-import publicSources from '../config/tilesets.json'
 
 import {MdAddCircleOutline, MdDelete} from 'react-icons/md'
 
@@ -262,7 +261,8 @@ export default class ModalSources extends React.Component {
   }
 
   render() {
-    const mapStyle = this.props.mapStyle
+    const {publicSources, mapStyle} = this.props;
+
     const activeSources = Object.keys(mapStyle.sources).map(sourceId => {
       const source = mapStyle.sources[sourceId]
       return <ActiveModalSourcesTypeEditor

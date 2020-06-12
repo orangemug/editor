@@ -143,6 +143,7 @@ export default class ModalAdd extends React.Component {
         value={this.state.type}
         wdKey="add-layer.layer-type"
         onChange={v => this.setState({ type: v })}
+        allowList={this.props.layerTypes}
       />
       {this.state.type !== 'background' &&
       <FieldSource

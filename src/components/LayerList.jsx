@@ -278,6 +278,7 @@ class LayerListContainer extends React.Component {
           isOpen={this.state.isOpen.add}
           onOpenToggle={this.toggleModal.bind(this, 'add')}
           onLayersChange={this.props.onLayersChange}
+          layerTypes={this.props.layerTypes}
       />
       <header className="maputnik-layer-list-header">
         <span className="maputnik-layer-list-header-title">Layers</span>
