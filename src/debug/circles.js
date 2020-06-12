@@ -1,7 +1,7 @@
 const style = {
   "version": 8,
   "sources": {
-    "test1": {
+    "test": {
       "type": "geojson",
       "data": {
         "type": "FeatureCollection",
@@ -16,38 +16,6 @@ const style = {
           }
         ]
       }
-    },
-    "test2": {
-      "type": "geojson",
-      "data": {
-        "type": "FeatureCollection",
-        "features": [
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [15, 10]
-            },
-            "properties": {}
-          }
-        ]
-      }
-    },
-    "test3": {
-      "type": "geojson",
-      "data": {
-        "type": "FeatureCollection",
-        "features": [
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [-15, 10]
-            },
-            "properties": {}
-          }
-        ]
-      }
     }
   },
   "sprite": "",
@@ -56,28 +24,41 @@ const style = {
     {
       "id": "test1",
       "type": "circle",
-      "source": "test1",
+      "source": "test",
       "paint": {
         "circle-radius": 40,
-        "circle-color": "red"
+        "circle-color": "red",
+        "circle-translate": [-60, -60]
       }
     },
     {
       "id": "test2",
       "type": "circle",
-      "source": "test2",
+      "source": "test",
       "paint": {
         "circle-radius": 40,
-        "circle-color": "green"
+        "circle-color": "green",
+        "circle-translate": [60, -60]
       }
     },
     {
       "id": "test3",
       "type": "circle",
-      "source": "test3",
+      "source": "test",
       "paint": {
         "circle-radius": 40,
-        "circle-color": "blue"
+        "circle-color": "blue",
+        "circle-translate": [60, 60]
+      }
+    },
+    {
+      "id": "test4",
+      "type": "circle",
+      "source": "test",
+      "paint": {
+        "circle-radius": 40,
+        "circle-color": "yellow",
+        "circle-translate": [-60, 60]
       }
     }
   ]
