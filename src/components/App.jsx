@@ -645,7 +645,7 @@ export default class App extends React.Component {
       }}
     />
 
-    return <div>
+    return <div className="maputnik">
       <div dangerouslySetInnerHTML={{__html: svgAccesibilityFilters}} />
       <AppLayout
         layerList={layerList}

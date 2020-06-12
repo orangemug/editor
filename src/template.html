@@ -6,8 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="manifest" href="manifest.json">
   <style>
+
     html {
       background-color: rgb(28, 31, 36);
+    }
+
+    body {
+      /* The UI is 100% height so prevent bounce scroll on OSX */
+      overflow: hidden;
     }
 
     .loading {
