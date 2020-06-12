@@ -1,5 +1,7 @@
-export default function shortcutsEffect ({uiState, setUiState, uiAction}) {
-  return () => {
+import {useEffect} from 'react';
+
+export default function useShortcuts ({uiState, setUiState, uiAction}) {
+  const handler = () => {
     const handleKeyUp = (e) => {
       const shortcuts = [
         {
@@ -76,5 +78,7 @@ export default function shortcutsEffect ({uiState, setUiState, uiAction}) {
       document.body.removeEventListener("keyup", handleKeyUp);
     }
   }
+
+  useEffect(handler, []);
 }
 

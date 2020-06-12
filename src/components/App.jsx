@@ -30,8 +30,6 @@ import isEqual from 'lodash.isequal'
 import {formatLayerId} from '../util/format';
 import svgAccesibilityFilters from '../img/accesibility.svg';
 
-import MapboxGl from 'mapbox-gl'
-
 
 export default class App extends React.Component {
   constructor(props) {
@@ -358,7 +356,7 @@ export default class App extends React.Component {
     }
   }
 
-  _getRenderer () {
+  getRenderer () {
     const {mapStyle, uiState} = this.props;
     const metadata = mapStyle.metadata || {};
     const renderer = metadata['maputnik:renderer'] || 'mbgljs';
@@ -372,6 +370,7 @@ export default class App extends React.Component {
     }
   }
 
+  // DONE
   onChangeMapView = (mapView) => {
     this.setState({
       mapView,
@@ -582,7 +581,7 @@ export default class App extends React.Component {
 
     const modals = <div>
       <ModalDebug
-        renderer={this._getRenderer()}
+        renderer={this.getRenderer()}
         mapboxGlDebugOptions={uiState.mapboxGlDebugOptions}
         openlayersDebugOptions={uiState.openlayersDebugOptions}
         onChangeMaboxGlDebug={this.onChangeMaboxGlDebug}
@@ -632,7 +631,7 @@ export default class App extends React.Component {
     const map = <MapGeneric
       mapStyle={mapStyle}
       dirtyMapStyle={this.state.dirtyMapStyle}
-      renderer={this._getRenderer()}
+      renderer={this.getRenderer()}
       mapState={uiState.mapState}
       mapboxGlDebugOptions={uiState.mapboxGlDebugOptions}
       openlayersDebugOptions={uiState.openlayersDebugOptions}
