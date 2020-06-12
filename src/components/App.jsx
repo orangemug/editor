@@ -378,9 +378,17 @@ export default class App extends React.Component {
   }
 
   _getRenderer () {
-    const {mapStyle} = this.props;
+    const {mapStyle, uiState} = this.props;
     const metadata = mapStyle.metadata || {};
-    return metadata['maputnik:renderer'] || 'mbgljs';
+    const renderer = metadata['maputnik:renderer'] || 'mbgljs';
+
+    // Check if this renderer is available
+    if (uiState.renderers.includes(renderer)) {
+      return renderer
+    }
+    else {
+      return uiState.renderers[0];
+    }
   }
 
   onChangeMapView = (mapView) => {
@@ -612,6 +620,7 @@ export default class App extends React.Component {
       />
       <ModalSettings
         mapStyle={mapStyle}
+        availableRenderers={uiState.renderers}
         onStyleChanged={this.onStyleChanged}
         onChangeMetadataProperty={this.onChangeMetadataProperty}
         isOpen={isOpen.settings}

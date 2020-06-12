@@ -13,6 +13,12 @@ import FieldColor from './FieldColor'
 import Modal from './Modal'
 import fieldSpecAdditional from '../libs/field-spec-additional'
 
+
+const RENDERERS = [
+  ['mbgljs', 'MapboxGL JS'],
+  ['ol', 'Open Layers (experimental)'],
+]
+
 export default class ModalSettings extends React.Component {
   static propTypes = {
     mapStyle: PropTypes.object.isRequired,
@@ -20,6 +26,7 @@ export default class ModalSettings extends React.Component {
     onChangeMetadataProperty: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     onOpenToggle: PropTypes.func.isRequired,
+    availableRenderers: PropTypes.array,
   }
 
   changeTransitionProperty(property, value) {
@@ -240,10 +247,9 @@ export default class ModalSettings extends React.Component {
           label={fieldSpecAdditional.maputnik.style_renderer.label}
           fieldSpec={fieldSpecAdditional.maputnik.style_renderer}
           data-wd-key="modal:settings.maputnik:renderer" 
-          options={[
-            ['mbgljs', 'MapboxGL JS'],
-            ['ol', 'Open Layers (experimental)'],
-          ]}
+          options={RENDERERS.filter(([key, label]) => {
+            return this.props.availableRenderers.includes(key);
+          })}
           value={metadata['maputnik:renderer'] || 'mbgljs'}
           onChange={onChangeMetadataProperty.bind(this, 'maputnik:renderer')}
         />

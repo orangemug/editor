@@ -76,6 +76,10 @@ function CustomMaputnik (props) {
       export: false,
       debug: false,
     },
+    renderers: [
+      "mbgljs",
+      "ol",
+    ],
     // publicSources: publicSources,
     publicSources: {
       "openmaptiles": {
