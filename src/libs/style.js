@@ -142,6 +142,27 @@ function setDefaults (styleObj) {
   }
 }
 
+function replaceAccessToken(url, mapStyle) {
+  const matchesTilehosting = url.match(/\.tilehosting\.com/);
+  const matchesMaptiler = url.match(/\.maptiler\.com/);
+  const matchesThunderforest = url.match(/\.thunderforest\.com/);
+  if (matchesTilehosting || matchesMaptiler) {
+    const accessToken = getAccessToken("openmaptiles", mapStyle, {allowFallback: true})
+    if (accessToken) {
+      return url.replace('{key}', accessToken)
+    }
+  }
+  else if (matchesThunderforest) {
+    const accessToken = getAccessToken("thunderforest", mapStyle, {allowFallback: true})
+    if (accessToken) {
+      return url.replace('{key}', accessToken)
+    }
+  }
+  else {
+    return url;
+  }
+}
+
 export default {
   ensureStyleValidity,
   emptyStyle,
@@ -151,4 +172,5 @@ export default {
   replaceAccessTokens,
   stripAccessTokens,
   setDefaults,
+  replaceAccessToken,
 }

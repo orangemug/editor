@@ -10,6 +10,36 @@ import DEBUG_STYLE from './debug/circles';
 import uiStateHelper from './api/ui-state-helper';
 import Toolbar from './debug/toolbar';
 import publicSources from './config/tilesets.json'
+import {initialStyleUrl, loadStyleUrl, removeStyleQuerystring} from './libs/urlopen'
+import { RevisionStore } from './libs/revisions'
+import { ApiStyleStore } from './libs/apistore'
+import { StyleStore } from './libs/stylestore'
+
+
+
+function loadFromUrl ({styleStore, setMapStyle}) {
+  return () => {
+    const styleUrl = initialStyleUrl()
+    if(styleUrl && window.confirm("Load style from URL: " + styleUrl + " and discard current changes?")) {
+      styleStore = new StyleStore()
+      loadStyleUrl(styleUrl, mapStyle => setMapStyle(mapStyle))
+      removeStyleQuerystring()
+    } else {
+      if(styleUrl) {
+        removeStyleQuerystring()
+      }
+      styleStore.init(err => {
+        if(err) {
+          console.log('Falling back to local storage for storing styles')
+          styleStore = new StyleStore()
+        }
+        styleStore.latestStyle(mapStyle => setMapStyle(mapStyle, {
+          initialLoad: true
+        }))
+      })
+    }
+  }
+}
 
 
 function CustomMaputnik (props) {
@@ -80,6 +110,25 @@ function CustomMaputnik (props) {
     uiState,
     mapStyle,
   }, []));
+
+  const revisionStore = new RevisionStore()
+  const params = new URLSearchParams(window.location.search.substring(1))
+  let port = params.get("localport")
+  if (port == null && (window.location.port != 80 && window.location.port != 443)) {
+    port = window.location.port
+  }
+
+  const styleStore = new ApiStyleStore({
+    onLocalStyleChange: mapStyle => setMapStyle(mapStyle, {save: false}),
+    port: port,
+    host: params.get("localhost")
+  });
+
+  // TODO
+  // useEffect(loadFromUrl({
+  //   styleStore,
+  //   setMapStyle,
+  // }))
 
   return (
     <div className="custom__maputnik">
