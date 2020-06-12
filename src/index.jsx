@@ -15,6 +15,8 @@ import { RevisionStore } from './libs/revisions'
 import { ApiStyleStore } from './libs/apistore'
 import { StyleStore } from './libs/stylestore'
 
+import tokens from './config/tokens.json'
+
 
 
 function loadFromUrl ({styleStore, setMapStyle}) {
@@ -59,6 +61,7 @@ function CustomMaputnik (props) {
   // Need a catch to stop maputnik:renderer being set
   const [mapStyle, setMapStyle] = useState(DEBUG_STYLE);
   const [uiState, setUiState] = useState({
+    tokens: tokens,
     layerTypes: [
       "background",
       "fill",

@@ -163,6 +163,19 @@ function replaceAccessToken(url, mapStyle) {
   }
 }
 
+// Similar functionality as <https://github.com/mapbox/mapbox-gl-js/blob/7e30aadf5177486c2cfa14fe1790c60e217b5e56/src/util/mapbox.js>
+function normalizeSourceURL (url, tokens) {
+  const apiToken = tokens["mapbox"];
+  const matches = url.match(/^mapbox:\/\/(.*)/);
+  if (apiToken && matches) {
+    // mapbox://mapbox.mapbox-streets-v7
+    return `https://api.mapbox.com/v4/${matches[1]}.json?secure&access_token=${apiToken}`
+  }
+  else {
+    return url;
+  }
+}
+
 export default {
   ensureStyleValidity,
   emptyStyle,
@@ -173,4 +186,5 @@ export default {
   stripAccessTokens,
   setDefaults,
   replaceAccessToken,
+  normalizeSourceURL,
 }

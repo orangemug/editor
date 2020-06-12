@@ -5,14 +5,12 @@ import clamp from 'lodash.clamp'
 import get from 'lodash.get'
 import {unset} from 'lodash'
 import arrayMove from 'array-move'
-import url from 'url'
-import hash from "string-hash";
 
 import LayerList from './LayerList'
 import LayerEditor from './LayerEditor'
-import AppToolbar from './AppToolbar'
 import AppLayout from './AppLayout'
 import MessagePanel from './AppMessagePanel'
+import MapGeneric from './MapGeneric'
 
 import ModalSettings from './ModalSettings'
 import ModalExport from './ModalExport'
@@ -21,35 +19,18 @@ import ModalOpen from './ModalOpen'
 import ModalShortcuts from './ModalShortcuts'
 import ModalSurvey from './ModalSurvey'
 import ModalDebug from './ModalDebug'
-import MapGeneric from './MapGeneric'
 
-import { downloadGlyphsMetadata, downloadSpriteMetadata } from '../libs/metadata'
+import {downloadGlyphsMetadata, downloadSpriteMetadata} from '../libs/metadata'
 import {latest, validate} from '@mapbox/mapbox-gl-style-spec'
 import style from '../libs/style'
 import spec from '../libs/spec'
-import { undoMessages, redoMessages } from '../libs/diffmessage'
+import {undoMessages, redoMessages} from '../libs/diffmessage'
 import LayerWatcher from '../libs/layerwatcher'
-import tokens from '../config/tokens.json'
 import isEqual from 'lodash.isequal'
-import Debug from '../libs/debug'
-import queryUtil from '../libs/query-util'
 import {formatLayerId} from '../util/format';
 import svgAccesibilityFilters from '../img/accesibility.svg';
 
 import MapboxGl from 'mapbox-gl'
-
-
-// Similar functionality as <https://github.com/mapbox/mapbox-gl-js/blob/7e30aadf5177486c2cfa14fe1790c60e217b5e56/src/util/mapbox.js>
-function normalizeSourceURL (url, apiToken="") {
-  const matches = url.match(/^mapbox:\/\/(.*)/);
-  if (matches) {
-    // mapbox://mapbox.mapbox-streets-v7
-    return `https://api.mapbox.com/v4/${matches[1]}.json?secure&access_token=${apiToken}`
-  }
-  else {
-    return url;
-  }
-}
 
 
 export default class App extends React.Component {
@@ -114,9 +95,9 @@ export default class App extends React.Component {
   }
 
   updateFonts(urlTemplate) {
-    const {mapStyle} = this.props;
+    const {mapStyle, uiState} = this.props;
     const metadata = mapStyle.metadata || {}
-    const accessToken = metadata['maputnik:openmaptiles_access_token'] || tokens.openmaptiles
+    const accessToken = metadata['maputnik:openmaptiles_access_token'] || uiState.tokens.openmaptiles
 
     let glyphUrl = (typeof urlTemplate === 'string')? urlTemplate.replace('{key}', accessToken): urlTemplate;
     downloadGlyphsMetadata(glyphUrl, fonts => {
@@ -309,7 +290,7 @@ export default class App extends React.Component {
   // }
 
   fetchSources() {
-    const {mapStyle} = this.props;
+    const {mapStyle, uiState} = this.props;
     const sourceList = {};
 
     for(let [key, val] of Object.entries(mapStyle.sources)) {
@@ -325,9 +306,9 @@ export default class App extends React.Component {
 
         let url = val.url;
         try {
-          url = normalizeSourceURL(url, MapboxGl.accessToken);
+          url = style.normalizeSourceURL(url, uiState.tokens);
         } catch(err) {
-          console.warn("Failed to normalizeSourceURL: ", err);
+          console.warn("Failed to style.normalizeSourceURL: ", err);
         }
 
         try {
@@ -395,9 +376,6 @@ export default class App extends React.Component {
     this.setState({
       mapView,
     });
-  }
-
-  mapRenderer() {
   }
 
   // DONE
