@@ -61,7 +61,7 @@ export default function useShortcuts ({uiState, setUiState, revisionStack}) {
 
       const isMac = (navigator.platform.toUpperCase().indexOf('MAC') >= 0)
       const isUndo = (
-        (isMac && e.metaKey && e.keyCode === 90) ||
+        (isMac && e.metaKey && !e.shiftKey && e.keyCode === 90) ||
         (!isMac && e.ctrlKey && e.keyCode === 90)
       );
       const isRedo = (

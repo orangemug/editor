@@ -9,10 +9,16 @@ export default function useUndoStack ({mapStyle, setMapStyle}) {
       mapStyle,
     ],
   });
+  const [ignore, setIgnore] = useState(null);
 
   useEffect(() => {
     const {revisions, pointer} = revisionStore;
     const newPointer = pointer + 1;
+
+    setIgnore(null);
+    if (ignore && ignore === mapStyle) {
+      return;
+    }
 
     const hasChanged = !isEqual(
       revisions[pointer],
@@ -25,7 +31,7 @@ export default function useUndoStack ({mapStyle, setMapStyle}) {
         revisions: revisions.slice(0, newPointer).concat(mapStyle),
       });
     }
-  }, [mapStyle, setRevisionStore, revisionStore]);
+  }, [mapStyle]);
 
   function canUndo () {
     const {pointer} = revisionStore;
@@ -45,7 +51,10 @@ export default function useUndoStack ({mapStyle, setMapStyle}) {
         ...revisionStore,
         pointer: newPointer,
       });
-      setMapStyle(revisions[newPointer]);
+
+      const newStyle = revisions[newPointer];
+      setIgnore(newStyle);
+      setMapStyle(newStyle);
     }
   }
 
@@ -57,7 +66,10 @@ export default function useUndoStack ({mapStyle, setMapStyle}) {
         ...revisionStore,
         pointer: newPointer,
       });
-      setMapStyle(revisions[newPointer]);
+
+      const newStyle = revisions[newPointer];
+      setIgnore(newStyle);
+      setMapStyle(newStyle);
     }
   }
 
