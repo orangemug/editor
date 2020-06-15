@@ -218,7 +218,7 @@ body {
     background: white;
     border-bottom: solid 1px #e9edfa;
 
-    button, input {
+    button, input, select {
       margin-right: 0.4em;
     }
   }
@@ -232,8 +232,3 @@ body {
 // --------------------------
 // temp custom code [end]
 // --------------------------
-
-// TODO: Remove me and embed instead.
-.accessiblity-color-filter-defs {
-  display: none;
-}

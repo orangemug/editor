@@ -3,32 +3,27 @@ import {StyleStore} from '../libs/stylestore'
 import {initialStyleUrl, loadStyleUrl, removeStyleQuerystring} from '../libs/urlopen'
 
 
-export default function useLoadFromUrl ({styleStore, setMapStyle}) {
+export default function useLoadFromUrl ({setMapStyle}) {
   useEffect(() => {
+    let canceled = false;
     const styleUrl = initialStyleUrl();
-    let styleStore;
 
-    if(styleUrl && window.confirm("Load style from URL: " + styleUrl + " and discard current changes?")) {
-      styleStore = new StyleStore()
-      loadStyleUrl(styleUrl, mapStyle => setMapStyle(mapStyle))
+    if(styleUrl) {
       removeStyleQuerystring()
-    } else {
-      if(styleUrl) {
-        removeStyleQuerystring()
+
+      if (window.confirm("Load style from URL: " + styleUrl + " and discard current changes?")) {
+        // TODO: Set state loading
+
+        loadStyleUrl(styleUrl, mapStyle => {
+          if (!canceled) {
+            setMapStyle(mapStyle);
+          }
+        })
       }
-      styleStore.init(err => {
-        if(err) {
-          console.log('Falling back to local storage for storing styles')
-          styleStore = new StyleStore()
-        }
-        styleStore.latestStyle(mapStyle => setMapStyle(mapStyle, {
-          initialLoad: true
-        }))
-      })
     }
 
     return () => {
-      styleStore.destroy();
+      canceled = true;
     };
   }, []);
 }

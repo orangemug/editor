@@ -1,8 +1,8 @@
-import {ApiStyleStore} from '../libs/apistore';
 import {useEffect} from 'react';
+import {getStyle, setStyle} from '../libs/stylestore';
 
 
-export default function useWebsocket ({mapStyle, setMapStyle}) {
+export default function useWebsocketApi({setMapStyle}) {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search.substring(1));
     let port = params.get("localport");
@@ -10,12 +10,15 @@ export default function useWebsocket ({mapStyle, setMapStyle}) {
       port = window.location.port;
     }
 
-    const styleStore = new ApiStyleStore({
-      onLocalStyleChange: setMapStyle,
-      // onLocalStyleChange: mapStyle => setMapStyle(mapStyle, {save: false}),
+    const apiStore = new ApiStyleStore({
       port: port,
-      host: params.get("localhost")
+      host: params.get("localhost"),
     });
-  }, []);
-}
 
+    apiStore.watch(setMapStyle);
+
+    return () => {
+      apiStore.destroy();
+    };
+  }, [setMapStyle]);
+}

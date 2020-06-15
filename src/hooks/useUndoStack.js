@@ -19,18 +19,15 @@ export default function useUndoStack ({mapStyle, setMapStyle}) {
       mapStyle
     );
 
-    console.log("???? added to stack", {revisionStore, hasChanged});
-
     if (hasChanged) {
       setRevisionStore({
         pointer: newPointer,
         revisions: revisions.slice(0, newPointer).concat(mapStyle),
       });
     }
-  }, [mapStyle]);
+  }, [mapStyle, setRevisionStore, revisionStore]);
 
   function canUndo () {
-    console.log("canUndo", revisionStore);
     const {pointer} = revisionStore;
     return (pointer > 0);
   }

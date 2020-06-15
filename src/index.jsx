@@ -4,11 +4,19 @@ import ReactDOM from 'react-dom';
 import './favicon.ico'
 import './styles/index.scss'
 import Maputnik, {uiStateConfigurator} from './components/App';
-import {useStatefulUrl, useShortcuts, useUndoStack} from './hooks';
 import DEBUG_STYLE from './debug/circles';
 import uiStateHelper from './api/ui-state-helper';
 import Toolbar from './debug/toolbar';
 import publicSources from './config/tilesets.json'
+import {
+  useStatefulUrl,
+  useShortcuts,
+  useUndoStack,
+  useStore,
+  useLoadFromUrl,
+  useDebug,
+  useDisableModal
+} from './hooks';
 
 import tokens from './config/tokens.json'
 
@@ -86,31 +94,36 @@ function CustomMaputnik (props) {
     mapStyle,
   });
 
-  useShortcuts({
-    uiState,
-    setUiState,
-    uiAction,
-  });
-
   const revisionStack = useUndoStack({
     mapStyle,
     setMapStyle,
   });
 
-  // useWebsocket({
+  useShortcuts({
+    uiState,
+    setUiState,
+    revisionStack,
+  });
+
+  // useWebsocketApi({
   //   mapStyle,
   //   setMapStyle,
   // });
 
-  // useLoadFromUrl({
-  //   styleStore,
-  //   setMapStyle,
-  // });
+  useStore({
+    mapStyle,
+    setMapStyle,
+  });
 
-  // useDebug({
-  //   revisions,
-  //   mapStyle,
-  // });
+  useDebug({
+    revisionStack,
+    mapStyle,
+  });
+
+  useDisableModal({
+    uiState,
+    setUiState,
+  });
 
   return (
     <div className="custom__maputnik">

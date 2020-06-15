@@ -1,7 +1,10 @@
 import {useEffect} from 'react';
+import uiStateHelper from '../api/ui-state-helper';
 
-export default function useShortcuts ({uiState, setUiState, uiAction}) {
-  const handler = () => {
+export default function useShortcuts ({uiState, setUiState, revisionStack}) {
+  const uiAction = uiStateHelper(uiState, setUiState);
+
+  const effectHandler = () => {
     const handleKeyUp = (e) => {
       const shortcuts = [
         {
@@ -56,7 +59,25 @@ export default function useShortcuts ({uiState, setUiState, uiAction}) {
         },
       ];
 
-      if(e.key === "Escape") {
+      const isMac = (navigator.platform.toUpperCase().indexOf('MAC') >= 0)
+      const isUndo = (
+        (isMac && e.metaKey && e.keyCode === 90) ||
+        (!isMac && e.ctrlKey && e.keyCode === 90)
+      );
+      const isRedo = (
+        (isMac && e.metaKey && e.shiftKey && e.keyCode === 90) ||
+        (!isMac && e.ctrlKey && e.keyCode === 89)
+      );
+
+      if (isUndo) {
+        e.preventDefault();
+        revisionStack.onUndo(e);
+      }
+      else if(isRedo) {
+        e.preventDefault();
+        revisionStack.onRedo(e);
+      }
+      else if (e.key === "Escape") {
         e.target.blur();
         document.body.focus();
       }
@@ -72,13 +93,13 @@ export default function useShortcuts ({uiState, setUiState, uiAction}) {
       }
     }
 
-    document.body.addEventListener("keyup", handleKeyUp);
+    document.body.addEventListener("keydown", handleKeyUp);
 
     return () => {
-      document.body.removeEventListener("keyup", handleKeyUp);
+      document.body.removeEventListener("keydown", handleKeyUp);
     }
   }
 
-  useEffect(handler, []);
+  useEffect(effectHandler, [uiState, setUiState, revisionStack]);
 }
 
