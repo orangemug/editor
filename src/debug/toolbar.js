@@ -2,6 +2,8 @@ import React from 'react';
 
 
 export default function Toolbar (props) {
+  const {revisionStack} = props;
+
   return <nav>
     <button onClick={e => props.onOpen("settings")}>
       Style settings
@@ -30,6 +32,18 @@ export default function Toolbar (props) {
           </option>
         </optgroup>
       </select>
+      <button
+        onClick={revisionStack.onUndo}
+        disabled={!revisionStack.canUndo()}
+      >
+        Undo
+      </button>
+      <button
+        onClick={revisionStack.onRedo}
+        disabled={!revisionStack.canRedo()}
+      >
+        Redo
+      </button>
     </label>
   </nav>
 }

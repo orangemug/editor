@@ -1,8 +1,13 @@
 import {useEffect} from 'react';
+import {StyleStore} from '../libs/stylestore'
+import {initialStyleUrl, loadStyleUrl, removeStyleQuerystring} from '../libs/urlopen'
+
 
 export default function useLoadFromUrl ({styleStore, setMapStyle}) {
-  return () => {
-    const styleUrl = initialStyleUrl()
+  useEffect(() => {
+    const styleUrl = initialStyleUrl();
+    let styleStore;
+
     if(styleUrl && window.confirm("Load style from URL: " + styleUrl + " and discard current changes?")) {
       styleStore = new StyleStore()
       loadStyleUrl(styleUrl, mapStyle => setMapStyle(mapStyle))
@@ -21,7 +26,11 @@ export default function useLoadFromUrl ({styleStore, setMapStyle}) {
         }))
       })
     }
-  }
+
+    return () => {
+      styleStore.destroy();
+    };
+  }, []);
 }
 
 
