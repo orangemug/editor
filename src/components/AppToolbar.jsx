@@ -105,12 +105,6 @@ class ToolbarAction extends React.Component {
 export default class AppToolbar extends React.Component {
   static propTypes = {
     mapStyle: PropTypes.object.isRequired,
-    inspectModeEnabled: PropTypes.bool.isRequired,
-    onStyleChanged: PropTypes.func.isRequired,
-    // A new style has been uploaded
-    onStyleOpen: PropTypes.func.isRequired,
-    // A dict of source id's and the available source layers
-    sources: PropTypes.object.isRequired,
     children: PropTypes.node,
     onOpen: PropTypes.func,
     onSetMapState: PropTypes.func,
