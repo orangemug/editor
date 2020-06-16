@@ -1,5 +1,5 @@
 # API
-The are various APIs available to Maputnik users/developers
+There are various APIs available to Maputnik users/developers
 
 
 ## React component API
@@ -12,6 +12,16 @@ Below is an example of the API, with comments inline
 
 ```jsx
 import React, {useState} from 'react';
+import Maputnik, {
+  uiStateHelper,
+  useStatefulUrl,
+  useShortcuts,
+  useUndoStack,
+  useStore,
+  useLoadFromUrl,
+  useDebug,
+  useDisableModal
+} from '@maputnik/editor';
 
 const STYLE = {
   // Insert style here...
@@ -132,7 +142,37 @@ function CustomMaputnik (props) {
 ```
 
 
+### Simple React API
+**Not currently implemented**
+
+```jsx
+const {Controller, Editor} from '@maputnik/editor';
+
+const controller = new Controller({
+  plugins: [
+    statefulUrl,
+    shortcuts,
+    undoStack,
+    websocketApi,
+    loadFromUrl,
+  ],
+  onStyleChanged: () => {},
+  onUiStateChanged: () => {},
+});
+
+return (
+  <div>
+    <CustomToolbar {...controller.actions} />
+    <Editor {...controller.props} />
+  </div>
+);
+```
+
+
 ## URL based API
-TODO
+With plugins `statefulUrl` you can load and set state based on searchParams...
+
+**TODO**
+
 
 
