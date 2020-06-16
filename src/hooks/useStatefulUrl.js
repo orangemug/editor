@@ -27,7 +27,7 @@ const onUpdate = ({uiState, mapStyle}) => {
       url.searchParams.set("view", "inspect");
     }
 
-    history.replaceState({selectedLayerIndex}, "Maputnik", url.href);
+    history.replaceState(history.state, "Maputnik", url.href);
   }
 }
 

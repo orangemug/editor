@@ -132,10 +132,10 @@ export default class MapMapboxGl extends React.Component {
     if(!IS_SUPPORTED) return;
 
     const mapOpts = {
+      hash: true,
       ...this.props.options,
       container: this.container,
       style: this.props.mapStyle,
-      hash: true,
       maxZoom: 24
     }
 

@@ -515,8 +515,8 @@ export default class App extends React.Component {
   onChangeOpenlayersDebug = (key, value) => {
     this.props.onUiStateChanged({
       ...this.props.uiState,
-      openlayersDebugOptions: {
-        ...this.props.uiState.openlayersDebugOptions,
+      openlayersOptions: {
+        ...this.props.uiState.openlayersOptions,
         [key]: value,
       }
     });
@@ -526,8 +526,8 @@ export default class App extends React.Component {
   onChangeMaboxGlDebug = (key, value) => {
     this.props.onUiStateChanged({
       ...this.props.uiState,
-      mapboxGlDebugOptions: {
-        ...this.props.uiState.mapboxGlDebugOptions,
+      mapboxGlOptions: {
+        ...this.props.uiState.mapboxGlOptions,
         [key]: value,
       }
     });
@@ -586,8 +586,8 @@ export default class App extends React.Component {
     const modals = <div>
       <ModalDebug
         renderer={this.getRenderer()}
-        mapboxGlDebugOptions={uiState.mapboxGlDebugOptions}
-        openlayersDebugOptions={uiState.openlayersDebugOptions}
+        mapboxGlOptions={uiState.mapboxGlOptions}
+        openlayersOptions={uiState.openlayersOptions}
         onChangeMaboxGlDebug={this.onChangeMaboxGlDebug}
         onChangeOpenlayersDebug={this.onChangeOpenlayersDebug}
         isOpen={isOpen.debug}
@@ -606,7 +606,7 @@ export default class App extends React.Component {
         onChangeMetadataProperty={this.onChangeMetadataProperty}
         isOpen={isOpen.settings}
         onOpenToggle={this.toggleModal.bind(this, 'settings')}
-        openlayersDebugOptions={uiState.openlayersDebugOptions}
+        openlayersOptions={uiState.openlayersOptions}
       />
       <ModalExport
         mapStyle={mapStyle}
@@ -637,8 +637,8 @@ export default class App extends React.Component {
       dirtyMapStyle={this.state.dirtyMapStyle}
       renderer={this.getRenderer()}
       mapState={uiState.mapState}
-      mapboxGlDebugOptions={uiState.mapboxGlDebugOptions}
-      openlayersDebugOptions={uiState.openlayersDebugOptions}
+      mapboxGlOptions={uiState.mapboxGlOptions}
+      openlayersOptions={uiState.openlayersOptions}
       selectedLayerIndex={uiState.selectedLayerIndex}
       onChangeMapView={this.onChangeMapView}
       onLayerSelect={this.onLayerSelect}

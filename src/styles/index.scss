@@ -232,3 +232,20 @@ body {
 // --------------------------
 // temp custom code [end]
 // --------------------------
+
+.core__maputnik {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  &__toolbar {
+    // HACK
+    max-width: 100vw;
+  }
+
+  &__editor {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+}

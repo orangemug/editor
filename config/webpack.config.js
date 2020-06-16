@@ -9,19 +9,10 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8888";
 
-module.exports = {
+const base = {
   target: 'web',
   mode: 'development',
-  entry: [
-    `webpack-dev-server/client?http://${HOST}:${PORT}`,
-    `webpack/hot/only-dev-server`,
-    `./src/index.jsx` // Your appʼs entry point
-  ],
   devtool: process.env.WEBPACK_DEVTOOL || 'cheap-module-source-map',
-  output: {
-    path: path.join(__dirname, '..', 'public'),
-    filename: 'bundle.js'
-  },
   resolve: {
     extensions: ['.js', '.jsx']
   },
@@ -44,8 +35,6 @@ module.exports = {
     hot: true,
     // embed the webpack-dev-server runtime into the bundle
     inline: true,
-    // serve index.html in place of 404 responses to allow HTML5 history
-    historyApiFallback: true,
     port: PORT,
     host: HOST,
     watchOptions: {
@@ -55,21 +44,66 @@ module.exports = {
       watch: false
     }
   },
-  plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-      title: 'Maputnik',
-      template: './src/template.html'
-    }),
-    new HtmlWebpackInlineSVGPlugin({
-      runPreEmit: true,
-    }),
-    new CopyWebpackPlugin([
-      {
-        from: './src/manifest.json',
-        to: 'manifest.json'
-      }
-    ])
-  ]
-};
+}
+
+module.exports = [
+  {
+    ...base,
+    entry: {
+      bundle: [
+        `webpack-dev-server/client?http://${HOST}:${PORT}`,
+        `webpack/hot/only-dev-server`,
+        `./src/maputnik.jsx` // Your appʼs entry point
+      ],
+      "api/index": [
+        `webpack-dev-server/client?http://${HOST}:${PORT}`,
+        `webpack/hot/only-dev-server`,
+        `./api/index.js` // Your appʼs entry point
+      ],
+    },
+    output: {
+      path: path.join(__dirname, '..', 'public'),
+      filename: '[name].js'
+    },
+    plugins: [
+      new webpack.NoEmitOnErrorsPlugin(),
+      new webpack.HotModuleReplacementPlugin(),
+      new HtmlWebpackPlugin({
+        title: 'Maputnik',
+        template: './src/template.html',
+        inject: false,
+      }),
+      new HtmlWebpackInlineSVGPlugin({
+        runPreEmit: true,
+      }),
+      new CopyWebpackPlugin([
+        {
+          from: './src/manifest.json',
+          to: 'manifest.json'
+        },
+        {
+          from: './api/index.html',
+          to: 'api/index.html'
+        },
+      ])
+    ]
+  },
+  {
+    ...base,
+    entry: [
+      `webpack-dev-server/client?http://${HOST}:${PORT}`,
+      `webpack/hot/only-dev-server`,
+      `./src/index.jsx`,
+    ],
+    output: {
+      path: path.join(__dirname, '..', 'public'),
+      filename: 'module.js',
+      library: 'maputnik',
+      libraryTarget: 'umd',
+    },
+    plugins: [
+      new webpack.NoEmitOnErrorsPlugin(),
+      new webpack.HotModuleReplacementPlugin(),
+    ]
+  },
+];

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <%= htmlWebpackPlugin.tags.headTags %>
   <title><%= htmlWebpackPlugin.options.title %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="manifest" href="manifest.json">
@@ -50,5 +51,10 @@
     </div>
     <div class="loading__text">Loading&hellip;</div>
   </div>
+  <%=
+    htmlWebpackPlugin.tags
+      .bodyTags
+      .filter((tag) => tag.attributes.src.match(/bundle/))
+  %>
 </body>
 </html>

@@ -11,8 +11,8 @@ export default class ModalDebug extends React.Component {
     onChangeMaboxGlDebug: PropTypes.func.isRequired,
     onChangeOpenlayersDebug: PropTypes.func.isRequired,
     onOpenToggle: PropTypes.func.isRequired,
-    mapboxGlDebugOptions: PropTypes.object,
-    openlayersDebugOptions: PropTypes.object,
+    mapboxGlOptions: PropTypes.object,
+    openlayersOptions: PropTypes.object,
     mapView: PropTypes.object,
   }
 
@@ -33,7 +33,7 @@ export default class ModalDebug extends React.Component {
         <h1>Options</h1>
         {this.props.renderer === 'mbgljs' &&
           <ul>
-            {Object.entries(this.props.mapboxGlDebugOptions).map(([key, val]) => {
+            {Object.entries(this.props.mapboxGlOptions).map(([key, val]) => {
               return <li key={key}>
                 <label>
                   <input type="checkbox" checked={val} onClick={(e) => this.props.onChangeMaboxGlDebug(key, e.target.checked)} /> {key}
@@ -44,7 +44,7 @@ export default class ModalDebug extends React.Component {
         }
         {this.props.renderer === 'ol' &&
           <ul>
-            {Object.entries(this.props.openlayersDebugOptions).map(([key, val]) => {
+            {Object.entries(this.props.openlayersOptions).map(([key, val]) => {
               return <li key={key}>
                 <label>
                   <input type="checkbox" checked={val} onClick={(e) => this.props.onChangeOpenlayersDebug(key, e.target.checked)} /> {key}

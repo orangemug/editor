@@ -10,8 +10,8 @@ export default function MapGeneric (props) {
       renderer,
       dirtyMapStyle,
       mapState,
-      mapboxGlDebugOptions,
-      openlayersDebugOptions,
+      mapboxGlOptions,
+      openlayersOptions,
       selectedLayerIndex,
     } = props;
     const metadata = mapStyle.metadata || {};
@@ -33,13 +33,13 @@ export default function MapGeneric (props) {
       mapElement = <MapOpenLayers
         {...mapProps}
         onChange={props.onChangeMapView}
-        debugToolbox={openlayersDebugOptions.debugToolbox}
+        debugToolbox={openlayersOptions.debugToolbox}
         onLayerSelect={props.onLayerSelect}
       />
     } else {
       mapElement = <MapMapboxGl {...mapProps}
         onChange={props.onChangeMapView}
-        options={mapboxGlDebugOptions}
+        options={mapboxGlOptions}
         inspectModeEnabled={mapState === "inspect"}
         highlightedLayer={mapStyle.layers[selectedLayerIndex]}
         onLayerSelect={props.onLayerSelect} />
