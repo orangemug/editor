@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {detect} from 'detect-browser';
+import {get} from 'lodash';
 
 import {MdFileDownload, MdOpenInBrowser, MdSettings, MdLayers, MdHelpOutline, MdFindInPage, MdAssignmentTurnedIn} from 'react-icons/md'
 
@@ -30,7 +31,7 @@ class ToolbarLink extends React.Component {
     className: PropTypes.string,
     children: PropTypes.node,
     href: PropTypes.string,
-    onToggleModal: PropTypes.func,
+    onOpen: PropTypes.func,
   }
 
   render() {
@@ -50,7 +51,7 @@ class ToolbarLinkHighlighted extends React.Component {
     className: PropTypes.string,
     children: PropTypes.node,
     href: PropTypes.string,
-    onToggleModal: PropTypes.func
+    onOpen: PropTypes.func
   }
 
   render() {
@@ -111,7 +112,7 @@ export default class AppToolbar extends React.Component {
     // A dict of source id's and the available source layers
     sources: PropTypes.object.isRequired,
     children: PropTypes.node,
-    onToggleModal: PropTypes.func,
+    onOpen: PropTypes.func,
     onSetMapState: PropTypes.func,
     mapState: PropTypes.string,
     renderer: PropTypes.string,
@@ -128,7 +129,7 @@ export default class AppToolbar extends React.Component {
   }
 
   handleSelection(val) {
-    this.props.onSetMapState(val);
+    this.props.onChangeView(val);
   }
 
   onSkip = (target) => {
@@ -142,6 +143,8 @@ export default class AppToolbar extends React.Component {
   }
 
   render() {
+    const renderer = get(this.props.mapStyle, "metadata", {})['maputnik:renderer'] || 'mbgljs';
+
     const views = [
       {
         id: "map",
@@ -152,7 +155,7 @@ export default class AppToolbar extends React.Component {
         id: "inspect",
         group: "general",
         title: "Inspect",
-        disabled: this.props.renderer !== 'mbgljs',
+        disabled: renderer !== 'mbgljs',
       },
       {
         id: "filter-deuteranopia",
@@ -223,19 +226,19 @@ export default class AppToolbar extends React.Component {
           </div>
         </div>
         <div className="maputnik-toolbar__actions" role="navigation" aria-label="Toolbar">
-          <ToolbarAction wdKey="nav:open" onClick={this.props.onToggleModal.bind(this, 'open')}>
+          <ToolbarAction wdKey="nav:open" onClick={this.props.onOpen.bind(this, 'open')}>
             <MdOpenInBrowser />
             <IconText>Open</IconText>
           </ToolbarAction>
-          <ToolbarAction wdKey="nav:export" onClick={this.props.onToggleModal.bind(this, 'export')}>
+          <ToolbarAction wdKey="nav:export" onClick={this.props.onOpen.bind(this, 'export')}>
             <MdFileDownload />
             <IconText>Export</IconText>
           </ToolbarAction>
-          <ToolbarAction wdKey="nav:sources" onClick={this.props.onToggleModal.bind(this, 'sources')}>
+          <ToolbarAction wdKey="nav:sources" onClick={this.props.onOpen.bind(this, 'sources')}>
             <MdLayers />
             <IconText>Data Sources</IconText>
           </ToolbarAction>
-          <ToolbarAction wdKey="nav:settings" onClick={this.props.onToggleModal.bind(this, 'settings')}>
+          <ToolbarAction wdKey="nav:settings" onClick={this.props.onOpen.bind(this, 'settings')}>
             <MdSettings />
             <IconText>Style Settings</IconText>
           </ToolbarAction>

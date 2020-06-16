@@ -17,15 +17,18 @@ import Maputnik, {
   useStore,
   useLoadFromUrl,
   useDebug,
-  useDisableModal
+  useDisableModal,
+  useValidators,
+  validatorDisableModal,
 } from './index';
 
 
 function CustomMaputnik (props) {
   const [mapStyle, setMapStyle] = useState(emptyStyle);
+  const validators = [];
 
   // TODO: These options should all provide defaults
-  const [uiState, setUiState] = useState({
+  const [uiState, setUiState] = useValidators({
     tokens: tokens,
     layerTypes: [
       "background",
@@ -64,7 +67,7 @@ function CustomMaputnik (props) {
       debugToolbox: false,
     },
     selectedLayerIndex: 0,
-  });
+  }, validators);
 
   const uiAction = uiStateHelper(uiState, setUiState);
 
@@ -105,11 +108,6 @@ function CustomMaputnik (props) {
     mapStyle,
   });
 
-  useDisableModal({
-    uiState,
-    setUiState,
-  });
-
   return (
     <div className="core__maputnik">
       <div className="core__maputnik__toolbar">
@@ -118,9 +116,8 @@ function CustomMaputnik (props) {
           onChangeView={uiAction.changeMapState}
           onOpen={uiAction.openModal}
           revisionStack={revisionStack}
-
-          onToggleModal={() => {}}
-          mapState="map"
+          mapState={uiState.mapState}
+          mapStyle={mapStyle}
         />
       </div>
       <div className="core__maputnik__editor">

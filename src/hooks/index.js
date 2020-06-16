@@ -6,6 +6,7 @@ import useDebug from './useDebug';
 import useStore from './useStore';
 import useDisableModal from './useDisableModal';
 import useWebsocketApi from './useWebsocketApi';
+import useValidators from './useValidators';
 
 export {
   useStatefulUrl,
@@ -16,4 +17,5 @@ export {
   useDebug,
   useDisableModal,
   useWebsocketApi,
+  useValidators,
 }

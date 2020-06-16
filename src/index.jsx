@@ -9,8 +9,13 @@ import {
   useStore,
   useLoadFromUrl,
   useDebug,
-  useDisableModal
+  useDisableModal,
+  useValidators,
 } from './hooks';
+
+import {
+  validatorDisableModal
+} from './validators';
 
 export default Maputnik;
 export {
@@ -21,6 +26,8 @@ export {
   useStore,
   useLoadFromUrl,
   useDebug,
-  useDisableModal
+  useDisableModal,
+  useValidators,
+  validatorDisableModal,
 }
 
