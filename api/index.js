@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+import './index.scss';
+
 import qsRouter from './qsRouter';
 import Simple from './pages/Simple';
 import Root from './pages/Root';
