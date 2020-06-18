@@ -112,16 +112,6 @@ export default class AppToolbar extends React.Component {
     renderer: PropTypes.string,
   }
 
-  state = {
-    isOpen: {
-      settings: false,
-      sources: false,
-      open: false,
-      add: false,
-      export: false,
-    }
-  }
-
   handleSelection(val) {
     this.props.onChangeView(val);
   }

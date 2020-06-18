@@ -55,7 +55,7 @@ const onMount = ({uiState, setUiState, mapStyle}) => {
     if (view && view !== "") {
       uiState = {
         ...uiState,
-        mapState
+        mapState: view,
       };
     }
 
