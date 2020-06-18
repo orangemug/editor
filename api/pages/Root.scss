@@ -1,0 +1,19 @@
+.Root {
+  position: relative;
+  overflow: hidden;
+
+  .Markdown {
+    padding: 0.8em;
+
+    pre code {
+      display: block;
+      max-width: 100%;
+      overflow-x: auto;
+      padding: 0.4em;
+      background: #eee;
+      border: solid 1px #ddd;
+      border-radius: 2px;
+    }
+  }
+}
+

@@ -2,6 +2,10 @@ const path = require("path");
 
 module.exports = [
   {
+    test: /\.md$/,
+    use: 'raw-loader'
+  },
+  {
     test: /\.jsx?$/,
     exclude: [
       path.resolve(__dirname, '../node_modules')
@@ -27,7 +31,7 @@ module.exports = [
     ]
   },
   {
-    test: /[\/\\](node_modules|global|src)[\/\\].*\.scss$/,
+    test: /[\/\\](node_modules|global|src|api)[\/\\].*\.scss$/,
     use: [
       'style-loader',
       "css-loader",

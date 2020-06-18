@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 
+import './Simple.scss';
 import '../../src/favicon.ico';
 import '../../src/styles/index.scss';
 
@@ -136,7 +137,7 @@ function CustomMaputnik (props) {
 }
 
 export default function Simple () {
-  return <div style={{flex: 1, display: "flex"}}>
+  return <div className="Simple">
 		<CustomMaputnik />
 	</div>
 }
