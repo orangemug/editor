@@ -31,6 +31,7 @@ function CustomMaputnik (props) {
   const [uiState, setUiState] = useValidators({
     tokens: tokens,
     layerTypes: [
+      "background",
       "circle",
       "fill",
       "fill-extrusion",

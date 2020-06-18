@@ -14,7 +14,7 @@ var SCREENSHOTS_PATH = artifacts.pathSync("/screenshots");
  * See <https://github.com/webdriverio/webdriverio/issues/1886>
  */
 try {
-  browser.addCommand('setValueSafe', function(selector, text) {
+  browser.addCommand('setValueSafe', function(selector, text="") {
     for(var i=0; i<10; i++) {
       const elem = $(selector);
       elem.waitForDisplayed(500);
