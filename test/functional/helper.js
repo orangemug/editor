@@ -23,7 +23,8 @@ module.exports = {
   },
   getStyleStore: function(browser) {
     var result = browser.executeAsync(function(done) {
-      window.debug.get("maputnik", "styleStore").latestStyle(done);
+      const style = window.debug.get("maputnik", "styleStore");
+      done(style);
     })
     return result;
   },

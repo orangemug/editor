@@ -24,8 +24,18 @@ try {
         throw "Too many elements found";
       }
 
+      // Clear the current value.
+      const valueLength = elem.getValue().length;
+      const backSpaces = new Array(valueLength).fill('Backspace');
+
+      let keys = backSpaces;
+      if (text) {
+        keys = keys.concat(
+          Array.isArray(text) ? text : text.toString().split("")
+        );
+      }
       const elem2 = $(selector);
-      elem2.setValue(text);
+      elem2.setValue(keys);
 
       var browserText = elem2.getValue();
 

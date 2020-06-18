@@ -31,12 +31,13 @@ function CustomMaputnik (props) {
   const [uiState, setUiState] = useValidators({
     tokens: tokens,
     layerTypes: [
-      "background",
-      "fill",
-      "line",
-      "symbol",
-      "raster",
       "circle",
+      "fill",
+      "fill-extrusion",
+      "heatmap",
+      "line",
+      "raster",
+      "symbol",
     ],
     mapState: "map",
     isOpen: {
@@ -106,6 +107,10 @@ function CustomMaputnik (props) {
   useDebug({
     revisionStack,
     mapStyle,
+  });
+
+  useLoadFromUrl({
+    setMapStyle,
   });
 
   return (

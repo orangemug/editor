@@ -267,7 +267,7 @@ export default class App extends React.Component {
       errors: mappedErrors,
     }, () => {
       this.props.onMapStyleChanged(newStyle);
-      this.fetchSources();
+      this.fetchSources(newStyle);
     });
 
   }
@@ -291,8 +291,11 @@ export default class App extends React.Component {
   //   })
   // }
 
-  fetchSources() {
-    const {mapStyle, uiState} = this.props;
+  fetchSources(mapStyle) {
+    const {uiState} = this.props;
+    if (!mapStyle) {
+      mapStyle = this.props.mapStyle;
+    }
     const sourceList = {};
 
     for(let [key, val] of Object.entries(mapStyle.sources)) {
