@@ -98,6 +98,11 @@ jobs:
       with:
         name: editor
         path: build/production/build
+    - name: artifacts/npm-pkg
+      uses: actions/upload-artifact@v1
+      with:
+        name: npm-pkg
+        path: build/production/npm
     - run: npm run profiling-build
     - name: artifacts/editor-profiling
       uses: actions/upload-artifact@v1
