@@ -1,7 +1,9 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-module.exports = ({isStorybook}) => {
+module.exports = (opts = {}) => {
+  const {isStorybook} = opts;
+
   return [
     {
       test: /\.md$/,
