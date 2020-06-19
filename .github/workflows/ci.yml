@@ -103,7 +103,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: editor-profiling
-        path: build/production/profiling
+        path: build/profiling/build
     - name: artifacts/storybook
       uses: actions/upload-artifact@v1
       with:
