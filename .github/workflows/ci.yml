@@ -97,18 +97,18 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: editor
-        path: build/build
+        path: build/production/build
     - run: npm run profiling-build
     - name: artifacts/editor-profiling
       uses: actions/upload-artifact@v1
       with:
         name: editor-profiling
-        path: build/profiling
+        path: build/production/profiling
     - name: artifacts/storybook
       uses: actions/upload-artifact@v1
       with:
         name: storybook
-        path: build/storybook
+        path: build/production/storybook
 
     # Build and upload desktop CLI artifacts
     - name: Set up Go
@@ -178,17 +178,17 @@ jobs:
           ${{ runner.os }}-node-
     - run: npm install
     - run: TEST_NETWORK=testhost DOCKER_HOST=selenium npm test
-    - run: ./node_modules/.bin/istanbul report --include build/coverage/coverage.json --dir build/coverage html lcov
+    - run: ./node_modules/.bin/istanbul report --include build/production/coverage/coverage.json --dir build/production/coverage html lcov
     - name: artifacts/coverage
       uses: actions/upload-artifact@v1
       with:
         name: coverage
-        path: build/coverage
+        path: build/production/coverage
     - name: artifacts/screenshots
       uses: actions/upload-artifact@v1
       with:
         name: screenshots-chrome
-        path: build/screenshots
+        path: build/production/screenshots
 
   # build and test the editor in standalone-firefox
   test_selenium_standalone_firefox:
@@ -227,5 +227,5 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: screenshots-firefox
-        path: build/screenshots
+        path: build/production/screenshots
 

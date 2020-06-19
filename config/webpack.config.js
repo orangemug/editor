@@ -2,16 +2,22 @@
 var webpack = require('webpack');
 var path = require('path');
 var rules = require('./webpack.rules');
+var artifacts = require("../test/artifacts");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackInlineSVGPlugin = require('html-webpack-inline-svg-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+var env = 'development';
+var OUTPATH = artifacts.pathSync(`/${env}/build`);
+var NPM_OUTPATH = artifacts.pathSync(`/${env}/npm`);
 
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8888";
 
 const base = {
   target: 'web',
-  mode: 'development',
+  mode: env,
   devtool: process.env.WEBPACK_DEVTOOL || 'cheap-module-source-map',
   resolve: {
     extensions: ['.js', '.jsx']
@@ -50,7 +56,7 @@ module.exports = [
   {
     ...base,
     entry: {
-      bundle: [
+      core: [
         `webpack-dev-server/client?http://${HOST}:${PORT}`,
         `webpack/hot/only-dev-server`,
         `./src/maputnik.jsx` // Your appʼs entry point
@@ -62,28 +68,34 @@ module.exports = [
       ],
     },
     output: {
-      path: path.join(__dirname, '..', 'public'),
+      path: OUTPATH,
       filename: '[name].js'
     },
     plugins: [
       new webpack.NoEmitOnErrorsPlugin(),
       new webpack.HotModuleReplacementPlugin(),
       new HtmlWebpackPlugin({
+        template: './api/index.html',
+        filename: 'api/index.html',
+        inject: false,
+      }),
+      new HtmlWebpackPlugin({
         title: 'Maputnik',
         template: './src/template.html',
+        filename: 'index.html',
         inject: false,
       }),
       new HtmlWebpackInlineSVGPlugin({
         runPreEmit: true,
       }),
+      new MiniCssExtractPlugin({
+        filename: '[name].css',
+        chunkFilename: '[id].css',
+      }),
       new CopyWebpackPlugin([
         {
           from: './src/manifest.json',
           to: 'manifest.json'
-        },
-        {
-          from: './api/index.html',
-          to: 'api/index.html'
         },
       ])
     ]
@@ -96,14 +108,26 @@ module.exports = [
       `./src/index.jsx`,
     ],
     output: {
-      path: path.join(__dirname, '..', 'public'),
-      filename: 'module.js',
+      path: NPM_OUTPATH,
+      filename: 'index.js',
       library: 'maputnik',
-      libraryTarget: 'umd',
+      libraryTarget: 'commonjs2',
     },
     plugins: [
       new webpack.NoEmitOnErrorsPlugin(),
       new webpack.HotModuleReplacementPlugin(),
+      new HtmlWebpackInlineSVGPlugin({
+        runPreEmit: true,
+      }),
+      new CopyWebpackPlugin([
+        {
+          from: './package.json',
+          to: 'package.json'
+        },
+      ]),
+      new MiniCssExtractPlugin({
+        filename: 'index.css',
+      }),
     ]
   },
 ];
