@@ -1,9 +1,10 @@
 var webpack          = require("webpack");
 var WebpackDevServer = require("webpack-dev-server");
-var webpackConfig    = require("./webpack.config");
 var testConfig       = require("../test/config/specs");
 var artifacts        = require("../test/artifacts");
 var isDocker         = require("is-docker");
+var webpackConfigDef = require("./webpack.config.definition");
+var webpackConfig = webpackConfigDef("development");
 
 
 var server;
@@ -37,8 +38,7 @@ exports.config = {
   onPrepare: function (config, capabilities) {
     return new Promise(function(resolve, reject) {
       var compiler = webpack(
-        // HACK
-        webpackConfig[0]
+        webpackConfig.editor,
       );
       const serverHost = "0.0.0.0";
 
