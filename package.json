@@ -16,7 +16,7 @@
     "lint-css": "stylelint \"src/styles/*.scss\"",
     "lint": "npm run lint-js && npm run lint-css",
     "storybook": "start-storybook -h 0.0.0.0 -p 6006",
-    "build-storybook": "build-storybook -o build/storybook"
+    "build-storybook": "build-storybook -o build/development/storybook"
   },
   "repository": {
     "type": "git",

@@ -72,7 +72,7 @@ module.exports = (env) => {
       noParse: [
         /mapbox-gl\/dist\/mapbox-gl.js/
       ],
-      rules: rules
+      rules: rules(),
     },
     node: {
       fs: "empty",
