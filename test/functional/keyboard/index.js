@@ -6,7 +6,7 @@ var wd     = require("../../wd-helper");
 
 describe("keyboard", function() {
   describe("shortcuts", function() {
-    it("ESC should unfocus", function() {
+    it.skip("ESC should unfocus", function() {
       const tmpTargetEl = $(wd.$("nav:inspect") + " select");
       tmpTargetEl.click();
       assert(tmpTargetEl.isFocused());
