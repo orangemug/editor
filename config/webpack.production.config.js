@@ -16,7 +16,9 @@ var OUTPATH = artifacts.pathSync(`/${env}/build`);
 var NPM_OUTPATH = artifacts.pathSync(`/${env}/npm`);
 var dependencies = Object.keys(require("../package.json").dependencies).map(dep => {
   return [dep, new RegExp("^"+dep+"\\/.+$")];
-}).flat();
+})
+// polyfill for .flat() see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat>
+.reduce((acc, val) => acc.concat(val), []);
 
 const base = {
   mode: env,
