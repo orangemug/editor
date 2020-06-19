@@ -7,7 +7,8 @@ var isDocker         = require("is-docker");
 
 
 var server;
-var SCREENSHOT_PATH = artifacts.pathSync("screenshots");
+var env = "test";
+var SCREENSHOT_PATH = artifacts.pathSync(`/${env}/screenshots`);
 
 exports.config = {
   runner: 'local',
@@ -35,7 +36,10 @@ exports.config = {
   },
   onPrepare: function (config, capabilities) {
     return new Promise(function(resolve, reject) {
-      var compiler = webpack(webpackConfig);
+      var compiler = webpack(
+        // HACK
+        webpackConfig[0]
+      );
       const serverHost = "0.0.0.0";
 
       server = new WebpackDevServer(compiler, {
