@@ -1,13 +1,15 @@
 var webpack          = require("webpack");
 var WebpackDevServer = require("webpack-dev-server");
-var webpackConfig    = require("./webpack.config");
 var testConfig       = require("../test/config/specs");
 var artifacts        = require("../test/artifacts");
 var isDocker         = require("is-docker");
+var webpackConfigDef = require("./webpack.config.definition");
+var webpackConfig = webpackConfigDef("test");
 
 
 var server;
-var SCREENSHOT_PATH = artifacts.pathSync("screenshots");
+var env = "test";
+var SCREENSHOT_PATH = artifacts.pathSync(`/${env}/screenshots`);
 
 exports.config = {
   runner: 'local',
@@ -35,7 +37,9 @@ exports.config = {
   },
   onPrepare: function (config, capabilities) {
     return new Promise(function(resolve, reject) {
-      var compiler = webpack(webpackConfig);
+      var compiler = webpack(
+        webpackConfig.editor,
+      );
       const serverHost = "0.0.0.0";
 
       server = new WebpackDevServer(compiler, {

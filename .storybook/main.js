@@ -16,7 +16,7 @@ module.exports = {
       ...config,
       module: {
         rules: [
-          ...rules,
+          ...rules({isStorybook: true}),
         ]
       }
     };

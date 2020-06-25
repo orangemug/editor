@@ -1,20 +1,7 @@
-const webpackProdConfig = require('./webpack.production.config');
-const artifacts = require("../test/artifacts");
+var webpackConfigDef = require("./webpack.config.definition");
+var config = webpackConfigDef("profiling");
 
-const OUTPATH = artifacts.pathSync("/profiling");
-
-module.exports = {
-  ...webpackProdConfig,
-  output: {
-    ...webpackProdConfig.output,
-    path: OUTPATH,
-  },
-  resolve: {
-    ...webpackProdConfig.resolve,
-    alias: {
-      ...webpackProdConfig.resolve.alias,
-      'react-dom$': 'react-dom/profiling',
-      'scheduler/tracing': 'scheduler/tracing-profiling',
-    }
-  }
-};
+module.exports = [
+  config.editor,
+  config.pkg,
+];

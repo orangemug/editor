@@ -5,7 +5,7 @@ import useUndoStack from './useUndoStack';
 import useDebug from './useDebug';
 import useStore from './useStore';
 import useDisableModal from './useDisableModal';
-import useWebsocketApi from './useWebsocketApi';
+import useWebSocketApi from './useWebSocketApi';
 import useValidators from './useValidators';
 
 export {
@@ -16,6 +16,6 @@ export {
   useUndoStack,
   useDebug,
   useDisableModal,
-  useWebsocketApi,
+  useWebSocketApi,
   useValidators,
 }

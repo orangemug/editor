@@ -2,7 +2,9 @@ name: deploy
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - "master"
+      - "feature/embeddable-editor"
     push:
       tags:
       - 'v*'
@@ -23,6 +25,46 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u orangemug --password-stdin
-    - run: docker build -t docker.pkg.github.com/maputnik/editor/editor:master .
-    - run: docker push docker.pkg.github.com/maputnik/editor/editor:master
+    - run: docker build -t docker.pkg.github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/${{ github.event.repository.name }}:master .
+    - run: docker push docker.pkg.github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/${{ github.event.repository.name }}:master
+
+  deploy-npm:
+    name: deploy/npm
+    runs-on: ${{ matrix.os }}
+
+    if: ${{ github.event_name == 'push' }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+    - run: npm install
+    - run: npm run build
+    - name: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: >
+        cd build/production/npm;
+        node -e 'const fs = require("fs"); const pkg = require("./package.json"); pkg.repository.url = `https://github.com/${process.env.GITHUB_REPOSITORY}`; pkg.name = `@${process.env.GITHUB_REPOSITORY}`; pkg.version = `0.0.0-sha.${process.env.GITHUB_SHA || "undefined"}`; fs.promises.writeFile("package.json", JSON.stringify(pkg, null, 2));';
+
+        echo '//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}' > .npmrc;
+        echo "@${{ github.repository_owner }}:registry=https://npm.pkg.github.com" >> .npmrc;
+        echo 'always-auth=true' >> .npmrc;
+
+        cat .npmrc;
+
+        cat package.json;
+        npm publish;
 

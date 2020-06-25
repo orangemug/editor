@@ -1,5 +1,6 @@
-import React from 'react';
+import './styles/index.scss';
 
+import React from 'react';
 import Maputnik from './components/App';
 import uiStateHelper from './api/ui-state-helper';
 import {
