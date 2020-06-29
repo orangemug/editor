@@ -3,8 +3,7 @@ import './styles/index.scss';
 
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
-import emptyStyle from './debug/circles';
-// import emptyStyle from './config/empty-style.json';
+import emptyStyle from './config/empty-style.json';
 import AppToolbar from './components/AppToolbar';
 import publicSources from './config/tilesets.json';
 import tokens from './config/tokens.json';

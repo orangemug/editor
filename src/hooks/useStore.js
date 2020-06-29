@@ -1,20 +1,15 @@
 import {useEffect} from 'react';
-// import {getStyle, setStyle} from '../libs/stylestore';
-
-function getStyle () {
-  return null;
-}
-
-function setStyle (style) {
-}
+import {StyleStore} from '../libs/stylestore';
 
 
 export default function useStore({mapStyle, setMapStyle}) {
-  // useEffect(() => {
-  //   setMapStyle(getStyle());
-  // }, []);
+  const stylestore = new StyleStore();
 
-  // useEffect(() => {
-  //   setStyle(mapStyle);
-  // }, [mapStyle]);
+  useEffect(() => {
+    stylestore.latestStyle(setMapStyle);
+  }, []);
+
+  useEffect(() => {
+    stylestore.save(mapStyle)
+  }, [mapStyle]);
 }

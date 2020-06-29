@@ -1,5 +1,4 @@
 import {useEffect} from 'react';
-import {StyleStore} from '../libs/stylestore'
 import {initialStyleUrl, loadStyleUrl, removeStyleQuerystring} from '../libs/urlopen'
 
 

@@ -1,5 +1,4 @@
 import {useEffect} from 'react';
-import {getStyle, setStyle} from '../libs/stylestore';
 
 
 export default function useWebsocketApi({setMapStyle}) {
