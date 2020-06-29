@@ -613,6 +613,7 @@ export default class App extends React.Component {
       />
       <ModalExport
         mapStyle={mapStyle}
+        tokens={uiState.tokens}
         onStyleChanged={this.onStyleChanged}
         isOpen={isOpen.export}
         onOpenToggle={this.toggleModal.bind(this, 'export')}
@@ -637,6 +638,7 @@ export default class App extends React.Component {
 
     const map = <MapGeneric
       mapStyle={mapStyle}
+      tokens={uiState.tokens}
       dirtyMapStyle={this.state.dirtyMapStyle}
       renderer={this.getRenderer()}
       mapState={uiState.mapState}

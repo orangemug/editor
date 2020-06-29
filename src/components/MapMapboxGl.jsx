@@ -5,7 +5,6 @@ import MapboxGl from 'mapbox-gl'
 import MapboxInspect from 'mapbox-gl-inspect'
 import MapMapboxGlLayerPopup from './MapMapboxGlLayerPopup'
 import MapMapboxGlFeaturePropertyPopup from './MapMapboxGlFeaturePropertyPopup'
-import tokens from '../config/tokens.json'
 import colors from 'mapbox-gl-inspect/lib/colors'
 import Color from 'color'
 import ZoomControl from '../libs/zoomcontrol'
@@ -69,13 +68,13 @@ export default class MapMapboxGl extends React.Component {
     onDataChange: () => {},
     onLayerSelect: () => {},
     onChange: () => {},
-    mapboxAccessToken: tokens.mapbox,
+    tokens: {},
     options: {},
   }
 
   constructor(props) {
     super(props)
-    MapboxGl.accessToken = tokens.mapbox
+    MapboxGl.accessToken = props.tokens.mapbox
     this.state = {
       map: null,
       inspect: null,
@@ -87,7 +86,7 @@ export default class MapMapboxGl extends React.Component {
 
     if(!this.state.map) return
     const metadata = props.mapStyle.metadata || {}
-    MapboxGl.accessToken = metadata['maputnik:mapbox_access_token'] || tokens.mapbox
+    MapboxGl.accessToken = metadata['maputnik:mapbox_access_token'] || props.tokens.mapbox
 
     //Mapbox GL now does diffing natively so we don't need to calculate
     //the necessary operations ourselves!

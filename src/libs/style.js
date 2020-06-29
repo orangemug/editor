@@ -1,5 +1,4 @@
 import deref from '@mapbox/mapbox-gl-style-spec/deref'
-import tokens from '../config/tokens.json'
 
 // Empty style is always used if no style could be restored or fetched
 const emptyStyle = ensureStyleValidity({
@@ -53,7 +52,7 @@ function indexOfLayer(layers, layerId) {
   return null
 }
 
-function getAccessToken(sourceName, mapStyle, opts) {
+function getAccessToken(sourceName, mapStyle, opts={}) {
   if(sourceName === "thunderforest_transport" || sourceName === "thunderforest_outdoors") {
     sourceName = "thunderforest"
   }
@@ -62,7 +61,7 @@ function getAccessToken(sourceName, mapStyle, opts) {
   let accessToken = metadata[`maputnik:${sourceName}_access_token`]
 
   if(opts.allowFallback && !accessToken) {
-    accessToken = tokens[sourceName]
+    accessToken = opts.tokens[sourceName]
   }
 
   return accessToken;

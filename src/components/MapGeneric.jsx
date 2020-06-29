@@ -13,14 +13,17 @@ export default function MapGeneric (props) {
       mapboxGlOptions,
       openlayersOptions,
       selectedLayerIndex,
+      tokens,
     } = props;
     const metadata = mapStyle.metadata || {};
 
     const mapProps = {
+      tokens,
       mapStyle: (dirtyMapStyle || mapStyle),
       replaceAccessTokens: (mapStyle) => {
         return style.replaceAccessTokens(mapStyle, {
-          allowFallback: true
+          allowFallback: true,
+          tokens,
         });
       },
       onDataChange: props.onDataChange,
