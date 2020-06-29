@@ -3,5 +3,4 @@ var config = webpackConfigDef("development");
 
 module.exports = [
   config.editor,
-  config.pkg,
 ];
