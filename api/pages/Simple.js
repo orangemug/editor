@@ -5,7 +5,6 @@ import '../../src/favicon.ico';
 import '../../src/styles/index.scss';
 
 import emptyStyle from '../../src/debug/circles';
-// import emptyStyle from './src/config/empty-style.json';
 import Toolbar from '../../src/debug/toolbar';
 import publicSources from '../../src/config/tilesets.json';
 import tokens from '../../src/config/tokens.json';
@@ -15,7 +14,6 @@ import Maputnik, {
   useStatefulUrl,
   useShortcuts,
   useUndoStack,
-  useStore,
   useLoadFromUrl,
   useDebug,
   useDisableModal,
@@ -96,16 +94,6 @@ function CustomMaputnik (props) {
     uiState,
     setUiState,
     revisionStack,
-  });
-
-  // useWebsocketApi({
-  //   mapStyle,
-  //   setMapStyle,
-  // });
-
-  useStore({
-    mapStyle,
-    setMapStyle,
   });
 
   useDebug({
