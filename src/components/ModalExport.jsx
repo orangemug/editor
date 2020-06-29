@@ -11,7 +11,7 @@ import Modal from './Modal'
 import {MdFileDownload} from 'react-icons/md'
 import style from '../libs/style'
 import fieldSpecAdditional from '../libs/field-spec-additional'
-
+import * as providers from '../vendor/providers';
 
 
 export default class ModalExport extends React.Component {
@@ -59,6 +59,31 @@ export default class ModalExport extends React.Component {
 
 
   render() {
+    const {mapStyle} = this.props;
+
+    const providerApiComponents = {
+      "maptiler": () => (
+        <FieldString
+          label={fieldSpecAdditional.maputnik.maptiler_access_token.label}
+          fieldSpec={fieldSpecAdditional.maputnik.maptiler_access_token}
+          value={(this.props.mapStyle.metadata || {})['maputnik:openmaptiles_access_token']}
+          onChange={this.changeMetadataProperty.bind(this, "maputnik:openmaptiles_access_token")}
+        />
+      ),
+      "thunderforest": () => (
+        <FieldString
+          label={fieldSpecAdditional.maputnik.thunderforest_access_token.label}
+          fieldSpec={fieldSpecAdditional.maputnik.thunderforest_access_token}
+          value={(this.props.mapStyle.metadata || {})['maputnik:thunderforest_access_token']}
+          onChange={this.changeMetadataProperty.bind(this, "maputnik:thunderforest_access_token")}
+        />
+      ),
+    }
+
+    const providerList = Array.from(new Set(
+      providers.query(mapStyle).map(p => p.provider)
+    ));
+
     return <Modal
       data-wd-key="modal:export"
       isOpen={this.props.isOpen}
@@ -74,24 +99,9 @@ export default class ModalExport extends React.Component {
         </p>
 
         <div>
-          <FieldString
-            label={fieldSpecAdditional.maputnik.mapbox_access_token.label}
-            fieldSpec={fieldSpecAdditional.maputnik.mapbox_access_token}
-            value={(this.props.mapStyle.metadata || {})['maputnik:mapbox_access_token']}
-            onChange={this.changeMetadataProperty.bind(this, "maputnik:mapbox_access_token")}
-          />
-          <FieldString
-            label={fieldSpecAdditional.maputnik.maptiler_access_token.label}
-            fieldSpec={fieldSpecAdditional.maputnik.maptiler_access_token}
-            value={(this.props.mapStyle.metadata || {})['maputnik:openmaptiles_access_token']}
-            onChange={this.changeMetadataProperty.bind(this, "maputnik:openmaptiles_access_token")}
-          />
-          <FieldString
-            label={fieldSpecAdditional.maputnik.thunderforest_access_token.label}
-            fieldSpec={fieldSpecAdditional.maputnik.thunderforest_access_token}
-            value={(this.props.mapStyle.metadata || {})['maputnik:thunderforest_access_token']}
-            onChange={this.changeMetadataProperty.bind(this, "maputnik:thunderforest_access_token")}
-          />
+          {providerList.map(providerId => {
+            return providerApiComponents[providerId]();
+          })}
         </div>
 
         <InputButton
