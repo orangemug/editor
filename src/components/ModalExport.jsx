@@ -62,16 +62,18 @@ export default class ModalExport extends React.Component {
     const {mapStyle} = this.props;
 
     const providerApiComponents = {
-      "maptiler": () => (
+      "maptiler": ({key}) => (
         <FieldString
+          key={key}
           label={fieldSpecAdditional.maputnik.maptiler_access_token.label}
           fieldSpec={fieldSpecAdditional.maputnik.maptiler_access_token}
           value={(this.props.mapStyle.metadata || {})['maputnik:openmaptiles_access_token']}
           onChange={this.changeMetadataProperty.bind(this, "maputnik:openmaptiles_access_token")}
         />
       ),
-      "thunderforest": () => (
+      "thunderforest": ({key}) => (
         <FieldString
+          key={key}
           label={fieldSpecAdditional.maputnik.thunderforest_access_token.label}
           fieldSpec={fieldSpecAdditional.maputnik.thunderforest_access_token}
           value={(this.props.mapStyle.metadata || {})['maputnik:thunderforest_access_token']}
@@ -100,7 +102,9 @@ export default class ModalExport extends React.Component {
 
         <div>
           {providerList.map(providerId => {
-            return providerApiComponents[providerId]();
+            return providerApiComponents[providerId]({
+              key: providerId,
+            });
           })}
         </div>
 
