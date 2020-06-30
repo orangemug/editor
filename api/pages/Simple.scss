@@ -1,5 +1,27 @@
 .Simple {
   flex: 1;
   display: flex;
+
+  .custom__maputnik {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    &__toolbar {
+      padding: 0.4em;
+      background: white;
+      border-bottom: solid 1px #e9edfa;
+
+      button, input, select {
+        margin-right: 0.4em;
+      }
+    }
+
+    &__editor {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+  }
 }
 

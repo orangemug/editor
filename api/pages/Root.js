@@ -14,23 +14,23 @@ var processor = unified()
   .use(rehype2react, {createElement: React.createElement})
 
 export default function Home({Link}) {
-	return <div className="Root">
+  return <div className="Root">
     <nav className="Nav">
       Maputnik
     </nav>
-		<div className="Markdown">
+    <div className="Markdown">
       <h1>Examples</h1>
-			<ul>
-				<li>
-					<Link page="simple">Simple</Link>
-				</li>
-				<li>
-					<Link page="complex">Complex</Link>
-				</li>
-			</ul>
-		</div>
+      <ul>
+        <li>
+          <Link page="simple">Simple</Link>
+        </li>
+        <li>
+          <Link page="complex">Complex</Link>
+        </li>
+      </ul>
+    </div>
     <div className="Markdown">
       {processor.processSync(readme).result}
     </div>
-	</div>
+  </div>
 }

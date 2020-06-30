@@ -126,6 +126,6 @@ function CustomMaputnik (props) {
 
 export default function Simple () {
   return <div className="Simple">
-		<CustomMaputnik />
-	</div>
+    <CustomMaputnik />
+  </div>
 }

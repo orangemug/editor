@@ -167,9 +167,6 @@
   }
 }
 
-// ------------------
-// root level [start]
-// ------------------
 html {
   height: 100%;
 }
@@ -188,50 +185,6 @@ body {
   height: 100%;
   flex: 1;
 }
-// ------------------
-// root level [end]
-// ------------------
-
-// --------------------------
-// temp custom code [start]
-// --------------------------
-.custom__maputnik {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  margin-left: 1.4rem;
-  margin-right: 1.4rem;
-  margin-top: 5.2rem;
-	border: solid 1px #e9edfa;
-	border-bottom: none;
-
-  @media (max-width: 920px) {
-    background: red;
-		border-left: none;
-		border-right: none;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  &__toolbar {
-    padding: 0.4em;
-    background: white;
-    border-bottom: solid 1px #e9edfa;
-
-    button, input, select {
-      margin-right: 0.4em;
-    }
-  }
-
-  &__editor {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-  }
-}
-// --------------------------
-// temp custom code [end]
-// --------------------------
 
 .core__maputnik {
   display: flex;
