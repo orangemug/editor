@@ -223,7 +223,7 @@ export default class MapMapboxGl extends React.Component {
 
   componentWillUnmount () {
     if (this.state.map) {
-      this..state.map.remove();
+      this.state.map.remove();
     }
   }
 
