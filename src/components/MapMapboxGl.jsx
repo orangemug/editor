@@ -119,7 +119,7 @@ export default class MapMapboxGl extends React.Component {
       this.state.inspect._popupBlocked = false;
       this.state.inspect.toggleInspector()
     }
-    if (map) {
+    if (this.state.inspect && map) {
       if (this.props.inspectModeEnabled) {
         // HACK: We need to work out why we need to do this and what's causing
         // this error. I'm assuming an issue with mapbox-gl update and
