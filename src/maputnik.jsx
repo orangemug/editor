@@ -1,5 +1,5 @@
 import './favicon.ico';
-import './styles/index.scss';
+import './styles/maputnik.scss';
 
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
@@ -114,7 +114,7 @@ function CustomMaputnik (props) {
   });
 
   return (
-    <div className="core__maputnik">
+    <div className="core__maputnik maputnik-base">
       <div className="core__maputnik__toolbar">
         {/* This is a core toolbar and includes whatever we want */}
         <AppToolbar

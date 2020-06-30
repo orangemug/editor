@@ -57,7 +57,9 @@ export default class Modal extends React.Component {
             </button>
           </header>
           <div className="maputnik-modal-scroller">
-            <div className="maputnik-modal-content">{this.props.children}</div>
+            <div className="maputnik-base">
+              <div className="maputnik-modal-content">{this.props.children}</div>
+            </div>
           </div>
         </div>
       </AriaModal>

@@ -21,9 +21,13 @@
   position: relative;
   overflow: hidden;
 
-  h1 {
+  &__name {
     display: inline;
     line-height: 26px;
+    color: white;
+    font-size: 20px;
+    font-family: Roboto, sans-serif;
+    font-weight: bold;
   }
 
   svg {
