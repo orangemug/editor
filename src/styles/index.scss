@@ -1,8 +1,8 @@
 @import 'vars';
-@import 'scrollbar';
 
 .maputnik-root {
   @import '../mapboxgl';
+  @import 'scrollbar';
   @import 'mixins';
   @import 'reset';
   @import 'base';
