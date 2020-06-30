@@ -221,6 +221,12 @@ export default class MapMapboxGl extends React.Component {
     map.on("zoomend", mapViewChange);
   }
 
+  componentWillUnmount () {
+    if (this.state.map) {
+      this..state.map.remove();
+    }
+  }
+
   onLayerSelectById = (id) => {
     const index = this.props.mapStyle.layers.findIndex(layer => layer.id === id);
     this.props.onLayerSelect(index);
