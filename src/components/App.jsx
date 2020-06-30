@@ -56,44 +56,9 @@ export default class App extends React.Component {
     })
   }
 
-  // handleKeyPress = (e) => {
-  //   if(navigator.platform.toUpperCase().indexOf('MAC') >= 0) {
-  //     if(e.metaKey && e.shiftKey && e.keyCode === 90) {
-  //       e.preventDefault();
-  //       this.onRedo(e);
-  //     }
-  //     else if(e.metaKey && e.keyCode === 90) {
-  //       e.preventDefault();
-  //       this.onUndo(e);
-  //     }
-  //   }
-  //   else {
-  //     if(e.ctrlKey && e.keyCode === 90) {
-  //       e.preventDefault();
-  //       this.onUndo(e);
-  //     }
-  //     else if(e.ctrlKey && e.keyCode === 89) {
-  //       e.preventDefault();
-  //       this.onRedo(e);
-  //     }
-  //   }
-  // }
-
-  // componentDidMount() {
-  //   window.addEventListener("keydown", this.handleKeyPress);
-  // }
-
-  // componentWillUnmount() {
-  //   window.removeEventListener("keydown", this.handleKeyPress);
-  // }
 
   componentDidMount() {
     this.fetchSources();
-  }
-
-  saveStyle(snapshotStyle) {
-    // TODO: Add back in
-    // this.styleStore.save(snapshotStyle)
   }
 
   updateFonts(urlTemplate) {
@@ -254,14 +219,6 @@ export default class App extends React.Component {
       this.updateIcons(newStyle.sprite)
     }
 
-    // TODO: Add back in
-    // if (opts.addRevision) {
-    //   this.revisionStore.addRevision(newStyle);
-    // }
-    if (opts.save) {
-      this.saveStyle(newStyle);
-    }
-       
     this.setState({
       dirtyMapStyle: dirtyMapStyle,
       errors: mappedErrors,
@@ -271,25 +228,6 @@ export default class App extends React.Component {
     });
 
   }
-
-  // onUndo = () => {
-  //   const activeStyle = this.revisionStore.undo()
-
-  //   const messages = undoMessages(this.state.mapStyle, activeStyle)
-  //   this.onStyleChanged(activeStyle, {addRevision: false});
-  //   this.setState({
-  //     infos: messages,
-  //   })
-  // }
-
-  // onRedo = () => {
-  //   const activeStyle = this.revisionStore.redo()
-  //   const messages = redoMessages(this.state.mapStyle, activeStyle)
-  //   this.onStyleChanged(activeStyle, {addRevision: false});
-  //   this.setState({
-  //     infos: messages,
-  //   })
-  // }
 
   fetchSources(mapStyle) {
     const {uiState} = this.props;
@@ -377,14 +315,12 @@ export default class App extends React.Component {
     }
   }
 
-  // DONE
   onChangeMapView = (mapView) => {
     this.setState({
       mapView,
     });
   }
 
-  // DONE
   onMoveLayer = (move) => {
     const {mapStyle, uiState} = this.props;
     let { oldIndex, newIndex } = move;
@@ -405,7 +341,6 @@ export default class App extends React.Component {
     this.onLayersChange(layers);
   }
 
-  // DONE
   onLayersChange = (changedLayers) => {
     const {mapStyle} = this.props;
     const changedStyle = {
@@ -415,7 +350,6 @@ export default class App extends React.Component {
     this.onStyleChanged(changedStyle)
   }
 
-  // DONE
   onLayerDestroy = (index) => {
     const {mapStyle} = this.props;
     let layers = mapStyle.layers;
@@ -424,7 +358,6 @@ export default class App extends React.Component {
     this.onLayersChange(remainingLayers);
   }
 
-  // DONE
   onLayerCopy = (index) => {
     const {mapStyle} = this.props;
     let layers = mapStyle.layers;
@@ -436,7 +369,6 @@ export default class App extends React.Component {
     this.onLayersChange(changedLayers)
   }
 
-  // DONE
   onLayerVisibilityToggle = (index) => {
     const {mapStyle} = this.props;
     let layers = mapStyle.layers;
@@ -451,7 +383,6 @@ export default class App extends React.Component {
     this.onLayersChange(changedLayers)
   }
 
-  // DONE
   onLayerIdChange = (index, oldId, newId) => {
     const {mapStyle} = this.props;
     const changedLayers = mapStyle.layers.slice(0)
@@ -463,7 +394,6 @@ export default class App extends React.Component {
     this.onLayersChange(changedLayers)
   }
 
-  // DONE
   onLayerChanged = (index, layer) => {
     const {mapStyle} = this.props;
     const changedLayers = mapStyle.layers.slice(0)
@@ -472,7 +402,6 @@ export default class App extends React.Component {
     this.onLayersChange(changedLayers)
   }
 
-  // ISH
   setMapState = (newState) => {
     this.props.onUiStateChanged({
       ...this.props.uiState,
@@ -480,13 +409,11 @@ export default class App extends React.Component {
     });
   }
 
-  // ISH
   openStyle = (styleObj) => {
     styleObj = style.setDefaults(styleObj);
     this.onStyleChanged(styleObj);
   }
 
-  // DONE
   onLayerSelect = (index) => {
     this.props.onUiStateChanged({
       ...this.props.uiState,
@@ -494,7 +421,6 @@ export default class App extends React.Component {
     });
   }
 
-  // DONE
   setModal(modalName, value) {
     if(modalName === 'survey' && value === false) {
       localStorage.setItem('survey', '');
@@ -509,12 +435,10 @@ export default class App extends React.Component {
     })
   }
 
-  // DONE
   toggleModal(modalName) {
     this.setModal(modalName, !this.props.uiState.isOpen[modalName]);
   }
 
-  // DONE
   onChangeOpenlayersDebug = (key, value) => {
     this.props.onUiStateChanged({
       ...this.props.uiState,
@@ -525,7 +449,6 @@ export default class App extends React.Component {
     });
   }
 
-  // DONE
   onChangeMaboxGlDebug = (key, value) => {
     this.props.onUiStateChanged({
       ...this.props.uiState,
