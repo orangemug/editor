@@ -41,6 +41,7 @@ export default class Modal extends React.Component {
         data-wd-key={this.props["data-wd-key"]}
         verticallyCenter={true}
         onExit={this.onClose}
+        dialogClass="maputnik-root"
       >
         <div className={classnames("maputnik-modal", this.props.className)}
           data-wd-key={this.props["data-wd-key"]}

@@ -10,7 +10,6 @@ import Color from 'color'
 import ZoomControl from '../libs/zoomcontrol'
 import { colorHighlightedLayer } from '../libs/highlight'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import '../mapboxgl.css'
 import '../libs/mapbox-rtl'
 
 

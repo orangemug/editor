@@ -1,6 +1,11 @@
 .Simple {
   flex: 1;
   display: flex;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
 
   .custom__maputnik {
     display: flex;

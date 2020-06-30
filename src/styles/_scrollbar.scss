@@ -12,6 +12,10 @@
     padding-left: 2px;
     padding-right: 2px;
   }
+
+  ::-webkit-scrollbar-corner {
+    background: #26282e;
+  }
   
   // Styling for Firefox
   scrollbar-width: thin;

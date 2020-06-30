@@ -12,7 +12,6 @@ import Complex from './pages/Complex';
 const {Router} = qsRouter({
   root: Root,
   simple: Simple,
-  complex: Complex,
 });
 
 ReactDOM.render(

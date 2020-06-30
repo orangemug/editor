@@ -1,6 +1,9 @@
 .Root {
   position: relative;
   overflow: hidden;
+  background: white;
+  height: 100vh;
+  overflow: auto;
 
   .Markdown {
     padding: 0.8em;
