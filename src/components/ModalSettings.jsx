@@ -93,7 +93,7 @@ export default class ModalSettings extends React.Component {
       onOpenToggle={this.props.onOpenToggle}
       title={'Style Settings'}
     >
-      <div className="modal:settings">
+      <div className="modal-settings">
         <FieldString {...inputProps}
           label={"Name"}
           fieldSpec={latest.$root.name}
