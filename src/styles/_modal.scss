@@ -132,6 +132,15 @@
 .maputnik-export-modal {
   width: 400px;
   max-width: 100%;
+
+  .maputnik-input-block-label {
+    width: 50%;
+    align-self: center;
+  }
+
+  .maputnik-input-block-action {
+    width: 0;
+  }
 }
 
 .maputnik-add-layer {
@@ -211,8 +220,8 @@
     width: 30%;
   }
 
-  .maputnik-input-block-content {
-    width: 70%;
+  .maputnik-input-block-action {
+    width: 20%;
   }
 }
 
@@ -223,8 +232,8 @@
     width: 30%;
   }
 
-  .maputnik-input-block-content {
-    width: 70%;
+  .maputnik-input-block-action {
+    width: 20%;
   }
 }
 

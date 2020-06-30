@@ -12,7 +12,7 @@ export default class Block extends React.Component {
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element,
-    ]).isRequired,
+    ]),
     action: PropTypes.element,
     children: PropTypes.node.isRequired,
     style: PropTypes.object,
@@ -69,15 +69,34 @@ export default class Block extends React.Component {
       })}
       onClick={this.onLabelClick}
     >
-      <div className="maputnik-input-block-label">
-        {this.props.label}
-      </div>
+      {this.props.fieldSpec &&
+        <div className="maputnik-input-block-label">
+          <FieldDocLabel
+            label={this.props.label}
+            onToggleDoc={this.onToggleDoc}
+            fieldSpec={this.props.fieldSpec}
+          />
+        </div>
+      }
+      {!this.props.fieldSpec &&
+        <div className="maputnik-input-block-label">
+          {this.props.label}
+        </div>
+      }
       <div className="maputnik-input-block-action">
         {this.props.action}
       </div>
       <div className="maputnik-input-block-content" ref={el => this._blockEl = el}>
         {this.props.children}
       </div>
+      {this.props.fieldSpec &&
+        <div
+          className="maputnik-doc-inline"
+          style={{display: this.state.showDoc ? '' : 'none'}}
+        >
+          <Doc fieldSpec={this.props.fieldSpec} />
+        </div>
+      }
     </label>
   }
 }
