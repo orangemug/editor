@@ -5,59 +5,59 @@ import style from '../libs/style'
 
 
 export default function MapGeneric (props) {
-    const {
-      mapStyle,
-      renderer,
-      dirtyMapStyle,
-      mapState,
-      mapboxGlOptions,
-      openlayersOptions,
-      selectedLayerIndex,
-      tokens,
-    } = props;
-    const metadata = mapStyle.metadata || {};
+  const {
+    mapStyle,
+    renderer,
+    dirtyMapStyle,
+    mapState,
+    mapboxGlOptions,
+    openlayersOptions,
+    selectedLayerIndex,
+    tokens,
+  } = props;
+  const metadata = mapStyle.metadata || {};
 
-    const mapProps = {
-      tokens,
-      mapStyle: (dirtyMapStyle || mapStyle),
-      replaceAccessTokens: (mapStyle) => {
-        return style.replaceAccessTokens(mapStyle, {
-          allowFallback: true,
-          tokens,
-        });
-      },
-      onDataChange: props.onDataChange,
-    }
+  const mapProps = {
+    tokens,
+    mapStyle: (dirtyMapStyle || mapStyle),
+    replaceAccessTokens: (mapStyle) => {
+      return style.replaceAccessTokens(mapStyle, {
+        allowFallback: true,
+        tokens,
+      });
+    },
+    onDataChange: props.onDataChange,
+  }
 
-    let mapElement;
+  let mapElement;
 
-    // Check if OL code has been loaded?
-    if(renderer === 'ol') {
-      mapElement = <MapOpenLayers
-        {...mapProps}
-        onChange={props.onChangeMapView}
-        debugToolbox={openlayersOptions.debugToolbox}
-        onLayerSelect={props.onLayerSelect}
-      />
-    } else {
-      mapElement = <MapMapboxGl {...mapProps}
-        onChange={props.onChangeMapView}
-        options={mapboxGlOptions}
-        inspectModeEnabled={mapState === "inspect"}
-        highlightedLayer={mapStyle.layers[selectedLayerIndex]}
-        onLayerSelect={props.onLayerSelect} />
-    }
+  // Check if OL code has been loaded?
+  if(renderer === 'ol') {
+    mapElement = <MapOpenLayers
+      {...mapProps}
+      onChange={props.onChangeMapView}
+      debugToolbox={openlayersOptions.debugToolbox}
+      onLayerSelect={props.onLayerSelect}
+    />
+  } else {
+    mapElement = <MapMapboxGl {...mapProps}
+      onChange={props.onChangeMapView}
+      options={mapboxGlOptions}
+      inspectModeEnabled={mapState === "inspect"}
+      highlightedLayer={mapStyle.layers[selectedLayerIndex]}
+      onLayerSelect={props.onLayerSelect} />
+  }
 
-    let filterName;
-    if(mapState.match(/^filter-/)) {
-      filterName = mapState.replace(/^filter-/, "");
-    }
-    const elementStyle = {};
-    if (filterName) {
-      elementStyle.filter = `url('#${filterName}')`;
-    };
+  let filterName;
+  if(mapState.match(/^filter-/)) {
+    filterName = mapState.replace(/^filter-/, "");
+  }
+  const elementStyle = {};
+  if (filterName) {
+    elementStyle.filter = `url('#${filterName}')`;
+  };
 
-    return <div style={elementStyle} className="maputnik-map__container">
-      {mapElement}
-    </div>
+  return <div style={elementStyle} className="maputnik-map__container">
+    {mapElement}
+  </div>
 }
