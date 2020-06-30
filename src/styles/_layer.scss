@@ -48,7 +48,8 @@
     font-weight: 400;
     color: $color-lowgray;
     font-size: $font-size-6;
-    border-bottom-color: lighten($color-black, 0.1);
+    // border-bottom-color: lighten($color-black, 0.1);
+    border-bottom-color: $color-black;
     user-select: none;
     list-style: none;
     z-index: 2000;
@@ -87,7 +88,8 @@
     height: 15px;
 
     svg {
-      fill: darken($color-lowgray, 20);
+      // fill: darken($color-lowgray, 20);
+      fill: $color-gray;
 
       &:hover {
         fill: $color-white;
@@ -101,13 +103,15 @@
 
   .maputnik-layer-list-item:hover,
   .maputnik-layer-list-item-selected {
-    background-color: lighten($color-black, 2);
+    filter: brightness(1.2);
+    // background-color: lighten($color-black, 2);
 
     .maputnik-layer-list-icon-action {
       display: block;
 
       svg {
-        fill: darken($color-lowgray, 0.5);
+        // fill: darken($color-lowgray, 0.5);
+        fill: $color-gray;
       }
     }
   }
@@ -151,7 +155,8 @@
     border: solid 1px transparent;
     font-size: $font-size-6;
     color: $color-lowgray;
-    background-color: lighten($color-black, 2);
+    // background-color: lighten($color-black, 2);
+    filter: brightness(1.2);
     user-select: none;
     padding: $margin-2;
 
@@ -185,7 +190,8 @@
 .maputnik-layer-editor-group {
   font-weight: bold;
   font-size: $font-size-5;
-  background-color: lighten($color-black, 2);
+  // background-color: lighten($color-black, 2);
+  filter: brightness(1.2);
   color: $color-white;
   cursor: pointer;
   user-select: none;
@@ -232,7 +238,8 @@
 // PROPERTY
 .maputnik-default-property {
   .maputnik-input-block-label {
-    color: darken($color-lowgray, 20%);
+    // color: darken($color-lowgray, 20%);
+    color: $color-gray;
   }
 
   .maputnik-string,
@@ -240,8 +247,10 @@
   .maputnik-color,
   .maputnik-select,
   .maputnik-checkbox-wrapper {
-    background-color: darken($color-gray, 2%);
-    color: darken($color-lowgray, 20%);
+    // background-color: darken($color-gray, 2%);
+    background-color: $color-gray;
+    // color: darken($color-lowgray, 20%);
+    color: $color-lowgray;
   }
 
   .maputnik-make-zoom-function svg {
@@ -249,17 +258,21 @@
   }
 
   .maputnik-multibutton .maputnik-button {
-    background-color: darken($color-midgray, 10%);
-    color: darken($color-lowgray, 20%);
+    // background-color: darken($color-midgray, 10%);
+    background-color: $color-midgray;
+    // color: darken($color-lowgray, 20%);
+    color: $color-lowgray;
 
     &:hover {
-      background-color: lighten($color-midgray, 12);
+      // background-color: lighten($color-midgray, 12);
+      filter: brightness(1.2);
       color: $color-white;
     }
   }
 
   .maputnik-multibutton .maputnik-button-selected {
-    background-color: darken($color-midgray, 2%);
+    // background-color: darken($color-midgray, 2%);
+    background-color: $color-midgray;
     color: $color-lowgray;
   }
 }

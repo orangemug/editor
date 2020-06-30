@@ -110,12 +110,14 @@
   text-decoration: none;
 
   &:hover {
-    background-color: lighten($color-midgray, 12);
+    // background-color: lighten($color-midgray, 12);
+    filter: brightness(1.2);
     color: $color-white;
   }
 
   &:disabled {
-    background-color: darken($color-midgray, 5);
+    // background-color: darken($color-midgray, 5);
+    filter: brightness(0.8);
     color: $color-midgray;
     cursor: not-allowed;
   }

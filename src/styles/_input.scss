@@ -10,7 +10,8 @@
   padding-right: $margin-2;
   border: none;
   background-color: $color-gray;
-  color: lighten($color-lowgray, 12);
+  // color: lighten($color-lowgray, 12);
+  color: $color-lowgray;
 
   &:invalid {
     border: solid 1px #B71C1C;
@@ -117,7 +118,8 @@
 }
 
 .maputnik-button-selected {
-  background-color: lighten($color-midgray, 12);
+  filter: brightness(1.2);
+  // background-color: lighten($color-midgray, 12);
   color: white;
 }
 
