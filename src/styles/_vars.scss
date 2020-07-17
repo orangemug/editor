@@ -13,7 +13,7 @@
    */
   --maputnik-scrollbar-background-color: #26282e;
   --maputnik-scrollbar-size: 8px;
-  --maputnik-scrollbar-thumb-background-color: #666;
+  --maputnik-scrollbar-thumb-background-color: #aaa;
   --maputnik-scrollbar-size: 8px;
 
   --maputnik-font-size-1: 24px;
@@ -23,7 +23,6 @@
   --maputnik-font-size-5: 14px;
   --maputnik-font-size-6: 12px;
   --maputnik-font-family: Roboto, sans-serif;
-  // --maputnik-font-family: -apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
   --maputnik-outline-color: red;
 
   // These should be named by action rather than color value
@@ -80,54 +79,72 @@
 
   --maputnik-sdk-support-table-border-color: #c1c1c1;
 
-
-  // TEMP
-  // --maputnik-scrollbar-background-color: #f2f2f2;
-  // --maputnik-scrollbar-size: 8px;
-  // --maputnik-scrollbar-thumb-background-color: #eaeaea;
-  // --maputnik-scrollbar-size: 8px;
-
-  // --maputnik-font-family: -apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
-
-  // --maputnik-font-size-1: 26px;
-  // --maputnik-font-size-2: 22px;
-  // --maputnik-font-size-3: 20px;
-  // --maputnik-font-size-4: 18px;
-  // --maputnik-font-size-5: 15px;
-  // --maputnik-font-size-6: 14px;
-
-  // White color scheme
-  --maputnik-color-black: #fff;
-  --maputnik-color-gray: #efefef;
-  --maputnik-color-midgray: #0077c8;
-  --maputnik-color-lowgray: #222429;
-  --maputnik-color-white: #262626;
-
-  --maputnik-margin-1: 4px;
-  --maputnik-margin-2: 6px;
-  --maputnik-margin-3: 12px;
-  --maputnik-margin-4: 34px;
-  --maputnik-margin-5: 46px;
-
-  --maputnik-layout-list-width: 240px;
-  --maputnik-layout-editor-width: 410px;
-  --maputnik-link-color: #333;
-  --maputnik-link-hover-color: #a2a2a2;
-
-  --maputnik-popup-content-background-color: white;
-  --maputnik-popup-content-color: #000;
-  --maputnik-popup-content-header-background-color: #fafafa;
-  --maputnik-popup-content-header-color: #000;
-  --maputnik-popup-content-header-border-color: #e8e8e8;
-
-  /**
-   * ---------------------
-   * Private CSS variables
-   * ---------------------
-   * Keys/values can be changed as required below.
-   */
-
+  --maputnik-input__background-color: #222429;
+  --maputnik-action-primary__background-color: #303237;
+  --maputnik-action-primary__color: #a4a4a4;
 }
+
+
+$scrollbar-background-color: var(--maputnik-scrollbar-background-color);
+$scrollbar-size: var(--maputnik-scrollbar-size);
+$scrollbar-thumb-background-color: var(--maputnik-scrollbar-thumb-background-color);
+$scrollbar-size: var(--maputnik-scrollbar-size);
+
+
+$text__color:
+  var(--maputnik-text__color);
+$text__color--light:
+  var(--maputnik-text__color--light);
+$text__color--inverted:
+  var(--maputnik-text__color--inverted);
+
+$action-primary__background-color: 
+  var(--maputnik-action-primary__background-color);
+$action-primary__color: 
+  var(--maputnik-action-primary__color);
+
+$action-primary__background-color--highlighted:
+  var(--maputnik-action-primary__background-color--highlighted);
+$action-primary__color--highlighted:
+  var(--maputnik-action-primary__color--highlighted);
+
+$action-primary__background-color--disabled:
+  var(--maputnik-action-primary__background-color--disabled);
+$action-primary__color--disabled:
+  var(--maputnik-action-primary__color--disabled);
+
+$action-secondary__background-color: 
+  var(--maputnik-action-secondary__background-color);
+$action-secondary__color: 
+  var(--maputnik-action-secondary__color);
+
+$action-secondary__background-color--highlighted: 
+  var(--maputnik-action-secondary__background-color--highlighted);
+$action-secondary__color--highlighted: 
+  var(--maputnik-action-secondary__color--highlighted);
+
+$input__background-color: 
+  var(--maputnik-input__background-color);
+$input__color: 
+  var(--maputnik-input__color);
+$input__border: 
+  var(--maputnik-input__border);
+$input__border-radius: 
+  var(--maputnik-input__border-radius);
+
+$kbd__background-color: 
+  var(--maputnik-kbd__background-color);
+$kbd__color: 
+  var(--maputnik-kbd__color);
+$kbd__border: 
+  var(--maputnik-kbd__border);
+$kbd__border-radius: 
+  var(--maputnik-kbd__border-radius);
+
+// $action-primary-disabled: var(--maputnik-color-black);
+// $action-secondary: var(--maputnik-color-black);
+// $action-secondary-highlighted: var(--maputnik-color-black);
+// $action-secondary-disabled: var(--maputnik-color-black);
 
 $color-black:   var(--maputnik-color-black);
 $color-gray:    var(--maputnik-color-gray);
@@ -136,25 +153,27 @@ $color-lowgray: var(--maputnik-color-lowgray);
 $color-white:   var(--maputnik-color-white);
 $color-red:     var(--maputnik-color-red);
 $color-green:   var(--maputnik-color-green);
+
 $margin-1:      var(--maputnik-margin-1);
 $margin-2:      var(--maputnik-margin-2);
 $margin-3:      var(--maputnik-margin-3);
 $margin-4:      var(--maputnik-margin-4);
 $margin-5:      var(--maputnik-margin-5);
+
+$font-family:   var(--maputnik-font-family);
 $font-size-1:   var(--maputnik-font-size-1);
 $font-size-2:   var(--maputnik-font-size-2);
 $font-size-3:   var(--maputnik-font-size-3);
 $font-size-4:   var(--maputnik-font-size-4);
 $font-size-5:   var(--maputnik-font-size-5);
 $font-size-6:   var(--maputnik-font-size-6);
-$font-family:   var(--maputnik-font-family);
 
 $toolbar-height: 48px;
 $toolbar-offset: 0;
 $layout-list-width: var(--maputnik-layout-list-width);
 $layout-editor-width: var(--maputnik-layout-editor-width);
 $layout-map-width: calc(100% - (var(--maputnik-layout-list-width) + var(--maputnik-layout-editor-width)));
-$layout-map-width: calc(100% - #{$layout-list-width + $layout-editor-width});
+// $layout-map-width: calc(100% - #{$layout-list-width + $layout-editor-width});
 
 
 // 'menu-down' from 'https://materialdesignicons.com/'

@@ -21,7 +21,7 @@
     top: 0;
     left: 0;
     z-index: 3;
-    width: 200px;
+    width: $layout-list-width;
     background-color: $color-black;
   }
 
@@ -30,9 +30,9 @@
     bottom: 0;
     height: 100%;
     top: 0;
-    left: 200px;
+    left: $layout-list-width;
     z-index: 1;
-    width: 370px;
+    width: $layout-editor-width;
     background-color: $color-black;
   }
 

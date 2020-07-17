@@ -1,23 +1,23 @@
 *:not(select) {
   &::-webkit-scrollbar {
-    background-color: #26282e;
-    width: 8px;
-    height: 8px;
+    background-color: $scrollbar-background-color;
+    width: $scrollbar-size;
+    height: $scrollbar-size;
   }
 
   &::-webkit-scrollbar-thumb {
     border-radius: 6px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: #666;
+    -webkit-box-shadow: inset 0 0 6px $scrollbar-thumb-background-color;
+    background-color: $scrollbar-thumb-background-color;
     padding-left: 2px;
     padding-right: 2px;
   }
 
   ::-webkit-scrollbar-corner {
-    background: #26282e;
+    background: $scrollbar-background-color;
   }
   
   // Styling for Firefox
   scrollbar-width: thin;
-  scrollbar-color: #666 #26282e;
+  scrollbar-color: $scrollbar-thumb-background-color $scrollbar-background-color;
 }

@@ -9,9 +9,11 @@
   padding-left: $margin-2;
   padding-right: $margin-2;
   border: none;
-  background-color: $color-gray;
-  // color: lighten($color-lowgray, 12);
-  color: $color-lowgray;
+  background-color: $input__background-color;
+  color: $input__color;
+  border: $input__border;
+  border-radius: 2px;
+
 
   &:invalid {
     border: solid 1px #B71C1C;
@@ -100,8 +102,8 @@
 
   -moz-appearance: none;
   -webkit-appearance: none;
-  background: $color-gray url("#{$icon-down-arrow}") right center no-repeat;
-  color: $color-white;
+  background: $input__background-color url("#{$icon-down-arrow}") right center no-repeat;
+  color: $input__color;
   background-position: calc(100% - 2px) center;
   padding-right: 20px;
 
@@ -118,9 +120,8 @@
 }
 
 .maputnik-button-selected {
-  filter: brightness(1.2);
-  // background-color: lighten($color-midgray, 12);
-  color: white;
+  background-color: $action-primary__background-color--highlighted;
+  color: $action-primary__color--highlighted;
 }
 
 // CHECKBOX
@@ -153,11 +154,11 @@
     height: 24px;
     width: 24px;
     margin-right: $margin-2;
-    background-color: $color-gray;
+    background-color: $input__background-color;
     border-radius: 2px;
     border-style: solid;
     border-width: 2px;
-    border-color: $color-gray;
+    border-color: $input__border;
     transition: background-color 0.1s ease-out;
     position: absolute;
     top: 0;
@@ -196,18 +197,18 @@
     position: absolute;
     overflow: auto;
     max-height: 50%;
-    background: $color-gray;
+    background: $input__background-color;
     z-index: 3;
   }
 
   &-menu-item {
     user-select: none;
-    color: $color-lowgray;
+    color: $input__color;
     cursor: default;
     padding: $margin-1;
     font-size: $font-size-6;
     z-index: 3;
-    background: $color-gray;
+    background: $input__background-color;
   }
 
   &-menu-item-selected {
