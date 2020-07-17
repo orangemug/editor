@@ -3,62 +3,62 @@ const style = {
   "sources": {
     "test": {
       "type": "geojson",
-      "data": {
-        "type": "FeatureCollection",
-        "features": [
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [0, -10]
-            },
-            "properties": {}
-          }
-        ]
-      }
+      "data": "/editor/api/public/sources/simple.json"
     }
   },
   "sprite": "",
   "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
   "layers": [
     {
-      "id": "test1",
+      "id": "test0",
       "type": "circle",
       "source": "test",
+      "filter": [
+        "all",
+        ["==", "id", "point_0"]
+      ],
       "paint": {
         "circle-radius": 40,
         "circle-color": "red",
-        "circle-translate": [-60, -60]
+      }
+    },
+    {
+      "id": "test1",
+      "type": "circle",
+      "source": "test",
+      "filter": [
+        "all",
+        ["==", "id", "point_1"]
+      ],
+      "paint": {
+        "circle-radius": 40,
+        "circle-color": "green",
       }
     },
     {
       "id": "test2",
       "type": "circle",
       "source": "test",
+      "filter": [
+        "all",
+        ["==", "id", "point_2"]
+      ],
       "paint": {
         "circle-radius": 40,
-        "circle-color": "green",
-        "circle-translate": [60, -60]
+        "circle-color": "blue",
       }
     },
     {
       "id": "test3",
       "type": "circle",
       "source": "test",
-      "paint": {
-        "circle-radius": 40,
-        "circle-color": "blue",
-        "circle-translate": [60, 60]
-      }
-    },
-    {
-      "id": "test4",
-      "type": "circle",
-      "source": "test",
+      "filter": [
+        "all",
+        ["==", "id", "point_3"]
+      ],
       "paint": {
         "circle-radius": 40,
         "circle-color": "yellow",
-        "circle-translate": [-60, 60]
       }
     }
   ]

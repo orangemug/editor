@@ -14,6 +14,7 @@ export default function MapGeneric (props) {
     openlayersOptions,
     selectedLayerIndex,
     tokens,
+    transformRequest,
   } = props;
   const metadata = mapStyle.metadata || {};
 
@@ -41,6 +42,7 @@ export default function MapGeneric (props) {
     />
   } else {
     mapElement = <MapMapboxGl {...mapProps}
+      transformRequest={transformRequest}
       onChange={props.onChangeMapView}
       options={mapboxGlOptions}
       inspectModeEnabled={mapState === "inspect"}

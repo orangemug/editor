@@ -144,8 +144,9 @@ export default class MapMapboxGl extends React.Component {
       ...this.props.options,
       container: this.container,
       style: this.props.mapStyle,
-      maxZoom: 24
-    }
+      maxZoom: 24,
+      transformRequest: this.props.transformRequest,
+    };
 
     const map = new MapboxGl.Map(mapOpts);
 

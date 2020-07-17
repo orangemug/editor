@@ -563,6 +563,7 @@ export default class App extends React.Component {
       mapStyle={mapStyle}
       tokens={uiState.tokens}
       dirtyMapStyle={this.state.dirtyMapStyle}
+      transformRequest={this.props.transformRequest}
       renderer={this.getRenderer()}
       mapState={uiState.mapState}
       mapboxGlOptions={uiState.mapboxGlOptions}

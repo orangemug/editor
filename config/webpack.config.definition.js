@@ -164,6 +164,10 @@ module.exports = (env) => {
           from: './src/manifest.json',
           to: 'manifest.json'
         },
+        {
+          from: './api/public',
+          to: 'api/public'
+        },
       ]),
       rit(isProduction,
         new BundleAnalyzerPlugin({
