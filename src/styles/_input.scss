@@ -249,7 +249,9 @@
 }
 
 .SpecDoc__values code {
-  background: $color-midgray;
+  background-color: var(--maputnik-input__background-color);
+  color: var(--maputnik-input__color);
+  border: var(--maputnik-input__border);
+  border-radius: var(--maputnik-input__border-radius);
   padding: 0.1em 0.3em;
-  border-radius: 2px;
 }

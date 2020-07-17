@@ -141,18 +141,18 @@ function setDefaults (styleObj) {
   }
 }
 
-function replaceAccessToken(url, mapStyle) {
+function replaceAccessToken(url, mapStyle, opts={}) {
   const matchesTilehosting = url.match(/\.tilehosting\.com/);
   const matchesMaptiler = url.match(/\.maptiler\.com/);
   const matchesThunderforest = url.match(/\.thunderforest\.com/);
   if (matchesTilehosting || matchesMaptiler) {
-    const accessToken = getAccessToken("openmaptiles", mapStyle, {allowFallback: true})
+    const accessToken = getAccessToken("openmaptiles", mapStyle, {...opts, allowFallback: true})
     if (accessToken) {
       return url.replace('{key}', accessToken)
     }
   }
   else if (matchesThunderforest) {
-    const accessToken = getAccessToken("thunderforest", mapStyle, {allowFallback: true})
+    const accessToken = getAccessToken("thunderforest", mapStyle, {...opts, allowFallback: true})
     if (accessToken) {
       return url.replace('{key}', accessToken)
     }

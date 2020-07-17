@@ -255,7 +255,7 @@ export default class App extends React.Component {
         }
 
         try {
-          url = style.replaceAccessToken(url, mapStyle)
+          url = style.replaceAccessToken(url, mapStyle, uiState)
         } catch(err) {
           console.warn("Failed to style.replaceAccessToken: ", err);
         }

@@ -1,7 +1,11 @@
 @import 'vars';
 
+.maputnik-modal__underlay {
+  z-index: 9999 !important;
+}
+
 .maputnik-root {
-  @import '../mapboxgl';
+  @import 'mapboxgl';
   @import 'scrollbar';
   @import 'mixins';
   @import 'reset';

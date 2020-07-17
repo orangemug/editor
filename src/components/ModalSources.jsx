@@ -84,7 +84,7 @@ class ActiveModalSourcesTypeEditor extends React.Component {
         <span className="maputnik-space" />
         <InputButton
           aria-label={`Remove '${this.props.sourceId}' source`}
-          className="maputnik-active-source-type-editor-header-delete"
+          className="maputnik-button--subtle maputnik-active-source-type-editor-header-delete"
           onClick={()=> this.props.onDelete(this.props.sourceId)}
           style={{backgroundColor: 'transparent'}}
         >
@@ -297,15 +297,17 @@ export default class ModalSources extends React.Component {
         {activeSources}
       </section>
 
-      <section className="maputnik-modal-section">
-        <h1>Choose Public Source</h1>
-        <p>
-          Add one of the publicly available sources to your style.
-        </p>
-        <div className="maputnik-public-sources" style={{maxwidth: 500}}>
-        {tilesetOptions}
-        </div>
-      </section>
+      {tilesetOptions.length > 0 &&
+        <section className="maputnik-modal-section">
+          <h1>Choose Public Source</h1>
+          <p>
+            Add one of the publicly available sources to your style.
+          </p>
+          <div className="maputnik-public-sources" style={{maxwidth: 500}}>
+          {tilesetOptions}
+          </div>
+        </section>
+      }
 
       <section className="maputnik-modal-section">
 				<h1>Add New Source</h1>

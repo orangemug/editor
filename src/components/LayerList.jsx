@@ -322,9 +322,15 @@ export default class LayerList extends React.Component {
   static propTypes = {...layerListPropTypes}
 
   render() {
+    const helperContainer = () => {
+      return this.ref.container;
+    }
+
     return <LayerListContainerSortable
       {...this.props}
+      ref={ref=> this.ref = ref}
       helperClass='sortableHelper'
+      helperContainer={helperContainer}
       onSortEnd={this.props.onMoveLayer.bind(this)}
       useDragHandle={true}
     />

@@ -49,8 +49,8 @@
 
   &-popup {
     display: none;
-    color: $color-lowgray;
-    background-color: $color-gray;
+    background-color: var(--maputnik-base__background-color);
+    color: var(--maputnik-text__color);
     padding: $margin-2;
     font-size: 10px;
     position: absolute;
@@ -64,8 +64,8 @@
   &-button {
     opacity: 0;
     pointer-events: none;
-    background: $color-black;
-    color: white;
+    background: var(--maputnik-base__background-color);
+    color: var(--maputnik-sdk-docs-button__color);
     border: none;
     padding: 4px;
 
@@ -109,6 +109,12 @@
   box-sizing: border-box;
   text-decoration: none;
 
+  &--subtle {
+    background-color: var(--maputnik-button__background-color--subtle);
+    color: var(--maputnik-button__color--subtle);
+  }
+
+
   &:not(:disabled)::hover {
     background-color: $action-primary__background-color--highlighted;
     color: $action-primary__color--highlighted;
@@ -129,18 +135,19 @@
 }
 
 .maputnik-icon-button {
-  background-color: transparent;
+  background-color: var(--maputnik-button__background-color--subtle);
+  color: var(--maputnik-button__color--subtle);
+
+  svg {
+    cursor: black;
+  }
 
   &:hover:not(:disabled) {
-    background-color: transparent;
+    color: var(--maputnik-button__color--subtle--hover);
 
     label,
     svg {
       cursor: pointer;
-    }
-
-    svg {
-      fill: $color-white;
     }
   }
 }
@@ -207,6 +214,9 @@
 // MESSAGE PANEL
 .maputnik-message-panel {
   padding: $margin-2;
+  max-height: 180px;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   &-error {
     color: $color-red;

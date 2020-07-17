@@ -3,7 +3,8 @@
   min-width: 350px;
   max-width: 600px;
   overflow: hidden;
-  background-color: $color-black;
+  background-color: var(--maputnik-popup-content-background-color);
+  color: var(--maputnik-popup-content-color);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
   z-index: 3;
   position: relative;
@@ -60,8 +61,8 @@
 
 .maputnik-modal-header-toggle {
   border: none;
-  background: initial;
-  color: white;
+  background-color: var(--maputnik-action-secondary__background-color);
+  color: var(--maputnik-action-secondary__color);
   padding: 0;
 }
 

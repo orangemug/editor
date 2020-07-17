@@ -38,6 +38,7 @@ export default class Modal extends React.Component {
         titleText={this.props.title}
         underlayClickExits={this.props.underlayClickExits}
         underlayProps={this.props.underlayProps}
+        underlayClass="maputnik-modal__underlay"
         data-wd-key={this.props["data-wd-key"]}
         verticallyCenter={true}
         onExit={this.onClose}

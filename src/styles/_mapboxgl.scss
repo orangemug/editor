@@ -31,7 +31,8 @@
 }
 
 .mapboxgl-popup-content {
-  background-color: rgb(28, 31, 36);
+  background-color: var(--maputnik-popup-content-background-color);
+  color: var(--maputnik-popup-content-color);
   box-shadow: rgba(0, 0, 0, 0.298039) 0px 0px 5px 0px;
   padding: 0px;
 }
@@ -41,19 +42,21 @@
 }
 
 .mapboxgl-ctrl-zoom {
-  color: #a4a4a4;
   font-weight: bold;
+  font-size: var(--maputnik-font-size-6);
   padding: 4px 8px;
   user-select: none;
 }
 
 .mapboxgl-ctrl-group {
-  background: rgb(28, 31, 36);
+  background-color: var(--maputnik-base__background-color);
+  color: var(--maputnik-text__color);
 }
 
 .mapboxgl-ctrl-group > button {
-  background-color: rgb(28, 31, 36);
-  border-color: rgb(28, 31, 36);
+  background-color: var(--maputnik-button-primary-background-color);
+  color: var(--maputnik-button-primary-color);
+  border-color: var(--maputnik-button-primary-border-color);
 }
 
 .mapboxgl-ctrl button:not(:disabled):hover {

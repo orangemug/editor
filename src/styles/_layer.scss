@@ -89,10 +89,10 @@
 
     svg {
       // fill: darken($color-lowgray, 20);
-      fill: $color-gray;
+      fill: var(--maputnik-layer-list-icon__color);
 
       &:hover {
-        fill: $color-white;
+        fill: var(--maputnik-layer-list-icon__color--hover);
       }
     }
   }
@@ -111,7 +111,7 @@
 
       svg {
         // fill: darken($color-lowgray, 0.5);
-        fill: $color-gray;
+        fill: var(--maputnik-layer-list-icon__color);
       }
     }
   }
@@ -239,7 +239,7 @@
 .maputnik-default-property {
   .maputnik-input-block-label {
     // color: darken($color-lowgray, 20%);
-    color: $color-gray;
+    color: var(--maputnik-text__color-light);
   }
 
   .maputnik-string,
