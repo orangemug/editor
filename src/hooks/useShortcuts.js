@@ -40,9 +40,10 @@ export default function useShortcuts ({uiState, setUiState, revisionStack}) {
         {
           key: "i",
           handler: () => {
-            this.setMapState(
-              this.state.mapState === "map" ? "inspect" : "map"
-            );
+            setUiState({
+              ...uiState,
+              mapState: uiState.mapState === "map" ? "inspect" : "map"
+            });
           }
         },
         {
@@ -87,7 +88,7 @@ export default function useShortcuts ({uiState, setUiState, revisionStack}) {
         })
 
         if(shortcut) {
-          uiAction.openModal("shortcuts", false);
+          uiAction.setModalState("shortcuts", false);
           shortcut.handler(e);
         }
       }
