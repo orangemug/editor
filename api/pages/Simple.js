@@ -22,6 +22,8 @@ import Maputnik, {
 } from '../../src/index';
 
 
+const BEARER_TOKEN = "testing-testing-123";
+
 function CustomMaputnik (props) {
   const [mapStyle, setMapStyle] = useState(emptyStyle);
 
@@ -101,6 +103,21 @@ function CustomMaputnik (props) {
     mapStyle,
   });
 
+  const transformRequest = (url, resourceType) => {
+    if (
+      resourceType === 'Source' &&
+      url.startsWith('http://localhost:8080/editor/api/public')
+    ) {
+      return {
+        url: url,
+        headers: {
+          "Authorization": "Bearer "+BEARER_TOKEN,
+        },
+        credentials: 'include'
+      }
+    }
+  }
+
   return (
     <div className="custom__maputnik">
       <div className="custom__maputnik__toolbar">
@@ -116,6 +133,7 @@ function CustomMaputnik (props) {
         <Maputnik
           mapStyle={mapStyle}
           onMapStyleChanged={setMapStyle}
+          transformRequest={transformRequest}
           uiState={uiState}
           onUiStateChanged={setUiState}
         />
