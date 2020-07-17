@@ -103,8 +103,9 @@
 
   .maputnik-layer-list-item:hover,
   .maputnik-layer-list-item-selected {
-    filter: brightness(1.2);
-    // background-color: lighten($color-black, 2);
+    // filter: brightness(1.2);
+    background-color: var(--maputnik-layer-list-selected-background-color);
+    color: var(--maputnik-layer-list-selected-color);
 
     .maputnik-layer-list-icon-action {
       display: block;
@@ -259,9 +260,9 @@
 
   .maputnik-multibutton .maputnik-button {
     // background-color: darken($color-midgray, 10%);
-    background-color: $color-midgray;
+    // background-color: $color-midgray;
     // color: darken($color-lowgray, 20%);
-    color: $color-lowgray;
+    // color: $color-lowgray;
 
     &:hover {
       // background-color: lighten($color-midgray, 12);
@@ -272,8 +273,8 @@
 
   .maputnik-multibutton .maputnik-button-selected {
     // background-color: darken($color-midgray, 2%);
-    background-color: $color-midgray;
-    color: $color-lowgray;
+    // background-color: $color-midgray;
+    // color: $color-lowgray;
   }
 }
 

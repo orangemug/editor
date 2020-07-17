@@ -1,6 +1,7 @@
 .maputnik-popup-layer {
   display: flex;
   flex-direction: row;
+  font-size: var(--maputnik-font-size-6);
 }
 
 .maputnik-popup-layer__swatch {
@@ -21,10 +22,12 @@
 }
 
 .maputnik-popup-layer-id {
+  padding: $margin-1;
   padding-left: $margin-2;
+  font-size: var(--maputnik-font-size-6);
   padding-right: 1.6em;
-  background-color: $color-midgray;
-  color: $color-white;
+  background-color: var(--maputnik-popup-layer-id__background-color);
+  color: var(--maputnik-popup-layer-id__color);
 }
 
 .maputnik-feature-property-popup {

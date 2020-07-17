@@ -99,8 +99,8 @@
 .maputnik-button {
   display: inline-block;
   cursor: pointer;
-  background-color: $action-primary__background-color;
-  color: $action-primary__color;
+  background-color: var(--maputnik-action-primary__background-color);
+  color: var(--maputnik-action-primary__color);
   font-size: $font-size-6;
   padding: $margin-2;
   user-select: none;
@@ -167,7 +167,6 @@
   }
 
   &-action {
-    color: $color-lowgray;
     user-select: none;
     width: 18%;
     vertical-align: top;
