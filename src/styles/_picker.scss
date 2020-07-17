@@ -1,12 +1,12 @@
 
 
 .chrome-picker {
-  background-color: #1c1f24 !important;
+  background-color: var(--maputnik-base__background-color) !important;
   font-family: inherit !important;
 }
 
 .chrome-picker input {
-  background-color: rgb(38, 40, 46) !important;
-  color: rgb(142, 142, 142) !important;
+  background-color: var(--maputnik-input__background-color) !important;
+  color: var(--maputnik-input__color) !important;
   box-shadow: none !important;
 }
