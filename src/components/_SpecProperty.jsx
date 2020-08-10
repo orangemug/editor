@@ -24,6 +24,20 @@ export default class SpecProperty extends React.Component {
     errors: {},
   }
 
+  shouldComponentUpdate (prevProps) {
+    const asObj = (props) => {
+      const {errors, fieldName, fieldType, value} = props;
+      const error = errors[fieldType+"."+fieldName];
+      return {error, value};
+    }
+
+    const prev = asObj(prevProps);
+    const current = asObj(this.props);
+    const errorChanged = (prev.error !== current.error);
+    const valueChanged = (prev.value !== current.value);
+    return (errorChanged || valueChanged);
+  }
+
   render() {
     const {errors, fieldName, fieldType} = this.props;
 

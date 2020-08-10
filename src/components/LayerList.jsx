@@ -165,19 +165,20 @@ class LayerListContainer extends React.Component {
       this.props.layers.map(getRequiredProps),
     );
 
-    function withoutLayers (props) {
+    function minimalComparable (props) {
       const out = {
         ...props
       };
       delete out['layers'];
+      delete out['errors'];
       return out;
     }
 
     // Compare the props without layers because we've already compared them
     // efficiently above.
     const propsEqual = lodash.isEqual(
-      withoutLayers(this.props),
-      withoutLayers(nextProps)
+      minimalComparable(this.props),
+      minimalComparable(nextProps)
     );
 
     const propsChanged = !(layersEqual && propsEqual);
