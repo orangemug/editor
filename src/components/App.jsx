@@ -58,7 +58,19 @@ export default class App extends React.Component {
 
 
   componentDidMount() {
+    const {mapStyle} = this.props;
     this.fetchSources();
+    this.updateFonts(mapStyle.glyphs);
+    this.updateIcons(mapStyle.sprite);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.mapStyle.glyphs !== this.props.mapStyle.glyphs) {
+      this.updateFonts(this.props.mapStyle.glyphs);
+    }
+    if (prevProps.mapStyle.sprite !== this.props.mapStyle.sprite) {
+      this.updateIcons(this.props.mapStyle.sprite);
+    }
   }
 
   updateFonts(urlTemplate) {
