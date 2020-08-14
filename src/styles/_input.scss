@@ -126,31 +126,32 @@
 
 // CHECKBOX
 .maputnik-checkbox {
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  left: 0;
-  top: 0;
-  outline: none;
 
   &-wrapper {
-    @extend .maputnik-input;
+    // @extend .maputnik-input;
 
     padding-left: 0;
     padding-right: 0;
     position: relative;
-    text-align: center;
+    // text-align: center;
     vertical-align: middle;
     cursor: pointer;
-    max-width: 24px;
+    width: 24px;
+  }
+
+  &-input {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    border: solid 2px black;
   }
 
   &-box {
     z-index: 2;
-    display: inline-block;
-    text-align: center;
     height: 24px;
     width: 24px;
     margin-right: $margin-2;
@@ -160,10 +161,7 @@
     border-width: 2px;
     border-color: $input__border;
     transition: background-color 0.1s ease-out;
-    position: absolute;
-    top: 0;
-    left: 0;
-    // So they fall through to the <input/> beneath
+    position: relative;
     pointer-events: none;
 
     @media screen and (prefers-reduced-motion: reduce) {
@@ -171,19 +169,12 @@
     }
   }
 
-  &:focus {
-    z-index: 8;
-  }
-
-  &:focus + &-box {
-    z-index: 9;
-  }
-
-
   &-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
     width: 50%;
-    height: 50%;
-    margin-top: 1px;
+    transform: translate(-50%, -50%);
     fill: $color-lowgray;
   }
 }

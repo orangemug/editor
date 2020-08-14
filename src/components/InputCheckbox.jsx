@@ -19,7 +19,7 @@ export default class InputCheckbox extends React.Component {
   render() {
     return <div className="maputnik-checkbox-wrapper">
       <input
-        className="maputnik-checkbox"
+        className="maputnik-checkbox-input"
         type="checkbox"
         style={this.props.style}
         onChange={this.onChange}
