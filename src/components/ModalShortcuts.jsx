@@ -104,6 +104,7 @@ export default class ModalShortcuts extends React.Component {
       isOpen={this.props.isOpen}
       onOpenToggle={this.props.onOpenToggle}
       title={'Shortcuts'}
+      theme={this.props.theme}
     >
       <section className="maputnik-modal-section maputnik-modal-shortcuts">
         <p>

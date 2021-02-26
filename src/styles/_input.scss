@@ -1,17 +1,16 @@
 //INPUT
 .maputnik-input {
-  height: 24px;
   width: 100%;
   display: block;
   box-sizing: border-box;
   font-size: $font-size-6;
   line-height: 2;
-  padding-left: $margin-2;
-  padding-right: $margin-2;
+  padding: var(--maputnik-input__padding);
   border: none;
   background-color: $input__background-color;
   color: $input__color;
   border: $input__border;
+  line-height: var(--maputnik-input__line-height);
   border-radius: 2px;
 
 
@@ -52,8 +51,6 @@
 //COLOR PICKER
 .maputnik-color {
   @extend .maputnik-input;
-
-  height: 26px;
 }
 
 .maputnik-color-wrapper {
@@ -63,16 +60,22 @@
 }
 
 .maputnik-color-swatch {
-  height: 26px;
   width: 14px;
   flex-shrink: 0;
   flex-grow: 0;
+  border: var(--maputnik-input__border);
+  border-right: none;
+}
+
+.maputnik-color-swatch + input {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 // ARRAY
 
 .maputnik-array {
-  > * {
+  > *:not(:last-child) {
     margin-bottom: $margin-3;
   }
 
@@ -106,22 +109,37 @@
   color: $input__color;
   background-position: calc(100% - 2px) center;
   padding-right: 20px;
-
-  height: 24px;
 }
 
 // MULTIBUTTON
 .maputnik-multibutton {
   padding: 0;
 
+  border-radius: 4px;
+  overflow: hidden;
+  border: solid 1px #ddd;
+  display: inline-flex;
+  vertical-align: middle;
+
   .maputnik-button {
-    margin-right: $margin-1;
+    margin-left: 0;
+    border-radius: 0;
+    background: #eee;
+    color: black;
+    &:not(:first-child) {
+      border-left: solid 1px #ccc;
+    }
+  }
+
+  .maputnik-button-selected {
+    background-color: $action-primary__background-color;
+    color: $action-primary__color;
   }
 }
 
 .maputnik-button-selected {
-  background-color: $action-primary__background-color--highlighted;
-  color: $action-primary__color--highlighted;
+  background-color: $action-primary__background-color;
+  color: $action-primary__color;
 }
 
 // CHECKBOX
@@ -181,7 +199,7 @@
 
 // AUTOCOMPLETE
 .maputnik-autocomplete {
-  &-menu {
+  & > div {
     border: none;
     padding: 2px 0;
     margin-right: 10px;
@@ -190,6 +208,7 @@
     max-height: 50%;
     background: $input__background-color;
     z-index: 3;
+    box-shadow: var(--maputnik-menubutton-list__box-shadow);
   }
 
   &-menu-item {
@@ -203,7 +222,7 @@
   }
 
   &-menu-item-selected {
-    background: $color-midgray;
+    background: var(--maputnik-menu-item-selected__background);
   }
 }
 
@@ -211,6 +230,17 @@
 .maputnik-font {
   .maputnik-autocomplete:not(:last-child) {
     margin-bottom: $margin-3;
+  }
+
+  li:not(:last-child) .maputnik-string {
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  li:not(:first-child) .maputnik-string {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
   }
 }
 

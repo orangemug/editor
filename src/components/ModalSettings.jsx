@@ -92,6 +92,7 @@ export default class ModalSettings extends React.Component {
       isOpen={this.props.isOpen}
       onOpenToggle={this.props.onOpenToggle}
       title={'Style Settings'}
+      theme={this.props.theme}
     >
       <div className="modal-settings">
         <FieldString {...inputProps}

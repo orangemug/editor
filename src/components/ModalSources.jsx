@@ -291,6 +291,7 @@ export default class ModalSources extends React.Component {
       isOpen={this.props.isOpen}
       onOpenToggle={this.props.onOpenToggle}
       title={'Sources'}
+      theme={this.props.theme}
     >
       <section className="maputnik-modal-section">
         <h1>Active Sources</h1>

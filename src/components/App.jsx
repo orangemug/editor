@@ -490,6 +490,7 @@ export default class App extends React.Component {
       sources={this.state.sources}
       errors={this.state.errors}
       layerTypes={uiState.layerTypes}
+      theme={this.props.theme}
     />
 
     const layerEditor = selectedLayer ? <LayerEditor
@@ -531,11 +532,13 @@ export default class App extends React.Component {
         isOpen={isOpen.debug}
         onOpenToggle={this.toggleModal.bind(this, 'debug')}
         mapView={this.state.mapView}
+        theme={this.props.theme}
       />
       <ModalShortcuts
         ref={(el) => this.shortcutEl = el}
         isOpen={isOpen.shortcuts}
         onOpenToggle={this.toggleModal.bind(this, 'shortcuts')}
+        theme={this.props.theme}
       />
       <ModalSettings
         mapStyle={mapStyle}
@@ -545,6 +548,7 @@ export default class App extends React.Component {
         isOpen={isOpen.settings}
         onOpenToggle={this.toggleModal.bind(this, 'settings')}
         openlayersOptions={uiState.openlayersOptions}
+        theme={this.props.theme}
       />
       <ModalExport
         mapStyle={mapStyle}
@@ -552,11 +556,13 @@ export default class App extends React.Component {
         onStyleChanged={this.onStyleChanged}
         isOpen={isOpen.export}
         onOpenToggle={this.toggleModal.bind(this, 'export')}
+        theme={this.props.theme}
       />
       <ModalOpen
         isOpen={isOpen.open}
         onStyleOpen={this.openStyle}
         onOpenToggle={this.toggleModal.bind(this, 'open')}
+        theme={this.props.theme}
       />
       <ModalSources
         mapStyle={mapStyle}
@@ -564,10 +570,12 @@ export default class App extends React.Component {
         isOpen={isOpen.sources}
         onOpenToggle={this.toggleModal.bind(this, 'sources')}
         publicSources={uiState.publicSources}
+        theme={this.props.theme}
       />
       <ModalSurvey
         isOpen={isOpen.survey}
         onOpenToggle={this.toggleModal.bind(this, 'survey')}
+        theme={this.props.theme}
       />
     </div>
 
@@ -589,7 +597,7 @@ export default class App extends React.Component {
       }}
     />
 
-    return <div className="maputnik maputnik-root">
+    return <div className={`maputnik maputnik-root maputnik-theme-${this.props.theme}`}>
       <div dangerouslySetInnerHTML={{__html: svgAccesibilityFilters}} />
       <AppLayout
         layerList={layerList}

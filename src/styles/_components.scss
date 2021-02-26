@@ -31,6 +31,7 @@
     opacity: 1;
     pointer-events: all;
     cursor: pointer;
+    vertical-align: middle;
   }
 }
 
@@ -93,6 +94,7 @@
 .maputnik-doc-target:hover .maputnik-doc-popup {
   display: block;
   text-align: left;
+  vertical-align: middle;
 }
 
 // BUTTON
@@ -102,12 +104,13 @@
   background-color: var(--maputnik-action-primary__background-color);
   color: var(--maputnik-action-primary__color);
   font-size: $font-size-6;
-  padding: $margin-2;
+  padding: var(--maputnik-button__padding);
   user-select: none;
   border-width: 0;
   border-radius: 2px;
   box-sizing: border-box;
   text-decoration: none;
+  line-height: var(--maputnik-button__line-height);
 
   &--subtle {
     background-color: var(--maputnik-button__background-color--subtle);
@@ -128,9 +131,7 @@
 }
 
 .maputnik-big-button {
-  margin-top: $margin-3;
   display: inline-block;
-  padding: $margin-3;
   font-size: $font-size-5;
 }
 
@@ -171,7 +172,11 @@
     width: 18%;
     vertical-align: top;
     font-size: 12px;
-    text-align: right;
+
+    display: flex;
+    justify-content: flex-end;
+    line-height: var(--maputnik-input__line-height);
+    padding: 4px 0px;
   }
 
   &-content {
@@ -183,13 +188,17 @@
   .maputnik-input-block-label {
     display: inline-block;
     width: 32%;
-    margin-bottom: $margin-3;
   }
 
   .maputnik-input-block-action {
     vertical-align: top;
     display: inline-block;
     width: 18%;
+
+    display: flex;
+    justify-content: flex-end;
+    line-height: var(--maputnik-input__line-height);
+    padding: 4px 0px;
   }
 
   .maputnik-input-block-action > div {

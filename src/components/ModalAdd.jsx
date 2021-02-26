@@ -128,6 +128,7 @@ export default class ModalAdd extends React.Component {
       title={'Add Layer'}
       data-wd-key="modal:add-layer"
       className="maputnik-add-modal"
+      theme={this.props.theme}
     >
       <div className="maputnik-add-layer">
       <FieldId

@@ -24,6 +24,7 @@ export default class ModalSurvey extends React.Component {
       isOpen={this.props.isOpen}
       onOpenToggle={this.props.onOpenToggle}
       title="Maputnik Survey"
+      theme={this.props.theme}
     >
       <div className="maputnik-modal-survey">
         <img src={logoImage} className="maputnik-modal-survey__logo" />

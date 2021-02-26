@@ -29,6 +29,7 @@ export default class ModalLoading extends React.Component {
       closeable={false}
       title={this.props.title}
       onOpenToggle={() => this.props.onCancel()}
+      theme={this.props.theme}
     >
       <p>
         {this.props.message}

@@ -28,6 +28,7 @@ export default class ModalDebug extends React.Component {
       isOpen={this.props.isOpen}
       onOpenToggle={this.props.onOpenToggle}
       title={'Debug'}
+      theme={this.props.theme}
     >
       <section className="maputnik-modal-section maputnik-modal-shortcuts">
         <h1>Options</h1>

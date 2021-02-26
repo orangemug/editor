@@ -26,6 +26,7 @@ const BEARER_TOKEN = "testing-testing-123";
 
 function CustomMaputnik (props) {
   const [mapStyle, setMapStyle] = useState(emptyStyle);
+  const [theme, setTheme] = useState('ant-design');
 
   const validators = [
     validatorDisableModal(["open"]),
@@ -118,6 +119,25 @@ function CustomMaputnik (props) {
     }
   }
 
+  const onChangeTheme = (e) => {
+    setTheme(e.target.value);
+  };
+
+  const additional = (
+    <div>
+      <label>
+        Theme{' '}
+        <select onChange={onChangeTheme} value={theme}>
+          {["ant-design", "material-design"].map(theme => {
+            return (
+              <option value={theme}>{theme}</option>
+            );
+          })}
+        </select>
+      </label>
+    </div>
+  );
+
   return (
     <div className="custom__maputnik">
       <div className="custom__maputnik__toolbar">
@@ -126,12 +146,14 @@ function CustomMaputnik (props) {
           onChangeView={uiAction.changeMapState}
           onOpen={uiAction.openModal}
           revisionStack={revisionStack}
+          additional={additional}
         />
       </div>
       <div className="custom__maputnik__editor">
         {/* The Maputnik editor view */}
         <Maputnik
           mapStyle={mapStyle}
+          theme={theme}
           onMapStyleChanged={setMapStyle}
           transformRequest={transformRequest}
           uiState={uiState}

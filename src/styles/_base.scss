@@ -41,15 +41,15 @@
     margin-bottom: $margin-3;
   }
 
-  input:focus,
-  textarea:focus,
-  *[role="button"]:focus,
-  button:focus,
-  .maputnik-toolbar-link:focus,
-  select:focus {
-    color: $color-white;
-    outline: #8e8e8e auto 1px;
-  }
+  // input:focus,
+  // textarea:focus,
+  // *[role="button"]:focus,
+  // button:focus,
+  // .maputnik-toolbar-link:focus,
+  // select:focus {
+  //   color: $color-white;
+  //   outline: #8e8e8e auto 1px;
+  // }
 
   label:hover {
     color: $color-white;

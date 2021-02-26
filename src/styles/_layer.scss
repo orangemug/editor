@@ -157,7 +157,6 @@
     font-size: $font-size-6;
     color: $color-lowgray;
     // background-color: lighten($color-black, 2);
-    filter: brightness(1.2);
     user-select: none;
     padding: $margin-2;
 
@@ -192,17 +191,18 @@
   font-weight: bold;
   font-size: $font-size-5;
   // background-color: lighten($color-black, 2);
-  filter: brightness(1.2);
   color: $color-white;
   cursor: pointer;
   user-select: none;
   line-height: 20px;
+  // border-top: solid 1px #b9b9b9;
   border-top: solid 1px #36383e;
 
   &__button {
     flex: 1;
     display: flex;
     padding: $margin-2;
+    align-items: center;
 
     &__icon {
       fill: white;
@@ -266,7 +266,6 @@
 
     &:hover {
       // background-color: lighten($color-midgray, 12);
-      filter: brightness(1.2);
       color: $color-white;
     }
   }
@@ -288,11 +287,13 @@
 
   &__menu {
     position: absolute;
+    font-size: var(--maputnik-font-size-5);
     z-index: 9999;
     background: $color-black;
-    border: solid 1px $color-midgray;
+    border: var(--maputnik-menubutton-list__border);
     right: 0;
     min-width: 120px;
+    box-shadow: var(--maputnik-menubutton-list__box-shadow);
   }
 
   &__button__svg {
@@ -301,7 +302,8 @@
   }
 
   &__menu__item {
-    padding: 4px;
+    padding: 6px;
+    white-space: nowrap; 
   }
 }
 
@@ -317,7 +319,7 @@
   }
 
   &__info {
-    min-width: 28px;
+    min-width: 23px;
   }
 }
 

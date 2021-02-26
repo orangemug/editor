@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames';
 
 export default class InputCheckbox extends React.Component {
   static propTypes = {
@@ -19,7 +20,10 @@ export default class InputCheckbox extends React.Component {
   render() {
     return <div className="maputnik-checkbox-wrapper">
       <input
-        className="maputnik-checkbox-input"
+        className={classNames({
+          "maputnik-checkbox-input": true,
+          "maputnik-checkbox-input--checked": this.props.value,
+        })}
         type="checkbox"
         style={this.props.style}
         onChange={this.onChange}

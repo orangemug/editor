@@ -5,6 +5,10 @@
   vertical-align: middle;
   padding: 0 $margin-2 0 0;
 
+  svg {
+    vertical-align: middle;
+  }
+
   @extend .maputnik-icon-button;
 }
 
@@ -64,6 +68,10 @@
   display: inline-block;
   vertical-align: middle;
   padding: 0 $margin-2 0 0;
+
+  svg {
+    vertical-align: middle;
+  }
 
   @extend .maputnik-icon-button;
 }

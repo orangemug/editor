@@ -6,7 +6,7 @@
   max-width: 100%;
   position: relative;
   overflow: auto;
-  background: hsla(223, 10%, 18%, 1);
+  background: var(--maputnik-codemirror__background);
 }
 
 .cm-s-maputnik.CodeMirror {
@@ -21,7 +21,7 @@
 }
 
 .cm-s-maputnik .CodeMirror-gutters {
-  background: #212328;
+  background: var(--maputnik-codemirror__gutter-background);
 }
 
 .cm-s-maputnik .CodeMirror-cursor {

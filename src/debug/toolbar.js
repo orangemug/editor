@@ -2,7 +2,7 @@ import React from 'react';
 
 
 export default function Toolbar (props) {
-  const {revisionStack} = props;
+  const {revisionStack, additional} = props;
 
   return <nav>
     <button onClick={e => props.onOpen("settings")}>
@@ -44,6 +44,9 @@ export default function Toolbar (props) {
       >
         Redo
       </button>
+      <div style={{display: "inline-flex"}}>
+        {additional}
+      </div>
     </label>
   </nav>
 }

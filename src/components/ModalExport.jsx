@@ -92,6 +92,7 @@ export default class ModalExport extends React.Component {
       onOpenToggle={this.props.onOpenToggle}
       title={'Export Style'}
       className="maputnik-export-modal"
+      theme={this.props.theme}
     >
 
       <section className="maputnik-modal-section">
