@@ -111,6 +111,7 @@
   box-sizing: border-box;
   text-decoration: none;
   line-height: var(--maputnik-button__line-height);
+  font-family: inherit;
 
   &--subtle {
     background-color: var(--maputnik-button__background-color--subtle);

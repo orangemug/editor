@@ -128,7 +128,7 @@ function CustomMaputnik (props) {
       <label>
         Theme{' '}
         <select onChange={onChangeTheme} value={theme}>
-          {["ant-design", "material-design"].map(theme => {
+          {["ant-design", "light", "material-design"].map(theme => {
             return (
               <option value={theme}>{theme}</option>
             );

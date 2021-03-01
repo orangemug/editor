@@ -10,8 +10,9 @@
 }
 
 .cm-s-maputnik.CodeMirror {
-  height: 100%;
+  height: auto;
   font-size: 12px;
+  font-family: monospace;
   background: transparent;
 }
 
@@ -25,7 +26,7 @@
 }
 
 .cm-s-maputnik .CodeMirror-cursor {
-    border-left: solid thin #f0f0f0 !important;
+  border-left: solid thin #000000 !important;
 }
 
 .cm-s-maputnik.CodeMirror-focused div.CodeMirror-selected {

@@ -40,7 +40,7 @@
     "@mdi/react": "^1.4.0",
     "array-move": "^2.2.1",
     "classnames": "^2.2.6",
-    "codemirror": "^5.52.0",
+    "codemirror": "^5.59.4",
     "color": "^3.1.2",
     "detect-browser": "^5.0.0",
     "file-saver": "^2.0.2",
