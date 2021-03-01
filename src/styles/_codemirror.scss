@@ -30,7 +30,8 @@
 }
 
 .cm-s-maputnik.CodeMirror-focused div.CodeMirror-selected {
-  background: rgba(255, 255, 255, 0.10);
+  // background: rgba(255, 255, 255, 0.10);
+  background: #dadada;
 }
 
 .cm-s-maputnik .CodeMirror-line::selection,
@@ -56,6 +57,7 @@
 }
 
 .cm-s-maputnik .CodeMirror-matchingbracket {
+  // background: #ddd;
   background: hsla(223, 12%, 35%, 1);
   color: $color-white !important;
 }
