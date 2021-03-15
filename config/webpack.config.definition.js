@@ -11,6 +11,7 @@ const rules = require('./webpack.rules');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 
 
 function purge (arr) {
@@ -185,14 +186,14 @@ module.exports = (env) => {
   const pkg = {
     ...base,
     externals: dependencies,
-    entry: purge([
-      rit(hasHmr, `webpack-dev-server/client?http://${devServerHost}:${devServerPort}`),
-      rit(hasHmr, `webpack/hot/only-dev-server`),
-      `./src/index.jsx`,
-    ]),
+    entry: {
+      index: `./src/index.jsx`,
+      'themes/ant-design': './api/public/themes/ant-design.scss',
+      // 'themes/light': './api/public/themes/light.scss',
+    },
     output: {
       path: npmOutputPath,
-      filename: 'index.js',
+      filename: '[name].js',
       library: 'maputnik',
       libraryTarget: 'commonjs2',
     },
@@ -214,9 +215,7 @@ module.exports = (env) => {
           NODE_ENV: `"${env}"`
         }
       }),
-      new MiniCssExtractPlugin({
-        filename: 'index.css',
-      }),
+      new MiniCssExtractPlugin(),
       rit(isProduction,
         new BundleAnalyzerPlugin({
           analyzerMode: 'static',
@@ -227,6 +226,7 @@ module.exports = (env) => {
           statsFilename: 'bundle-stats.json',
         })
       ),
+      new IgnoreEmitPlugin(/themes\/.*\.js$/),
     ]),
   };
 

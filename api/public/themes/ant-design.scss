@@ -1,0 +1,174 @@
+.maputnik-root.maputnik-theme-ant-design {
+  /* Ant design color scheme */
+  --maputnik-font-family: roboto, sans-serif;
+  --maputnik-button__padding: 0.2em 0.4em;
+  --maputnik-button__line-height: 1.5715;
+  --maputnik-font-size-1: 26px;
+  --maputnik-font-size-2: 22px;
+  --maputnik-font-size-3: 20px;
+  --maputnik-font-size-4: 18px;
+  --maputnik-font-size-5: 15px;
+  --maputnik-font-size-6: 13px;
+  --maputnik-scrollbar-background-color: #f2f2f2;
+  --maputnik-scrollbar-size: 8px;
+  --maputnik-color-black: #fff;
+  --maputnik-color-gray: #efefef;
+  --maputnik-color-midgray: #007afe;
+  --maputnik-color-lowgray: #222429;
+  --maputnik-color-white: #262626;
+  --maputnik-margin-1: 4px;
+  --maputnik-margin-2: 6px;
+  --maputnik-margin-3: 12px;
+  --maputnik-margin-4: 34px;
+  --maputnik-margin-5: 46px;
+  --maputnik-layout-list-width: 240px;
+  --maputnik-layout-editor-width: 430px;
+  --maputnik-link-color: #333;
+  --maputnik-link-hover-color: #a2a2a2;
+  --maputnik-popup-content-background-color: white;
+  --maputnik-popup-content-color: #000;
+  --maputnik-popup-content-header-background-color: #fafafa;
+  --maputnik-popup-content-header-color: #000;
+  --maputnik-popup-content-header-border-color: #e8e8e8;
+  --maputnik-text__color: #000;
+  --maputnik-text__color-light: #555;
+  --maputnik-text__color-inverted: #fff;
+  --maputnik-action-primary__background-color: #007aff;
+  --maputnik-action-primary__color: white;
+  --maputnik-action-primary__background-color--highlighted: #40a9ff;
+  --maputnik-action-primary__color--highlighted: white;
+  --maputnik-action-primary__background-color--disabled: gray;
+  --maputnik-action-primary__color--disabled: lightgray;
+  --maputnik-action-secondary__background-color: #eee;
+  --maputnik-action-secondary__color: black;
+  --maputnik-action-secondary__background-color--highlighted: #ededed;
+  --maputnik-action-secondary__color--highlighted: #555;
+  --maputnik-input__background-color: #fff;
+  --maputnik-input__color: #000;
+  --maputnik-input__border: solid 1px #ccc;
+  --maputnik-input__border-radius: 2px;
+  --maputnik-input__line-height: 1.5715;
+  --maputnik-input__padding: 4px 8px;
+  --maputnik-kbd__background-color: var(--maputnik-input__background-color);
+  --maputnik-kbd__color: var(--maputnik-input__color);
+  --maputnik-kbd__border: var(--maputnik-input__border);
+  --maputnik-kbd__border-radius: var(--maputnik-input__border-radius);
+  --maputnik-layer-list-selected-background-color: #e6f7ff;
+  --maputnik-menu-item-selected__background: #e6f7ff;
+  --maputnik-menubutton-list__border: none;
+  --maputnik-menubutton-list__box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, -0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+
+  --maputnik-codemirror__background: #fff;
+  --maputnik-codemirror__gutter-background: #eee;
+  --maputnik-codemirror__matchingbracket: hsla(223, 12%, 85%, 1);
+
+  --maputnik-layer-list-group__background: hsl(0, 0%, 93%);
+  --maputnik-layer-list-group__border-bottom: solid 1px #ddd;
+  --maputnik-base__background-color: #fff;
+
+  .maputnik-select:not(:disabled) {
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  .maputnik-string:not(:disabled) {
+    padding: 0px 8px;
+    line-height: 2.2;
+    background: white;
+    border: solid 1px #ccc;
+    border-radius: 2px;
+    outline: none;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: box-shadow 180ms, border-color 180ms;
+    outline: none;
+
+    &:focus-visible {
+      outline: initial;
+    }
+
+    &:focus, &:hover {
+      border-color: #40a9ff;
+    }
+
+    &:focus-within {
+      border-color: #096dd9;
+      box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+    }
+  }
+  .maputnik-layer-list {
+    background: #fafafa;
+    border-right: solid 1px #ececec;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+    background: transparent; /* Otherwise white in Chrome */
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    width: 14px;
+    height: 14px;
+    margin-top: -4px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+    background: #fff;
+    border: solid 2px #69c0ff;
+    border-radius: 100px;
+    cursor: pointer;
+    -webkit-appearance: none;
+  }
+
+  input[type=range]:focus {
+    outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+  }
+
+  input[type=range]::-ms-track {
+    width: 100%;
+    cursor: pointer;
+
+    /* Hides the slider so custom styles can be added */
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 14px;
+    width: 14px;
+    border-radius: 100px;
+    background: #ffffff;
+    cursor: pointer;
+    margin-top: -4px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+    border: solid 2px #69c0ff;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    background: #e8e8e8;
+    border-radius: 5px;
+  }
+
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #d8d8d8;
+  }
+
+  .maputnik-layer-editor-group {
+    border-top: solid 1px #ddd;
+  }
+
+  .maputnik-layer-editor-group__button {
+    background: #f7f7f7;
+    border-bottom: solid 1px hsl(0, 0%, 90%);
+    padding: 0.4em 0.6em;
+  }
+
+  .SpecDoc__sdk-support__table td,
+  .SpecDoc__sdk-support__table th {
+    border-color: #ccc;
+  }
+
+  .mapboxgl-ctrl-group > button {
+    background: #ffffff;
+    border-color: #dddddd;
+  }
+}
