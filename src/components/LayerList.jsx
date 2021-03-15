@@ -242,6 +242,11 @@ class LayerListContainer extends React.Component {
           additionalProps.ref = this.selectedItemRef;
         }
 
+        const isDisabled = (
+          layer.metadata
+          && layer.metadata['maputnik:api:disabled']
+        );
+
         const listItem = <LayerListItem
           className={classnames({
             'maputnik-layer-list-item-collapsed': layers.length > 1 && this.isCollapsed(groupPrefix, groupIdx) && idx !== this.props.selectedLayerIndex,
@@ -254,6 +259,8 @@ class LayerListContainer extends React.Component {
           layerId={layer.id}
           layerIndex={idx}
           layerType={layer.type}
+          isDisabled={isDisabled}
+          disabled={isDisabled}
           visibility={(layer.layout || {}).visibility}
           isSelected={idx === this.props.selectedLayerIndex}
           onLayerSelect={this.props.onLayerSelect}

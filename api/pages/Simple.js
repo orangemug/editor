@@ -4,7 +4,6 @@ import './Simple.scss';
 import '../../src/favicon.ico';
 import '../../src/styles/index.scss';
 
-import emptyStyle from '../../src/debug/circles';
 import Toolbar from '../../src/debug/toolbar';
 import publicSources from '../../src/config/tilesets.json';
 import tokens from '../../src/config/tokens.json';
@@ -25,7 +24,87 @@ import Maputnik, {
 const BEARER_TOKEN = "testing-testing-123";
 
 function CustomMaputnik (props) {
-  const [mapStyle, setMapStyle] = useState(emptyStyle);
+  const [mapStyle, setMapStyle] = useState({
+    "version": 8,
+    "sources": {
+      "test": {
+        "type": "geojson",
+        "data": "/editor/api/public/sources/simple.json"
+      },
+      "land": {
+        "type": "geojson",
+        "data": "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_land.geojson",
+      }
+    },
+    "sprite": "",
+    "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
+    "layers": [
+      {
+        "id": "background-map",
+        "type": "line",
+        "source": "land",
+        "metadata": {
+          "maputnik:api:disabled": true,
+        },
+        "paint": {
+          "line-width": 1,
+          "line-color": "#bbb",
+        }
+      },
+      {
+        "id": "test0_0",
+        "type": "circle",
+        "source": "test",
+        "filter": [
+          "all",
+          ["==", "id", "point_0"]
+        ],
+        "paint": {
+          "circle-radius": 40,
+          "circle-color": "red",
+        }
+      },
+      {
+        "id": "test0_1",
+        "type": "circle",
+        "source": "test",
+        "filter": [
+          "all",
+          ["==", "id", "point_1"]
+        ],
+        "paint": {
+          "circle-radius": 40,
+          "circle-color": "green",
+        }
+      },
+      {
+        "id": "test1",
+        "type": "circle",
+        "source": "test",
+        "filter": [
+          "all",
+          ["==", "id", "point_2"]
+        ],
+        "paint": {
+          "circle-radius": 40,
+          "circle-color": "blue",
+        }
+      },
+      {
+        "id": "test2",
+        "type": "circle",
+        "source": "test",
+        "filter": [
+          "all",
+          ["==", "id", "point_3"]
+        ],
+        "paint": {
+          "circle-radius": 40,
+          "circle-color": "yellow",
+        }
+      }
+    ]
+  });
   const [theme, setTheme] = useState('ant-design');
 
   const validators = [
@@ -138,6 +217,20 @@ function CustomMaputnik (props) {
     </div>
   );
 
+  const onMapStyleChanged = (newMapStyle) => {
+    // Lock the 'background-map' always to the zero-th layer in the list.
+    const alteredNewMapStyle = {
+      ...newMapStyle,
+      layers: newMapStyle.layers.sort((a, b) => {
+        if (a.id === "background-map") {
+          return -9999;
+        }
+        return 0;
+      })
+    }
+    setMapStyle(alteredNewMapStyle);
+  }
+
   return (
     <div className="custom__maputnik">
       <div className="custom__maputnik__toolbar">
@@ -154,7 +247,7 @@ function CustomMaputnik (props) {
         <Maputnik
           mapStyle={mapStyle}
           theme={theme}
-          onMapStyleChanged={setMapStyle}
+          onMapStyleChanged={onMapStyleChanged}
           transformRequest={transformRequest}
           uiState={uiState}
           onUiStateChanged={setUiState}
