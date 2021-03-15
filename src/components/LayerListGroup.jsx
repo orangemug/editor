@@ -7,6 +7,7 @@ export default class LayerListGroup extends React.Component {
     title: PropTypes.string.isRequired,
     "data-wd-key": PropTypes.string,
     isActive: PropTypes.bool.isRequired,
+    isCollapsed: PropTypes.bool.isRequired,
     onActiveToggle: PropTypes.func.isRequired,
     'aria-controls': PropTypes.string,
   }
@@ -27,7 +28,7 @@ export default class LayerListGroup extends React.Component {
         <span className="maputnik-space" />
         <Collapser
           style={{ height: 14, width: 14 }}
-          isCollapsed={this.props.isActive}
+          isCollapsed={this.props.isCollapsed}
         />
       </div>
     </li>

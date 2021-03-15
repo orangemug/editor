@@ -152,6 +152,11 @@
     outline: none !important;
   }
 
+  &-group {
+    background: var(--maputnik-layer-list-group__background);
+    border-bottom: var(--maputnik-layer-list-group__border-bottom);
+  }
+
   &-group-header {
     border: solid 1px transparent;
     font-size: $font-size-6;

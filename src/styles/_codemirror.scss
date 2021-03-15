@@ -57,8 +57,7 @@
 }
 
 .cm-s-maputnik .CodeMirror-matchingbracket {
-  // background: #ddd;
-  background: hsla(223, 12%, 35%, 1);
+  background: var(--maputnik-codemirror__matchingbracket, hsla(223, 12%, 35%, 1));
   color: $color-white !important;
 }
 

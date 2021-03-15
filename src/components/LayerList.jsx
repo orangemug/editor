@@ -220,6 +220,7 @@ class LayerListContainer extends React.Component {
           key={`group-${groupPrefix}-${idx}`}
           title={groupPrefix}
           isActive={!this.isCollapsed(groupPrefix, idx) || idx === this.props.selectedLayerIndex}
+          isCollapsed={this.isCollapsed(groupPrefix, idx)}
           onActiveToggle={this.toggleLayerGroup.bind(this, groupPrefix, idx)}
         />
         listItems.push(grp)
