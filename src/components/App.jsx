@@ -493,7 +493,13 @@ export default class App extends React.Component {
       theme={this.props.theme}
     />
 
-    const layerEditor = selectedLayer ? <LayerEditor
+    const layerEditor = (
+      selectedLayer
+      && !(
+        selectedLayer.metadata
+        && selectedLayer.metadata['maputnik:api:disabled']
+      )
+    ) ? <LayerEditor
       key={selectedLayer.id}
       layer={selectedLayer}
       layerIndex={uiState.selectedLayerIndex}
